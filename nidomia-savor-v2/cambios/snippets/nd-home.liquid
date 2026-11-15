@@ -32,9 +32,10 @@
       <source media="(max-width: 639px)" srcset="{{ 'nd-nidomia-portada-cielo-movil.webp' | asset_url }}" width="900" height="1125">
       <img src="{{ 'nd-nidomia-portada-cielo.webp' | asset_url }}" width="2080" height="756" fetchpriority="high" alt="Mandolina SupremeCut en una cocina celeste. Soluciones para cocinar, limpiar y ordenar. {% if settings.nd_cuotas_on %}{{ nd_n }} cuotas sin interés con tarjeta de crédito.{% endif %}">
     </picture>
-    <div class="nd-hero-actions">
+    <div class="nd-hero-actions" data-glow>
+      <span class="nd-sphere nd-sph-a" data-depth="26" aria-hidden="true"></span><span class="nd-sphere nd-sph-b" data-depth="-18" aria-hidden="true"></span><span class="nd-sphere nd-sph-c" data-depth="34" aria-hidden="true"></span><span class="nd-sphere nd-sph-d" data-depth="-28" aria-hidden="true"></span><span class="nd-sphere nd-sph-e" data-depth="16" aria-hidden="true"></span>
       <span class="nd-orb nd-orb-a" aria-hidden="true"></span><span class="nd-orb nd-orb-b" aria-hidden="true"></span><span class="nd-orb nd-orb-c" aria-hidden="true"></span>
-      <a class="nd-btn nd-btn-primary nd-btn-lg nd-btn-cta" href="#soluciones">Encontrá tu solución {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
+      <a class="nd-btn nd-btn-primary nd-btn-lg nd-btn-cta" data-magnet href="#soluciones">Encontrá tu solución {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
       {%- if settings.nd_cuotas_on or settings.nd_envio_on -%}
       <ul class="nd-hero-chips" aria-label="Beneficios de comprar en Nidomía">
         {%- if settings.nd_cuotas_on -%}<li class="nd-chip-lg nd-chip-cuotas"><i>{% render 'nd-icon', name: 'card', size: 18 %}</i><span><b>{{ nd_n }} cuotas sin interés</b> con tarjeta</span></li>{%- endif -%}
@@ -47,10 +48,10 @@
   {%- comment -%} Cinta de beneficios: reducción de dudas, siempre a la vista {%- endcomment -%}
   <section class="nd-wrap nd-benefits" aria-label="Por qué comprar en Nidomía">
     <ul class="nd-benefit-grid">
-      {%- if settings.nd_envio_on -%}<li data-reveal style="--tint:#def1ff"><i class="nd-bico nd-truck">{% render 'nd-icon', name: 'truck', size: 26 %}</i><b>{{ nd_envio_txt }}</b><span>Sin costo de envío, también en los packs.</span></li>{%- endif -%}
-      {%- if settings.nd_cuotas_on -%}<li data-reveal style="--tint:#ebe6fb"><i class="nd-bico">{% render 'nd-icon', name: 'card', size: 26 %}</i><b>{{ nd_n }} cuotas sin interés</b><span>Con tarjeta de crédito: la cuota se ve en cada producto.</span></li>{%- endif -%}
-      <li data-reveal style="--tint:#dcf4ef"><i class="nd-bico">{% render 'nd-icon', name: 'shield', size: 26 %}</i><b>Pago seguro</b><span>Pagás en el checkout cifrado de Shopify.</span></li>
-      {%- if top > 0 -%}<li data-reveal style="--tint:#ffeede"><i class="nd-bico">{% render 'nd-icon', name: 'tag', size: 26 %}</i><b>Packs con ahorro</b><span>Llevá más y pagá menos: el ahorro va en pesos.</span></li>{%- endif -%}
+      {%- if settings.nd_envio_on -%}<li data-reveal="flip" style="--tint:#def1ff"><i class="nd-bico nd-truck">{% render 'nd-icon', name: 'truck', size: 26 %}</i><b>{{ nd_envio_txt }}</b><span>Sin costo de envío, también en los packs.</span></li>{%- endif -%}
+      {%- if settings.nd_cuotas_on -%}<li data-reveal="flip" style="--tint:#ebe6fb"><i class="nd-bico">{% render 'nd-icon', name: 'card', size: 26 %}</i><b>{{ nd_n }} cuotas sin interés</b><span>Con tarjeta de crédito: la cuota se ve en cada producto.</span></li>{%- endif -%}
+      <li data-reveal="flip" style="--tint:#dcf4ef"><i class="nd-bico">{% render 'nd-icon', name: 'shield', size: 26 %}</i><b>Pago seguro</b><span>Pagás en el checkout cifrado de Shopify.</span></li>
+      {%- if top > 0 -%}<li data-reveal="flip" style="--tint:#ffeede"><i class="nd-bico">{% render 'nd-icon', name: 'tag', size: 26 %}</i><b>Packs con ahorro</b><span>Llevá más y pagá menos: el ahorro va en pesos.</span></li>{%- endif -%}
     </ul>
   </section>
 
@@ -164,6 +165,23 @@
   </section>
   {%- endif -%}
 
+  {%- comment -%} Cinta inversa: los cinco productos en movimiento {%- endcomment -%}
+  <div class="nd-band nd-band-soft" aria-hidden="true">
+    <div class="nd-band-track">
+      {%- for i in (1..2) -%}
+      <div class="nd-band-cycle">
+        {%- for j in (1..2) -%}
+          <span class="nd-pill-prod" style="--tint-2:#b2d8f7"><i></i>Mandolina SupremeCut</span><i class="nd-spark"></i>
+          <span class="nd-pill-prod" style="--tint-2:#a9e2d4"><i></i>Mopa con escurridor</span><i class="nd-spark"></i>
+          <span class="nd-pill-prod" style="--tint-2:#b9cdee"><i></i>Tender retráctil</span><i class="nd-spark"></i>
+          <span class="nd-pill-prod" style="--tint-2:#cdc1f4"><i></i>Lápiz 3D + pizarra LED</span><i class="nd-spark"></i>
+          <span class="nd-pill-prod" style="--tint-2:#ffcfa6"><i></i>Arrancador e inflador Oryx</span><i class="nd-spark"></i>
+        {%- endfor -%}
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
   {%- comment -%} 5 · CONFIANZA: opiniones, medios de pago, envío y las preguntas que frenan la compra {%- endcomment -%}
   <section class="nd-section nd-trust" id="confianza" aria-labelledby="t-confianza">
     <div class="nd-wrap">
@@ -176,7 +194,9 @@
   </section>
 
   {%- comment -%} Cierre: la promesa de la marca y lo que más importa, una vez más {%- endcomment -%}
-  <section class="nd-closing" aria-label="Elegí tu solución">
+  <section class="nd-closing" aria-label="Elegí tu solución" data-glow>
+    <div class="nd-wave-wrap" aria-hidden="true"><svg class="nd-wave" viewBox="0 0 2880 80" preserveAspectRatio="none" focusable="false"><path d="M0,40 C240,90 480,-10 720,40 S1200,90 1440,40 C1680,90 1920,-10 2160,40 S2640,90 2880,40 L2880,0 L0,0 Z"/></svg></div>
+    <span class="nd-sphere nd-sph-a" data-depth="40" aria-hidden="true"></span><span class="nd-sphere nd-sph-b" data-depth="-30" aria-hidden="true"></span><span class="nd-sphere nd-sph-c" data-depth="46" aria-hidden="true"></span><span class="nd-sphere nd-sph-d" data-depth="-36" aria-hidden="true"></span>
     <span class="nd-orb nd-orb-a" aria-hidden="true"></span><span class="nd-orb nd-orb-b" aria-hidden="true"></span>
     <div class="nd-wrap nd-closing-in" data-reveal>
       <p class="nd-eyebrow nd-eyebrow-light">Tu casa, más fácil</p>
@@ -188,7 +208,7 @@
         {%- if settings.nd_envio_on -%}<li class="nd-chip-lg nd-chip-ship"><i class="nd-truck">{% render 'nd-icon', name: 'truck', size: 18 %}</i><span><b>{{ nd_envio_txt }}</b></span></li>{%- endif -%}
       </ul>
       {%- endif -%}
-      <a class="nd-btn nd-btn-light nd-btn-lg" href="#soluciones">Elegir mi solución {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
+      <a class="nd-btn nd-btn-light nd-btn-lg" data-magnet href="#soluciones">Elegir mi solución {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
     </div>
   </section>
 </div>

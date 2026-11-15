@@ -1,4 +1,4 @@
-# Nidomía · tema v2.2 (borrador para revisar)
+# Nidomía · tema v2.3 (borrador para revisar)
 
 Copia del tema que ya tenían, con el home, las cinco fichas y el carrito rediseñados.
 El tema original no se tocó: esto es una copia aparte.
@@ -8,9 +8,9 @@ El tema original no se tocó: esto es una copia aparte.
 | Carpeta / archivo | Para qué sirve |
 |---|---|
 | `Nidomia-Savor-Shopify-v2-borrador.zip` | El tema completo, listo para subir a Shopify (≈ 20 MB). |
-| `vista-previa/movil/` y `vista-previa/escritorio/` | Capturas del home, las cinco fichas y el carrito (lateral y página). `primer-vistazo-*` es la primera pantalla de cada ficha en un celular de 664 px de alto. `10-` y `11-` muestran el borrador cuando los productos todavía no están en Shopify. |
+| `vista-previa/movil/` y `vista-previa/escritorio/` | Capturas del home, las cinco fichas y el carrito (lateral y página). `primer-vistazo-*` es la primera pantalla de cada ficha en un celular de 664 px de alto. `10-` y `11-` muestran el borrador cuando los productos todavía no están en Shopify. `escritorio/08` a `10` muestran las interacciones (inclinación 3D, vuelo al carrito y cierre). |
 | `cambios/` | Solo los archivos nuevos o modificados, para leer el código sin descomprimir. |
-| `pruebas/` | Los scripts con los que se probó (servidor de prueba, recorridos de compra, accesibilidad). |
+| `pruebas/` | Los scripts con los que se probó (servidor de prueba, recorridos de compra, accesibilidad, interacciones 3D). |
 
 ## Cómo dejarlo en borrador
 
@@ -20,6 +20,25 @@ El tema original no se tocó: esto es una copia aparte.
 4. Cuando lo apruebes: **Publicar**.
 
 No pude subirlo yo: no tengo acceso a tu Shopify. Todo lo de abajo se probó con productos de prueba (ver «Qué no pude verificar»).
+
+## Novedades de la v2.3: movimiento, 3D, brillos y más color
+
+**Interacciones (con mouse o trackpad; en celular quedan las entradas y los toques):**
+- **Tarjetas que se inclinan en 3D** hacia el puntero, con un brillo que las recorre: soluciones, beneficios, ofertas, opiniones y datos de la ficha. La foto de cada tarjeta se mueve apenas distinto que el marco (profundidad).
+- **Botones magnéticos:** el botón del hero, «Ver …» de cada demostración y los del cierre se acercan un poco al puntero. Todos los botones tienen onda al tocarlos.
+- **Esferas de vidrio 3D** flotando en el hero y en el cierre (en celular quedan en los bordes para no tapar texto; el hero quedó más compacto y el botón con las cintas de cuotas y envío entran en la primera pantalla); reaccionan al puntero con distinta profundidad. Un **resplandor** sigue al cursor sobre el hero y el cierre.
+
+**Compra con más ritmo:**
+- Al tocar «Agregar al carrito», **la foto vuela hasta el carrito**, el ícono rebota y el cajón se abre con la línea nueva resaltada.
+- Al elegir el pack de mayor ahorro sale una **ráfaga de confeti** (coral y colores de marca). Las estrellas se llenan una a una.
+- **Botón «volver arriba»** con un anillo que marca cuánto leíste; en las fichas del celular se coloca sobre la barra de compra.
+
+**Más color, sin mezclar los roles:**
+- **Cada ficha tiene su paleta:** lima para la mandolina, menta para la mopa, celeste para el tender, lila para el lápiz y durazno para el arrancador. Se ve en el fondo degradé, la galería, los íconos de beneficios y los números de «Cómo lo consigue». El azul intenso sigue siendo solo para «Agregar al carrito» y el pack elegido; el coral, solo para ahorro.
+- Títulos con **palabra en degradé** (azul a violeta), etiquetas de sección con degradé, **ola animada** al tope del cierre y una **cinta inversa de productos** antes de «Comprá con tranquilidad».
+- Las secciones entran con variantes distintas (zoom, giro, desde los costados), escalonadas, y los chips del hero aparecen uno a uno.
+
+**Accesibilidad:** con «reducir movimiento» no hay inclinación, magnetismo, vuelo, confeti, olas ni esferas animadas, y todo el contenido queda visible. Contraste de la palabra en degradé: entre 3,8 y 7,5 a 1 sobre los fondos donde se usa (es texto grande, el mínimo es 3 a 1). Los colores por producto son solo de fondo y bordes, nunca de texto.
 
 ## Novedades de la v2.2: la demostración «Una solución para cada día»
 
@@ -76,10 +95,10 @@ La vista previa solo existe en **borrador y editor**. En la tienda publicada nun
 
 - **Tu Shopify real.** No subí el tema ni lo probé con tus precios, stock, inventario ni checkout. Las pruebas usaron productos de prueba con los importes de respaldo del tema anterior ($54.990, $50.990, $59.990, $69.990, $149.990 y packs de 5, 15 y 25 %). El checkout fue simulado: confirmá en la vista previa que el importe del checkout coincide con el anunciado. Por construcción coincide, porque el botón agrega la misma variante cuyo precio se muestra.
 - **Por qué tus productos no se resolvían.** No pude ver tu tienda, así que la causa más probable (productos en borrador o sin el canal «Tienda online») es una deducción. El tema ahora cubre todos los casos, pero si querés que las fichas muestren datos reales, publicá los productos en «Tienda online» o elegilos en Catálogo Nidomía.
-- **Safari y Android reales.** Probé con Chromium emulando un iPhone 13 (390 × 664 de pantalla visible) y anchos de 320 a 1440 px.
+- **Safari y Android reales.** Probé con Chromium emulando un iPhone 13 (390 × 664 de pantalla visible) y anchos de 320 a 1440 px. Las interacciones 3D las probé con un puntero simulado; conviene sentirlas con un mouse o trackpad real, y revisar en el celular que la fluidez te guste.
 - **Reproducción de los videos.** El navegador de prueba no reproduce H.264. Comprobé que los trozos se arman en un MP4 idéntico byte a byte al original.
 
-Lo que sí se verificó sobre el código final: recorrido completo en celular (elegir producto → pack → agregar → carrito → checkout) con 39 de 39 comprobaciones en cada ficha probada y 37 de 37 con movimiento reducido; el escenario «productos sin resolver» con 13 de 13 (cada tarjeta y el menú abren su ficha, el carrito de vista previa no toca Shopify); la tienda publicada sin productos devuelve la 404 del tema; el verificador oficial de temas de Shopify sin errores (2 avisos de rendimiento sobre la precarga de fuentes); accesibilidad automática (axe) con 0 violaciones en home, fichas, carrito, cajón del carrito y menú; ningún desborde horizontal en 63 combinaciones de ancho y página.
+Lo que sí se verificó sobre el código final: las 19 pruebas de interacción de la v2.3 (inclinación, magnetismo, volver arriba, vuelo al carrito, confeti, y que nada de eso se active con movimiento reducido); recorrido completo en celular (elegir producto → pack → agregar → carrito → checkout) con 39 de 39 comprobaciones en cada ficha probada y 37 de 37 con movimiento reducido; el escenario «productos sin resolver» con 13 de 13 (cada tarjeta y el menú abren su ficha, el carrito de vista previa no toca Shopify); la tienda publicada sin productos devuelve la 404 del tema; el verificador oficial de temas de Shopify sin errores (2 avisos de rendimiento sobre la precarga de fuentes); accesibilidad automática (axe) con 0 violaciones en home, fichas, carrito, cajón del carrito y menú; ningún desborde horizontal en 63 combinaciones de ancho y página.
 
 ## Para que decidas
 

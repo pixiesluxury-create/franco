@@ -7,6 +7,14 @@
   Shopify, solo en borrador, se muestra una VISTA PREVIA rotulada con importes de ejemplo (ver nd-variants).
 {%- endcomment -%}
 {%- assign nd_cuotas = settings.nd_cuotas | default: 3 -%}
+{%- assign acc = '#a9cbea' -%}{%- assign acc2 = '#1b45d1' -%}{%- assign accsoft = '#eaf4fd' -%}
+{%- case key -%}
+  {%- when 'mandolina' -%}{%- assign acc = '#b6e04a' -%}{%- assign acc2 = '#6aa100' -%}{%- assign accsoft = '#f1f9dc' -%}
+  {%- when 'mopa' -%}{%- assign acc = '#5fd3bd' -%}{%- assign acc2 = '#1f9f8a' -%}{%- assign accsoft = '#dcf4ef' -%}
+  {%- when 'tender' -%}{%- assign acc = '#86aee9' -%}{%- assign acc2 = '#3f6fc4' -%}{%- assign accsoft = '#e3ecf8' -%}
+  {%- when 'lapiz' -%}{%- assign acc = '#b197f6' -%}{%- assign acc2 = '#7a55df' -%}{%- assign accsoft = '#ebe6fb' -%}
+  {%- when 'arrancador' -%}{%- assign acc = '#ffa95c' -%}{%- assign acc2 = '#e8700f' -%}{%- assign accsoft = '#ffeede' -%}
+{%- endcase -%}
 {%- assign preview = false -%}
 {%- if product == blank -%}{%- assign preview = true -%}{%- endif -%}
 {%- assign title = product.title | default: full | default: short -%}
@@ -136,7 +144,7 @@
 {%- if init_save > 0 -%}{%- assign tiene_ahorro = true -%}{%- endif -%}
 {%- assign envio_txt = settings.nd_envio_texto | default: 'Envío gratis a todo el país' -%}
 
-<article class="nd-pdp" data-nd-pdp data-key="{{ key }}" data-product="{{ product.id | default: key }}"{% if preview %} data-preview="1"{% endif %}>
+<article class="nd-pdp" style="--acc: {{ acc }}; --acc-2: {{ acc2 }}; --acc-soft: {{ accsoft }}" data-nd-pdp data-key="{{ key }}" data-product="{{ product.id | default: key }}"{% if preview %} data-preview="1"{% endif %}>
 
   {%- comment -%} ─────────── Compra: foto + columna de compra ─────────── {%- endcomment -%}
   <section class="nd-wrap nd-top" aria-label="Comprar {{ title | escape }}">

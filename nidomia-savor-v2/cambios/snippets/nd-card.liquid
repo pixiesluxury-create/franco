@@ -15,7 +15,7 @@
   {%- endif -%}
 {%- endfor -%}
 {%- if nd_found == false and nd_vl.size > 0 -%}{%- assign f = nd_vl[0] | split: '|' -%}{%- assign nd_price = f[2] | plus: 0 -%}{%- endif -%}
-<a class="nd-card{% if wide %} nd-card-wide{% endif %}" href="{{ nd_url }}" data-reveal style="--pos: {{ pos }}; --tint: {{ tint | default: '#eaf4fd' }}">
+<a class="nd-card{% if wide %} nd-card-wide{% endif %}" href="{{ nd_url }}" data-reveal="zoom" style="--pos: {{ pos }}; --tint: {{ tint | default: '#eaf4fd' }}">
   <span class="nd-card-media">
     <img src="{{ img | asset_url }}" alt="{{ alt | escape }}" width="{{ w | default: 960 }}" height="{{ h | default: 960 }}" loading="lazy" decoding="async">
     {%- if nd_low -%}<span class="nd-card-low"><i class="nd-tag nd-tag-warn">Últimas unidades</i></span>{%- endif -%}

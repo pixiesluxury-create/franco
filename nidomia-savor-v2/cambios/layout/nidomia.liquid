@@ -17,6 +17,10 @@
   <main id="contenido" class="nd-main">{{ content_for_layout }}</main>
   {% render 'nd-footer' %}
   {% render 'nd-cart-drawer' %}
+  <button type="button" class="nd-top-btn" data-nd-totop aria-label="Volver arriba" hidden>
+    <svg class="ring" viewBox="0 0 50 50" aria-hidden="true" focusable="false"><circle class="trk" cx="25" cy="25" r="22"/><circle class="prg" cx="25" cy="25" r="22"/></svg>
+    {% render 'nd-icon', name: 'arrow', size: 20 %}
+  </button>
   {% render 'nd-opinar' %}
 </body>
 </html>

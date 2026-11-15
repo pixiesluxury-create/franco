@@ -28,7 +28,7 @@
     {%- assign nd_each = nd_best_price | times: 1.0 | divided_by: nd_best_u | round -%}
     {%- capture nd_pn -%}{%- render 'nd-packnames', key: key, size: nd_best_u, field: 'n' -%}{%- endcapture -%}
     {%- capture nd_ps -%}{%- render 'nd-packnames', key: key, size: nd_best_u, field: 's' -%}{%- endcapture -%}
-    <article class="nd-offer{% if is_best %} is-best{% endif %}" data-reveal style="--tint: {{ tint | default: '#eaf4fd' }}">
+    <article class="nd-offer{% if is_best %} is-best{% endif %}" data-reveal="zoom" style="--tint: {{ tint | default: '#eaf4fd' }}">
       <a class="nd-offer-media" href="{{ nd_url }}?pack={{ nd_best_u }}#elegir-pack" tabindex="-1" aria-hidden="true"><img src="{{ img | asset_url }}" alt="" width="240" height="240" loading="lazy" decoding="async" style="--pos: {{ pos }}"></a>
       <div class="nd-offer-body">
         {%- if is_best -%}<span class="nd-tag nd-tag-save nd-tag-shine">Mayor ahorro</span>{%- endif -%}
