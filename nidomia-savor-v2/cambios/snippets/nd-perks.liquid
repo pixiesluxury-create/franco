@@ -1,0 +1,23 @@
+{%- comment -%}Franja animada de cuotas y envío. Se pausa con el botón; con movimiento reducido queda quieta.{%- endcomment -%}
+{%- assign nd_cuotas = settings.nd_cuotas | default: 3 -%}
+{%- assign nd_texto_envio = settings.nd_envio_texto | default: 'Envío gratis a todo el país' -%}
+{%- if settings.nd_cuotas_on or settings.nd_envio_on -%}
+<aside class="nd-perks" aria-label="Beneficios de compra" data-nd-perks>
+  <p class="nd-sr">{% if settings.nd_cuotas_on %}{{ nd_cuotas }} cuotas sin interés. {% endif %}{% if settings.nd_envio_on %}{{ nd_texto_envio }}.{% endif %}</p>
+  <div class="nd-perks-window" aria-hidden="true">
+    <div class="nd-perks-track">
+      {%- for i in (1..2) -%}
+      <div class="nd-perks-cycle">
+        {%- for j in (1..8) -%}
+          {%- if settings.nd_cuotas_on -%}<span class="nd-perk">{% render 'nd-icon', name: 'card', size: 17 %}<b>{{ nd_cuotas }} cuotas</b> sin interés</span><i class="nd-perk-dot"></i>{%- endif -%}
+          {%- if settings.nd_envio_on -%}<span class="nd-perk">{% render 'nd-icon', name: 'truck', size: 18 %}<b>{{ nd_texto_envio }}</b></span><i class="nd-perk-dot"></i>{%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  <button type="button" class="nd-perks-toggle" data-nd-perks-toggle aria-pressed="false" aria-label="Pausar anuncios">
+    <span class="nd-perks-ico-pause">{% render 'nd-icon', name: 'pause', size: 13 %}</span><span class="nd-perks-ico-play">{% render 'nd-icon', name: 'play', size: 13 %}</span>
+  </button>
+</aside>
+{%- endif -%}

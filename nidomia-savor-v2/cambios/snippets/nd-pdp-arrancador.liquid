@@ -1,0 +1,37 @@
+{%- comment -%}Contenido de la ficha · Arrancador e inflador Oryx. Los precios salen de Shopify.{%- endcomment -%}
+{%- capture s1m -%}{% render 'nd-fig', file: 'nd-nidomia-auto-uso.webp', alt: 'Persona inflando una cubierta con el equipo Oryx y la pantalla digital a la vista', w: 1024, h: 796 %}{%- endcapture -%}
+{%- capture s2m -%}{% render 'nd-fig', file: 'nd-nidomia-auto-placa-uso.webp', alt: 'Oryx con las pinzas listas junto a un auto con el capó abierto', w: 960, h: 960 %}{%- endcapture -%}
+{%- capture s3m -%}{% render 'nd-fig', file: 'nd-nidomia-auto-detail.webp', alt: 'Equipo Oryx con manguera de inflado, pinzas y puntas sobre fondo blanco', w: 1024, h: 1024 %}{%- endcapture -%}
+{%- capture cmp_html -%}{% render 'nd-compare', start: 72, a: 'nd-nidomia-auto-placa-hero.webp', b: 'nd-nidomia-auto-placa-uso.webp', alt_a: 'Oryx inflando una cubierta', alt_b: 'Oryx con las pinzas listas para asistir el arranque', la: 'Para la cubierta', lb: 'Para la batería', w: 960, h: 960, label: 'Deslizá para comparar el uso como inflador y como arrancador', lazy: true %}{%- endcapture -%}
+{%- capture vid_html -%}
+  {% render 'nd-clip', chunks: 'nd-nidomia-auto-clip-0.js,nd-nidomia-auto-clip-1.js', poster: 'nd-nidomia-auto-placa-hero.webp', label: 'El Oryx inflando una cubierta y asistiendo un arranque', w: 864, h: 576 %}
+  {% render 'nd-yt', id: '_Uopj_zuyuQ', start: '128', end: '153', poster: 'nd-nidomia-films-inflado.webp', title: 'Inflado de una rueda', source: 'GOOLOO', note: 'referencia de uso GOOLOO A3, 25 s' %}
+  {% render 'nd-yt', id: '_Uopj_zuyuQ', start: '163', end: '200', poster: 'nd-nidomia-films-arranque.webp', title: 'Asistencia de arranque', source: 'GOOLOO', note: 'referencia de uso GOOLOO A3, 37 s. Para usar el Oryx, seguí el manual de tu unidad' %}
+{%- endcapture -%}
+{%- capture obj_a -%}
+<p><b>Compatibilidad.</b> La asistencia de arranque es para sistemas de 12 V compatibles. Antes de elegirlo, revisá el voltaje y los requisitos de arranque de tu vehículo y los límites del manual del OR-EVS6K.</p>
+<p><b>Accesorios.</b> Manguera de inflado para la cubierta y pinzas para el arranque. La recarga del equipo es por USB-C. En las fotos del equipo ves cada pieza.</p>
+{%- endcapture -%}
+{% render 'nd-pdp',
+  product: product, key: 'arrancador', ejemplos: ejemplos, short: 'Arrancador e inflador Oryx', cat: 'Auto',
+  lead: 'Llevás asistencia de arranque e inflado en un mismo equipo.',
+  gallery: 'nd-nidomia-auto-hero.webp|Oryx conectado a la cubierta de un auto||nd-nidomia-auto-placa-hero.webp|Una rueda baja, bajo control: presión programable y corte automático||nd-nidomia-auto-placa-uso.webp|Asistencia de arranque a mano: sistemas de 12 V compatibles||nd-nidomia-auto-placa-detail.webp|Un equipo para llevar en el auto: luz integrada y recarga USB-C||nd-nidomia-auto-detail.webp|Equipo, manguera, pinzas y puntas||nd-nidomia-auto-uso.webp|Inflando una cubierta con el equipo',
+  b1t: 'Inflado con corte automático', b1d: 'Ajustá la presión de tu vehículo y seguí la lectura en pantalla.',
+  b2t: 'Asistencia de arranque en 12 V', b2d: 'Las pinzas asisten una batería descargada en vehículos compatibles.',
+  b3t: 'Luz a mano', b3d: 'La linterna integrada ayuda a ver la válvula con poca luz.',
+  how_title: 'Una rueda, una batería, un equipo.',
+  hook: '¿Una rueda baja o la batería sin carga? Llevá inflador y asistencia de arranque en el mismo equipo.',
+  s1t: 'Inflado con corte automático', s1p: 'Elegí la presión que indica tu vehículo, conectá la manguera a la válvula y seguí la lectura en pantalla: el equipo corta al llegar al valor elegido.', s1m: s1m,
+  s2t: 'Asistencia de arranque en 12 V', s2p: 'Las pinzas sirven para asistir el arranque en sistemas de 12 V compatibles. Leé el manual del OR-EVS6K antes de usarlo en tu vehículo.', s2m: s2m,
+  s3t: 'Luz a mano', s3p: 'La linterna integrada te permite ver la válvula o los accesorios con poca luz. Todo viaja junto y se recarga por USB-C.', s3m: s3m,
+  cmp_title: 'Una rueda. Una batería.',
+  cmp_text: 'Identificá los dos accesorios que vas a usar: la manguera va a la cubierta y las pinzas sirven para el arranque en 12 V compatible.',
+  cmp_html: cmp_html,
+  vid_title: 'Dos funciones en el auto.', vid_text: 'Mirá un inflado y una asistencia de arranque en un auto real. El equipo filmado en los videos externos es el GOOLOO A3, un modelo de referencia: las especificaciones del Oryx están en su ficha técnica.', vid_html: vid_html,
+  obj_q: '¿Con qué vehículos es compatible y qué accesorios trae?', obj_a: obj_a,
+  note: 'El inflador repone aire. Si la cubierta pierde presión o está dañada, corresponde revisarla antes de circular.',
+  incl_title: 'Funciones y accesorios',
+  incl: 'Inflador con presión programable y corte automático||Manguera de inflado||Pinzas para asistir el arranque en 12 V||Linterna integrada||Recarga por USB-C',
+  specs: 'Modelo de referencia::Oryx OR-EVS6K||Arranque asistido::Sistemas de 12 V compatibles||Inflador::Presión programable y corte automático||Recarga del equipo::USB-C',
+  faqs: '¿Me sirve para cualquier auto?::Revisá el voltaje, los requisitos de arranque de tu vehículo y los límites del manual del OR-EVS6K. El modelo ofrece asistencia para sistemas compatibles de 12 V.||¿Se detiene al llegar a la presión elegida?::Sí. Configurá el objetivo según la indicación de tu vehículo y supervisá la lectura durante el inflado.||¿Repara una cubierta pinchada?::No: el inflador repone aire. Si la cubierta pierde presión o está dañada, corresponde revisarla antes de circular.'
+%}

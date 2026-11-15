@@ -1,0 +1,122 @@
+{%- comment -%}
+  Tienda Nidomía · despachador de portada, fichas y carrito.
+  Los cinco productos se identifican por ID o handle (o se eligen en Ajustes del tema > Nidomía).
+  Todo precio sale de las variantes reales de Shopify: acá no hay importes escritos a mano.
+{%- endcomment -%}
+{%- liquid
+  assign nd_slug = ''
+
+  assign nd_mandolina = settings.nd_mandolina
+  if nd_mandolina == blank
+    assign nd_mandolina = all_products['mandolina-supremecut']
+  endif
+  assign nd_mopa = settings.nd_mopa
+  if nd_mopa == blank
+    assign nd_mopa = all_products['mopa-plana-con-escurridor']
+  endif
+  assign nd_tender = settings.nd_tender
+  if nd_tender == blank
+    assign nd_tender = all_products['tender-retractil-de-pared']
+  endif
+  assign nd_lapiz = settings.nd_lapiz
+  if nd_lapiz == blank
+    assign nd_lapiz = all_products['lapiz-3d-y-pizarra-led']
+  endif
+  if nd_lapiz == blank
+    assign nd_lapiz = all_products['lapiz-3d-pizarra-led']
+  endif
+  assign nd_arrancador = settings.nd_arrancador
+  if nd_arrancador == blank
+    assign nd_arrancador = all_products['arrancador-e-inflador-oryx']
+  endif
+
+  if product != blank
+    if product.id == 15544503828580 or product.id == nd_mandolina.id or product.handle == 'mandolina-supremecut'
+      assign nd_mandolina = product
+      assign nd_slug = 'mandolina'
+    elsif product.id == 15544510087268 or product.id == nd_mopa.id or product.handle == 'mopa-plana-con-escurridor'
+      assign nd_mopa = product
+      assign nd_slug = 'mopa'
+    elsif product.id == 15544516837476 or product.id == nd_tender.id or product.handle == 'tender-retractil-de-pared'
+      assign nd_tender = product
+      assign nd_slug = 'tender'
+    elsif product.id == 15544521228388 or product.id == nd_lapiz.id or product.handle == 'lapiz-3d-y-pizarra-led' or product.handle == 'lapiz-3d-pizarra-led'
+      assign nd_lapiz = product
+      assign nd_slug = 'lapiz'
+    elsif product.id == 15544526536804 or product.id == nd_arrancador.id or product.handle == 'arrancador-e-inflador-oryx'
+      assign nd_arrancador = product
+      assign nd_slug = 'arrancador'
+    else
+      assign nd_slug = 'generico'
+    endif
+  endif
+
+  comment
+    Ejemplos de opiniones: solo en borrador/vista previa o en el editor de temas (ajuste "auto"),
+    nunca en la tienda publicada salvo que se fuerce con el ajuste "siempre".
+  endcomment
+  assign nd_ejemplos = false
+  if settings.nd_ejemplos == 'siempre'
+    assign nd_ejemplos = true
+  elsif settings.nd_ejemplos != 'nunca'
+    if request.design_mode or theme.role != 'main'
+      assign nd_ejemplos = true
+    endif
+  endif
+-%}
+<script type="application/json" data-nd-config>
+{
+  "root": {{ routes.root_url | json }},
+  "cartUrl": {{ routes.cart_url | json }},
+  "page": {{ request.page_type | json }},
+  "slug": {{ nd_slug | json }},
+  "design": {{ request.design_mode | json }},
+  "role": {{ theme.role | json }},
+  "money": {{ shop.money_format | json }},
+  "currency": {{ cart.currency.iso_code | default: shop.currency | json }},
+  "cuotas": {% if settings.nd_cuotas_on %}{{ settings.nd_cuotas | default: 3 }}{% else %}0{% endif %},
+  "envio": {% if settings.nd_envio_on %}{{ settings.nd_envio_texto | default: 'Envío gratis a todo el país' | json }}{% else %}""{% endif %},
+  "thumbs": {
+    "mandolina": {{ 'nd-images-mandolina-estudio-cubos.webp' | asset_url | json }},
+    "mopa": {{ 'nd-nidomia-mopa-hero.webp' | asset_url | json }},
+    "tender": {{ 'nd-nidomia-tender-hero.webp' | asset_url | json }},
+    "lapiz": {{ 'nd-nidomia-taller-hero.webp' | asset_url | json }},
+    "arrancador": {{ 'nd-nidomia-auto-hero.webp' | asset_url | json }}
+  },
+  "products": {
+    "mandolina": {% render 'nd-product-binding', item: nd_mandolina, key: 'mandolina' %},
+    "mopa": {% render 'nd-product-binding', item: nd_mopa, key: 'mopa' %},
+    "tender": {% render 'nd-product-binding', item: nd_tender, key: 'tender' %},
+    "lapiz": {% render 'nd-product-binding', item: nd_lapiz, key: 'lapiz' %},
+    "arrancador": {% render 'nd-product-binding', item: nd_arrancador, key: 'arrancador' %}
+  }
+}
+</script>
+<div data-nd-root>
+{%- case nd_slug -%}
+  {%- when 'mandolina' -%}{%- render 'nd-pdp-mandolina', product: nd_mandolina, ejemplos: nd_ejemplos -%}
+  {%- when 'mopa' -%}{%- render 'nd-pdp-mopa', product: nd_mopa, ejemplos: nd_ejemplos -%}
+  {%- when 'tender' -%}{%- render 'nd-pdp-tender', product: nd_tender, ejemplos: nd_ejemplos -%}
+  {%- when 'lapiz' -%}{%- render 'nd-pdp-lapiz', product: nd_lapiz, ejemplos: nd_ejemplos -%}
+  {%- when 'arrancador' -%}{%- render 'nd-pdp-arrancador', product: nd_arrancador, ejemplos: nd_ejemplos -%}
+  {%- when 'generico' -%}{%- render 'nd-pdp-generico', product: product, ejemplos: nd_ejemplos -%}
+  {%- else -%}
+    {%- if request.page_type == 'cart' -%}
+      {%- render 'nd-cart-page' -%}
+    {%- else -%}
+      {%- render 'nd-home', mandolina: nd_mandolina, mopa: nd_mopa, tender: nd_tender, lapiz: nd_lapiz, arrancador: nd_arrancador, ejemplos: nd_ejemplos -%}
+    {%- endif -%}
+{%- endcase -%}
+</div>
+{%- for block in section.blocks -%}{%- render block -%}{%- endfor -%}
+{% schema %}
+{
+  "name": "Tienda Nidomía",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

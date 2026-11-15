@@ -1,0 +1,33 @@
+{%- assign f1 = settings.nd_mandolina | default: all_products['mandolina-supremecut'] -%}
+{%- assign f2 = settings.nd_mopa | default: all_products['mopa-plana-con-escurridor'] -%}
+{%- assign f3 = settings.nd_tender | default: all_products['tender-retractil-de-pared'] -%}
+{%- assign f4 = settings.nd_lapiz | default: all_products['lapiz-3d-y-pizarra-led'] -%}
+{%- assign f5 = settings.nd_arrancador | default: all_products['arrancador-e-inflador-oryx'] -%}
+<footer class="nd-footer">
+  <div class="nd-wrap nd-footer-grid">
+    <div class="nd-footer-brand">
+      <img width="150" height="43" src="{{ 'nd-marca-nidomia.svg' | asset_url }}" alt="Nidomía" loading="lazy">
+      <p>Soluciones para tu casa y lo que hacés todos los días.</p>
+    </div>
+    <nav aria-label="Productos">
+      <h2>Productos</h2>
+      <ul>
+        <li><a href="{{ f1.url | default: routes.root_url }}">Mandolina SupremeCut</a></li>
+        <li><a href="{{ f2.url | default: routes.root_url }}">Mopa con escurridor</a></li>
+        <li><a href="{{ f3.url | default: routes.root_url }}">Tender retráctil</a></li>
+        <li><a href="{{ f4.url | default: routes.root_url }}">Lápiz 3D + pizarra LED</a></li>
+        <li><a href="{{ f5.url | default: routes.root_url }}">Arrancador e inflador</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Tu compra">
+      <h2>Tu compra</h2>
+      <ul>
+        <li><a href="{{ routes.cart_url }}">Carrito</a></li>
+        {%- if shop.shipping_policy != blank -%}<li><a href="{{ shop.shipping_policy.url }}">Envíos</a></li>{%- endif -%}
+        {%- if shop.refund_policy != blank -%}<li><a href="{{ shop.refund_policy.url }}">Cambios y devoluciones</a></li>{%- endif -%}
+        {%- if shop.privacy_policy != blank -%}<li><a href="{{ shop.privacy_policy.url }}">Privacidad</a></li>{%- endif -%}
+      </ul>
+    </nav>
+  </div>
+  <div class="nd-wrap nd-footer-base"><span>© {{ 'now' | date: '%Y' }} Nidomía</span><span>Soluciones para el hogar</span></div>
+</footer>

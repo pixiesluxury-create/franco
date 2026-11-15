@@ -1,0 +1,12 @@
+{%- comment -%}Respaldo para cualquier otro producto del catálogo: usa los datos de Shopify tal cual.{%- endcomment -%}
+<article class="nd-pdp nd-pdp-generic">
+  <section class="nd-wrap nd-section">
+    <h1 class="nd-title">{{ product.title }}</h1>
+    <p class="nd-price">{{ product.price | money_without_trailing_zeros }}</p>
+    <div class="nd-rte">{{ product.description }}</div>
+    <form method="post" action="{{ routes.cart_add_url }}" data-nd-form>
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <button type="submit" class="nd-btn nd-btn-primary nd-btn-lg" {% unless product.available %}disabled{% endunless %}>{% if product.available %}Agregar al carrito{% else %}Agotado{% endif %}</button>
+    </form>
+  </section>
+</article>

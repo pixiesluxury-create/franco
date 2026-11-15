@@ -1,0 +1,14 @@
+{%- comment -%}
+  Carrito lateral. Lo rellena nidomia.js con el carrito real de Shopify (/cart.js).
+  Sin JavaScript, el ícono del carrito lleva a la página /cart.
+{%- endcomment -%}
+<dialog class="nd-drawer" id="nd-cart" aria-labelledby="nd-cart-title" data-nd-cart-drawer>
+  <div class="nd-drawer-panel">
+    <header class="nd-drawer-head">
+      <h2 id="nd-cart-title">Tu carrito</h2>
+      <button type="button" class="nd-icon-btn" data-nd-close aria-label="Cerrar carrito">{% render 'nd-icon', name: 'x', size: 22 %}</button>
+    </header>
+    <div class="nd-drawer-body" data-nd-cart-body aria-live="polite"></div>
+    <footer class="nd-drawer-foot" data-nd-cart-foot></footer>
+  </div>
+</dialog>

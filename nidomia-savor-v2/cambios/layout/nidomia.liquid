@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code | default: 'es' | escape }}" class="nd-no-js">
+<head>
+  {% render 'nd-meta-tags', product: product %}
+  <link rel="icon" type="image/svg+xml" href="{{ 'nd-favicon.svg' | asset_url }}">
+  <link rel="preload" href="{{ 'nd-nidomia-dm-sans-normal.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ 'nd-nidomia-instrument-serif-italic.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.className = document.documentElement.className.replace('nd-no-js', 'nd-js');</script>
+  {{ content_for_header }}
+  {{ 'nidomia.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'nidomia.js' | asset_url }}" defer="defer"></script>
+</head>
+<body class="nd-body nd-page-{{ request.page_type }}">
+  <a class="nd-skip" href="#contenido">Ir al contenido</a>
+  {% render 'nd-perks' %}
+  {% render 'nd-header' %}
+  <main id="contenido" class="nd-main">{{ content_for_layout }}</main>
+  {% render 'nd-footer' %}
+  {% render 'nd-cart-drawer' %}
+  {% render 'nd-opinar' %}
+</body>
+</html>

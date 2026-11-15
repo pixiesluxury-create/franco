@@ -1,0 +1,2 @@
+{%- comment -%}Valor de una cuota sin interés, redondeado al centavo. Uso: {% render 'nd-cuota', price: variant.price, n: 3 %}{%- endcomment -%}
+{{- price | times: 1.0 | divided_by: n | round | money_without_trailing_zeros -}}

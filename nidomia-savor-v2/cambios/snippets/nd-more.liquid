@@ -1,0 +1,13 @@
+{%- comment -%}Seguí explorando: los otros cuatro productos, con precio real.{%- endcomment -%}
+{%- assign m1 = settings.nd_mandolina | default: all_products['mandolina-supremecut'] -%}
+{%- assign m2 = settings.nd_mopa | default: all_products['mopa-plana-con-escurridor'] -%}
+{%- assign m3 = settings.nd_tender | default: all_products['tender-retractil-de-pared'] -%}
+{%- assign m4 = settings.nd_lapiz | default: all_products['lapiz-3d-y-pizarra-led'] -%}
+{%- assign m5 = settings.nd_arrancador | default: all_products['arrancador-e-inflador-oryx'] -%}
+<div class="nd-cards nd-cards-more">
+  {%- if key != 'mandolina' -%}{% render 'nd-card', product: m1, cat: 'Cocina', name: 'Mandolina SupremeCut', line: 'Cortás y todo cae al recipiente.', img: 'nd-images-mandolina-estudio-cubos.webp', alt: 'Mandolina SupremeCut con zanahoria cortada en cubos dentro del recipiente', pos: '50% 59%' %}{%- endif -%}
+  {%- if key != 'mopa' -%}{% render 'nd-card', product: m2, cat: 'Limpieza', name: 'Mopa con escurridor', line: 'Enjuagás y escurrís sin tocar el paño.', img: 'nd-nidomia-mopa-hero.webp', alt: 'Mopa plana y balde escurridor con dos paños de microfibra', pos: '54% 57%', w: 1440, h: 960 %}{%- endif -%}
+  {%- if key != 'tender' -%}{% render 'nd-card', product: m3, cat: 'Lavadero', name: 'Tender retráctil', line: 'Tendés y recuperás el paso al guardarlo.', img: 'nd-nidomia-tender-hero.webp', alt: 'Tender gris de pared con la línea extendida y ropa colgada', pos: '39% 50%', w: 800, h: 507 %}{%- endif -%}
+  {%- if key != 'lapiz' -%}{% render 'nd-card', product: m4, cat: 'Creatividad', name: 'Lápiz 3D + pizarra LED', line: 'Levantá una figura o hacé brillar un dibujo.', img: 'nd-nidomia-taller-hero.webp', alt: 'Lápiz 3D celeste y pizarra LED con un dibujo iluminado', pos: '54% 50%', w: 1440, h: 960 %}{%- endif -%}
+  {%- if key != 'arrancador' -%}{% render 'nd-card', product: m5, cat: 'Auto', name: 'Arrancador e inflador Oryx', line: 'Arranque e inflado en un solo equipo.', img: 'nd-nidomia-auto-hero.webp', alt: 'Arrancador e inflador Oryx conectado a la cubierta de un auto', pos: '50% 66%', w: 1024, h: 715 %}{%- endif -%}
+</div>

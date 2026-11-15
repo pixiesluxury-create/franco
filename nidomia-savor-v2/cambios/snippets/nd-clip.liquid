@@ -1,0 +1,10 @@
+{%- comment -%}
+  Video propio (fragmentos base64 en archivos .js: Shopify no admite subir .mp4 como asset del tema).
+  El JS los reúne en un Blob solo cuando el video está cerca de la pantalla o se toca "Reproducir".
+  clip: nombre del grupo de fragmentos. chunks: nombres de archivo separados por coma.
+{%- endcomment -%}
+{%- assign nd_chunks = chunks | split: ',' -%}
+<div class="nd-clip{% if vertical %} nd-clip-vertical{% endif %}" data-nd-clip style="--ar: {{ w | default: 4 }} / {{ h | default: 3 }}">
+  <video muted loop playsinline preload="none" poster="{{ poster | asset_url }}" aria-label="{{ label | escape }}" data-chunks="{% for c in nd_chunks %}{{ c | strip | asset_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"{% if autoplay %} data-autoplay{% endif %}></video>
+  <button type="button" class="nd-clip-btn" data-nd-clip-btn aria-label="Reproducir video: {{ label | escape }}"><span class="nd-clip-ico">{% render 'nd-icon', name: 'play', size: 26 %}</span></button>
+</div>

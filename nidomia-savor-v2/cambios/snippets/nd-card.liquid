@@ -1,0 +1,25 @@
+{%- comment -%}
+  Tarjeta de solución para la grilla del home: imagen, beneficio de una línea y precio real de Shopify.
+{%- endcomment -%}
+{%- assign nd_n = settings.nd_cuotas | default: 3 -%}
+{%- assign nd_single = nil -%}
+{%- for v in product.variants -%}
+  {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
+  {%- if u == '1' and nd_single == nil -%}{%- assign nd_single = v -%}{%- endif -%}
+{%- endfor -%}
+{%- if nd_single == nil -%}{%- assign nd_single = product.first_available_variant | default: product.variants.first -%}{%- endif -%}
+<a class="nd-card{% if wide %} nd-card-wide{% endif %}" href="{{ product.url | default: routes.root_url }}" data-reveal style="--pos: {{ pos }}">
+  <span class="nd-card-media"><img src="{{ img | asset_url }}" alt="{{ alt | escape }}" width="{{ w | default: 960 }}" height="{{ h | default: 960 }}" loading="lazy" decoding="async"></span>
+  <span class="nd-card-body">
+    <span class="nd-card-cat">{{ cat }}{% if product.tags contains 'mas-vendido' %}<i class="nd-tag nd-tag-sky">Más vendido</i>{% endif %}</span>
+    <h3 class="nd-card-title">{{ name }}</h3>
+    <span class="nd-card-line">{{ line }}</span>
+    {%- if product != blank and nd_single != blank -%}
+      <span class="nd-card-price">
+        <span class="nd-card-row">{%- if product.available -%}<b>{{ nd_single.price | money_without_trailing_zeros }}</b>{%- else -%}<b class="nd-soldout">Agotado</b>{%- endif -%}<span class="nd-card-go" aria-hidden="true">{% render 'nd-icon', name: 'arrow', size: 18 %}</span></span>
+        {%- if product.available and settings.nd_cuotas_on -%}<small>{{ nd_n }} cuotas de {% render 'nd-cuota', price: nd_single.price, n: nd_n %}</small>{%- endif -%}
+      </span>
+    {%- endif -%}
+  </span>
+  <span class="nd-sr">Ver {{ name }}</span>
+</a>

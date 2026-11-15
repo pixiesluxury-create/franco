@@ -1,0 +1,42 @@
+{%- comment -%}
+  Oferta de un producto: busca el pack con más ahorro frente a comprar las mismas unidades sueltas
+  (usa solo precios reales de las variantes de Shopify).
+  mode 'saving' -> imprime el ahorro en centavos (0 si no hay).  mode 'row' -> imprime la tarjeta.
+{%- endcomment -%}
+{%- assign nd_single = nil -%}
+{%- for v in product.variants -%}
+  {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
+  {%- if u == '1' and nd_single == nil -%}{%- assign nd_single = v -%}{%- endif -%}
+{%- endfor -%}
+{%- assign nd_best = 0 -%}
+{%- assign nd_best_v = nil -%}
+{%- assign nd_best_u = 1 -%}
+{%- if nd_single != nil and product.available -%}
+  {%- for v in product.variants -%}
+    {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
+    {%- assign un = u | plus: 0 -%}
+    {%- if un > 1 and v.available -%}
+      {%- assign sep = nd_single.price | times: un | minus: v.price -%}
+      {%- if sep > nd_best -%}{%- assign nd_best = sep -%}{%- assign nd_best_v = v -%}{%- assign nd_best_u = un -%}{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if mode == 'saving' -%}{{ nd_best }}{%- else -%}
+  {%- if nd_best > 0 -%}
+    {%- assign nd_ref = nd_single.price | times: nd_best_u -%}
+    {%- assign nd_pct = nd_best | times: 100.0 | divided_by: nd_ref | round -%}
+    {%- capture nd_pn -%}{%- render 'nd-packnames', key: key, size: nd_best_u, field: 'n' -%}{%- endcapture -%}
+    {%- capture nd_ps -%}{%- render 'nd-packnames', key: key, size: nd_best_u, field: 's' -%}{%- endcapture -%}
+    <article class="nd-offer{% if is_best %} is-best{% endif %}" data-reveal>
+      <a class="nd-offer-media" href="{{ product.url }}?pack={{ nd_best_u }}#elegir-pack" tabindex="-1" aria-hidden="true"><img src="{{ img | asset_url }}" alt="" width="240" height="240" loading="lazy" decoding="async" style="--pos: {{ pos }}"></a>
+      <div class="nd-offer-body">
+        {%- if is_best -%}<span class="nd-tag nd-tag-save">Mayor ahorro</span>{%- endif -%}
+        <h3 class="nd-offer-title">{{ nd_pn }} <span>· {{ name }}</span></h3>
+        <p class="nd-offer-sub">{{ nd_ps }}</p>
+        <p class="nd-offer-price"><b>{{ nd_best_v.price | money_without_trailing_zeros }}</b><s><span class="nd-sr">Por separado </span>{{ nd_ref | money_without_trailing_zeros }}</s></p>
+        <p class="nd-offer-save"><b>Ahorrás {{ nd_best | money_without_trailing_zeros }}</b> <span>({{ nd_pct }}%) frente a comprar {{ nd_best_u }} por separado</span></p>
+        <a class="nd-link" href="{{ product.url }}?pack={{ nd_best_u }}#elegir-pack">Ver este pack {% render 'nd-icon', name: 'arrow', size: 16 %}</a>
+      </div>
+    </article>
+  {%- endif -%}
+{%- endif -%}

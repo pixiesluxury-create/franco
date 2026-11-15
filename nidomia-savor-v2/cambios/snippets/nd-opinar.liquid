@@ -1,0 +1,22 @@
+{%- comment -%}Formulario para que un cliente cuente su experiencia (llega por el formulario de contacto de Shopify a tu correo).{%- endcomment -%}
+<dialog id="nd-opinar" class="nd-sheet nd-dialog" aria-labelledby="nd-opinar-title" data-nd-dialog>
+  <div class="nd-sheet-head"><b id="nd-opinar-title">Tu experiencia</b><button type="button" class="nd-icon-btn" data-nd-close aria-label="Cerrar">{% render 'nd-icon', name: 'x', size: 22 %}</button></div>
+  <div class="nd-dialog-body">
+  {% form 'contact', id: 'nd-contacto-opinion' %}
+    {% if form.posted_successfully? %}
+      <p role="status" class="nd-form-ok">Recibimos tu opinión. Gracias por compartirla.</p>
+      <script>document.getElementById('nd-opinar').showModal()</script>
+    {% else %}
+      {% if form.errors %}{{ form.errors | default_errors }}<script>document.getElementById('nd-opinar').showModal()</script>{% endif %}
+      <input type="hidden" name="contact[Producto]" value="{{ product.title | escape }}">
+      <label class="nd-field">Tu nombre<input name="contact[name]" autocomplete="name" required maxlength="60"></label>
+      <label class="nd-field">Tu correo<input type="email" name="contact[email]" autocomplete="email" required></label>
+      <label class="nd-field">Tu valoración
+        <select name="contact[Valoración]" required><option value="">Elegí una valoración</option>{% for i in (1..5) %}<option value="{{ i }}">{{ i }} de 5 estrellas</option>{% endfor %}</select>
+      </label>
+      <label class="nd-field">¿Qué te pareció?<textarea name="contact[body]" required minlength="10" maxlength="800" rows="4"></textarea></label>
+      <button class="nd-btn nd-btn-primary nd-btn-lg nd-btn-block" type="submit">Enviar opinión</button>
+    {% endif %}
+  {% endform %}
+  </div>
+</dialog>

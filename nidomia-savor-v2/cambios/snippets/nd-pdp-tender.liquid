@@ -1,0 +1,35 @@
+{%- comment -%}Contenido de la ficha · Tender retráctil de pared. Los precios salen de Shopify.{%- endcomment -%}
+{%- capture s1m -%}{% render 'nd-fig', file: 'nd-nidomia-tender-hero.webp', alt: 'Tender de pared con la línea extendida hasta el otro extremo y ropa colgada', w: 800, h: 507 %}{%- endcapture -%}
+{%- capture s2m -%}{% render 'nd-fig', file: 'nd-nidomia-tender-placa-uso.webp', alt: 'Mano ajustando la perilla del tender: cable de acero y tensión ajustable', w: 960, h: 960 %}{%- endcapture -%}
+{%- capture s3m -%}{% render 'nd-fig', file: 'nd-nidomia-tender-placa-detail.webp', alt: 'Tender con la línea recogida: la pared queda libre y recuperás el paso', w: 960, h: 960 %}{%- endcapture -%}
+{%- capture cmp_html -%}{% render 'nd-compare', start: 72, a: 'nd-nidomia-tender-placa-uso.webp', b: 'nd-nidomia-tender-placa-detail.webp', alt_a: 'Tender con la línea extendida a la medida', alt_b: 'Tender con la línea recogida y la pared libre', la: 'Línea extendida', lb: 'Línea recogida', w: 960, h: 960, label: 'Deslizá para comparar el tender con la línea extendida y recogida', lazy: true %}{%- endcapture -%}
+{%- capture vid_html -%}
+  {% render 'nd-clip', chunks: 'nd-nidomia-tender-clip-0.js', poster: 'nd-nidomia-tender-placa-hero.webp', label: 'Enganchalo enfrente, tensá y tendé, guardá el cable', w: 848, h: 560 %}
+  {% render 'nd-yt', id: 'cujJcZX-WiE', start: '550', end: '605', poster: 'nd-nidomia-films-tender.webp', title: 'Del enganche a la primera prenda', source: 'StatUpBox en Español', note: 'video de referencia, 55 s. La unidad filmada tiene un acabado gris claro' %}
+{%- endcapture -%}
+{%- capture obj_a -%}
+<p><b>Dónde se instala.</b> Necesitás dos superficies firmes enfrentadas: una para el cuerpo del tender y otra para el enganche del extremo. Medí ambas ubicaciones antes de elegirlo.</p>
+<p><b>Qué distancia admite.</b> La línea de acero inoxidable llega hasta 4 metros. Elegilo para prendas de uso diario y respetá la carga indicada en tu unidad: depende del anclaje y del modelo.</p>
+{%- endcapture -%}
+{% render 'nd-pdp',
+  product: product, key: 'tender', ejemplos: ejemplos, short: 'Tender retráctil', cat: 'Lavadero',
+  lead: 'Tendés cuando lo necesitás y recuperás el paso al guardar la línea.',
+  gallery: 'nd-nidomia-tender-hero.webp|Tender gris de pared con la línea extendida y ropa colgada||nd-nidomia-tender-placa-hero.webp|Tendé sin ocupar el piso: hasta 4 metros de línea||nd-nidomia-tender-placa-uso.webp|Extendé la línea a tu medida: cable de acero y tensión ajustable||nd-nidomia-tender-placa-detail.webp|Recogelo y recuperá el paso||nd-nidomia-tender-uso.webp|Detalle del tender con la línea tensada||nd-nidomia-tender-detail.webp|Cuerpo del tender y perilla de tensión',
+  b1t: 'Hasta 4 metros de línea', b1d: 'Aprovechá la distancia entre dos puntos de fijación enfrentados.',
+  b2t: 'Tensión ajustable', b2d: 'La traba y la perilla fijan la línea antes de tender.',
+  b3t: 'El piso queda libre', b3d: 'Va a la pared y se recoge al terminar.',
+  how_title: 'Se extiende, se tensa, se guarda.',
+  hook: '¿El tender te ocupa medio balcón? Sacás la línea cuando hay ropa y la recogés al terminar.',
+  s1t: 'Hasta 4 metros de línea', s1p: 'Extendé la línea hasta el punto de enfrente y enganchala. Aprovechás el ancho de tu balcón o lavadero: medí la distancia entre los dos apoyos antes de elegir dónde ponerlo.', s1m: s1m,
+  s2t: 'Tensión ajustable', s2p: 'Con la traba y la perilla fijás la línea antes de colgar la primera prenda. Con la tensión hecha, la ropa queda pareja.', s2m: s2m,
+  s3t: 'El piso queda libre', s3p: 'Cuando se seca la ropa, la retirás y acompañás el cable en la retracción. El cuerpo queda en la pared y volvés a pasar por el balcón.', s3m: s3m,
+  cmp_title: 'Así vuelve a quedar libre el balcón.',
+  cmp_text: 'Deslizá: con la línea extendida tendés; al recogerla, la pared queda libre y recuperás el paso.',
+  cmp_html: cmp_html,
+  vid_title: 'Una cuerda cuando la necesitás.', vid_text: 'En menos de un minuto se ve salir el cable, encastrar el extremo en la pared de enfrente y sostener una prenda.', vid_html: vid_html,
+  obj_q: '¿Dónde se instala y qué distancia admite este modelo?', obj_a: obj_a,
+  note: 'Medí el recorrido de la línea con la puerta abierta antes de colocarlo.',
+  incl: '',
+  specs: 'Modelo de referencia::AP4725733||Longitud de línea::Hasta 4 m||Cable::Acero inoxidable||Carcasa::Aprox. 11 × 8 × 4 cm',
+  faqs: '¿Se guarda cuando termino?::Sí. Retirá la ropa y acompañá el cable en la retracción. La carcasa y el pequeño soporte quedan fijados a la pared.||¿Puedo colgar acolchados pesados?::La carga admisible depende del anclaje y del modelo. Elegilo para prendas de uso diario y respetá la carga indicada en tu unidad.||¿Necesito herramientas para instalarlo?::Necesitás fijar el cuerpo y el enganche en superficies firmes. Revisá el material de la pared antes de elegir los anclajes.'
+%}

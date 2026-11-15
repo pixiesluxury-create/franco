@@ -1,0 +1,10 @@
+{%- comment -%}Tarjeta compacta de opinión. kind: 'ejemplo' | 'verificada' | 'comunidad'.{%- endcomment -%}
+<article class="nd-rev" data-nd-rev>
+  <div class="nd-rev-top">{% render 'nd-stars', score: stars %}<b class="nd-rev-score">{{ stars | replace: '.', ',' }}</b>{% if pname %}<span class="nd-rev-prod">{{ pname }}</span>{% endif %}</div>
+  <p class="nd-rev-text">“{{ text | escape }}”</p>
+  <p class="nd-rev-by"><b>{{ alias | escape }}</b>
+    {%- if kind == 'ejemplo' -%}<span class="nd-rev-tag nd-rev-tag-ejemplo">Ejemplo</span>
+    {%- elsif kind == 'verificada' -%}<span class="nd-rev-tag nd-rev-tag-ok">{% render 'nd-icon', name: 'check', size: 13 %}Compra verificada</span>
+    {%- else -%}<span class="nd-rev-tag">Opinión de la comunidad</span>{%- endif -%}
+  </p>
+</article>

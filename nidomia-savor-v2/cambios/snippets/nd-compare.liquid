@@ -1,0 +1,21 @@
+{%- comment -%}
+  Antes y después que se arrastra con el dedo (o con las flechas del teclado).
+  El lado izquierdo (a) se recorta con --split; el derecho (b) queda de fondo.
+{%- endcomment -%}
+<figure class="nd-compare" data-nd-compare style="--split: {{ start | default: 50 }}%; --ar: {{ w }} / {{ h }}">
+  <div class="nd-compare-frame">
+    <img class="nd-compare-b" src="{{ b | asset_url }}" alt="{{ alt_b | escape }}" width="{{ w }}" height="{{ h }}" draggable="false" {% if lazy %}loading="lazy"{% endif %} decoding="async">
+    <img class="nd-compare-a" src="{{ a | asset_url }}" alt="{{ alt_a | escape }}" width="{{ w }}" height="{{ h }}" draggable="false" {% if lazy %}loading="lazy"{% endif %} decoding="async">
+    <span class="nd-compare-label nd-compare-label-a" aria-hidden="true">{{ la }}</span>
+    <span class="nd-compare-label nd-compare-label-b" aria-hidden="true">{{ lb }}</span>
+    <span class="nd-compare-handle" aria-hidden="true"><i>{% render 'nd-icon', name: 'compare', size: 20 %}</i></span>
+    <input class="nd-compare-range" type="range" min="0" max="100" value="{{ start | default: 50 }}" aria-label="{{ label | escape }}" aria-valuetext="{{ start | default: 50 }}% de la vista de «{{ la | escape }}»">
+  </div>
+  <figcaption class="nd-compare-tools">
+    <span>Deslizá para comparar</span>
+    <span class="nd-compare-btns" role="group" aria-label="Ver cada lado">
+      <button type="button" data-nd-cmp="100" aria-pressed="false">{{ la }}</button>
+      <button type="button" data-nd-cmp="0" aria-pressed="false">{{ lb }}</button>
+    </span>
+  </figcaption>
+</figure>

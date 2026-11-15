@@ -1,0 +1,44 @@
+{%- comment -%}
+  Opiniones de un producto.
+  · Tienda publicada: opiniones REALES del metafield nidomia.opiniones (lista JSON con alias, rating, texto, verificada).
+    Las estrellas se calculan de esa lista; si no hay lista se usan los metafields reviews.rating / reviews.rating_count.
+  · Borrador / editor: "Ejemplos de opiniones" ficticios (nd-examples) para evaluar el diseño.
+  mode: 'rating' (imprime "promedio|cantidad|origen") · 'cards' (imprime tarjetas) · 'count'
+{%- endcomment -%}
+{%- assign nd_real = product.metafields.nidomia.opiniones.value -%}
+{%- assign nd_has_real = false -%}
+{%- if nd_real != blank -%}{%- if nd_real.size > 0 -%}{%- assign nd_has_real = true -%}{%- endif -%}{%- endif -%}
+{%- assign nd_items = '' | split: '|' -%}
+{%- if nd_has_real == false and ejemplos -%}
+  {%- capture nd_ex -%}{%- render 'nd-examples', key: key -%}{%- endcapture -%}
+  {%- assign nd_items = nd_ex | split: '||' -%}
+{%- endif -%}
+{%- assign nd_limit = limit | default: 50 -%}
+{%- assign nd_skip = offset | default: 0 -%}
+{%- if mode == 'rating' -%}
+  {%- if nd_has_real -%}
+    {%- assign nd_sum = 0 -%}
+    {%- for r in nd_real -%}{%- assign nd_sum = nd_sum | plus: r.rating -%}{%- endfor -%}
+    {{- nd_sum | times: 1.0 | divided_by: nd_real.size | round: 1 -}}|{{- nd_real.size -}}|real
+  {%- elsif nd_items.size > 0 -%}
+    {%- assign nd_sum = 0 -%}
+    {%- for it in nd_items -%}{%- assign p = it | split: '|' -%}{%- assign nd_sum = nd_sum | plus: p[1] -%}{%- endfor -%}
+    {{- nd_sum | times: 1.0 | divided_by: nd_items.size | round: 1 -}}|{{- nd_items.size -}}|ejemplo
+  {%- elsif product.metafields.reviews.rating_count.value > 0 -%}
+    {{- product.metafields.reviews.rating.value.rating | round: 1 -}}|{{- product.metafields.reviews.rating_count.value -}}|agregado
+  {%- else -%}0|0|none
+  {%- endif -%}
+{%- else -%}
+  {%- if nd_has_real -%}
+    {%- for r in nd_real limit: nd_limit offset: nd_skip -%}
+      {%- assign nd_kind = 'comunidad' -%}{%- if r.verificada -%}{%- assign nd_kind = 'verificada' -%}{%- endif -%}
+      {%- assign nd_txt = r.texto | default: r.body -%}
+      {%- render 'nd-rev-card', alias: r.alias, stars: r.rating, text: nd_txt, kind: nd_kind, pname: pname -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- for it in nd_items limit: nd_limit offset: nd_skip -%}
+      {%- assign p = it | split: '|' -%}
+      {%- render 'nd-rev-card', alias: p[0], stars: p[1], text: p[2], kind: 'ejemplo', pname: pname -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}

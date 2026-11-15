@@ -1,0 +1,31 @@
+{%- comment -%}Página /cart. El JS la dibuja con el mismo carrito real; sin JS queda el formulario clásico de Shopify.{%- endcomment -%}
+<section class="nd-wrap nd-section nd-cart-page" aria-labelledby="t-cart">
+  <a class="nd-link" href="{{ routes.root_url }}#soluciones">{% render 'nd-icon', name: 'left', size: 16 %} Seguir comprando</a>
+  <h1 id="t-cart" class="nd-h1">Tu <em>carrito.</em></h1>
+  <div data-nd-cart-page>
+    <noscript>
+      {%- if cart.item_count == 0 -%}
+        <p>Tu carrito está vacío.</p>
+      {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post">
+        <ul class="nd-lines">
+          {%- for item in cart.items -%}
+            <li class="nd-line">
+              <div class="nd-line-info">
+                <a class="nd-line-title" href="{{ item.url }}">{{ item.product.title }}</a>
+                <p class="nd-line-pack">{{ item.variant.title }}</p>
+                <label>Cantidad <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" max="99" inputmode="numeric"></label>
+              </div>
+              <div class="nd-line-price"><b>{{ item.final_line_price | money_without_trailing_zeros }}</b></div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <p class="nd-total-row"><span>Total</span><b>{{ cart.total_price | money_without_trailing_zeros }}</b></p>
+        <button class="nd-btn nd-btn-secondary" type="submit" name="update">Actualizar cantidades</button>
+        <button class="nd-btn nd-btn-primary nd-btn-lg" type="submit" name="checkout">Finalizar compra</button>
+      </form>
+      {%- endif -%}
+    </noscript>
+    <p class="nd-sr" data-nd-loading>Cargando tu carrito…</p>
+  </div>
+</section>

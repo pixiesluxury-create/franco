@@ -1,0 +1,374 @@
+{%- comment -%}
+  Ficha de producto Nidomía. Orden de la compra (columna de compra):
+  disponibilidad → nombre y valoración → precio, cuotas y envío → tres beneficios → elección del pack →
+  botón de compra → opiniones breves y medios de pago.  Después: cómo lo consigue → demostración →
+  la duda principal → opiniones → detalles y preguntas.
+  Todos los importes salen de las variantes de Shopify (pesos argentinos); no hay precios escritos a mano.
+{%- endcomment -%}
+{%- assign nd_cuotas = settings.nd_cuotas | default: 3 -%}
+
+{%- comment -%} Variante individual (1 unidad): referencia para calcular el ahorro de los packs {%- endcomment -%}
+{%- assign single = nil -%}
+{%- for v in product.variants -%}
+  {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
+  {%- if u == '1' and single == nil -%}{%- assign single = v -%}{%- endif -%}
+{%- endfor -%}
+{%- if single == nil -%}{%- assign single = product.variants.first -%}{%- endif -%}
+{%- assign sel = single -%}
+{%- unless single.available -%}
+  {%- for v in product.variants -%}{%- if v.available and sel.available == false -%}{%- assign sel = v -%}{%- endif -%}{%- endfor -%}
+{%- endunless -%}
+
+{%- comment -%} Pack de mayor ahorro en pesos (solo si de verdad ahorra) {%- endcomment -%}
+{%- assign best_save = 0 -%}
+{%- assign best_id = 0 -%}
+{%- for v in product.variants -%}
+  {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
+  {%- assign un = u | plus: 0 -%}
+  {%- if un > 1 and v.available -%}
+    {%- assign s = single.price | times: un | minus: v.price -%}
+    {%- if s > best_save -%}{%- assign best_save = s -%}{%- assign best_id = v.id -%}{%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} Disponibilidad: solo datos comprobables de Shopify {%- endcomment -%}
+{%- assign stock_tracked = false -%}
+{%- if single.inventory_management == 'shopify' and single.inventory_policy == 'deny' -%}{%- assign stock_tracked = true -%}{%- endif -%}
+{%- assign stock_qty = single.inventory_quantity | default: 0 -%}
+{%- assign umbral = settings.nd_umbral_stock | default: 5 -%}
+{%- assign stock_state = 'ok' -%}
+{%- if product.available == false -%}{%- assign stock_state = 'out' -%}
+{%- elsif stock_tracked and stock_qty > 0 and stock_qty <= umbral -%}{%- assign stock_state = 'low' -%}{%- endif -%}
+{%- assign inicial = 0 -%}
+{%- assign oferta_fin = '' -%}
+{%- assign ahora = 'now' | date: '%s' | plus: 0 -%}
+{%- for t in product.tags -%}
+  {%- if t contains 'stock-inicial-' -%}{%- assign inicial = t | remove: 'stock-inicial-' | plus: 0 -%}{%- endif -%}
+  {%- if t contains 'oferta-hasta-' -%}
+    {%- assign fin_txt = t | remove: 'oferta-hasta-' -%}
+    {%- assign fin_ts = fin_txt | date: '%s' | plus: 86399 -%}
+    {%- if fin_ts > ahora -%}{%- assign oferta_fin = fin_txt -%}{%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign vendido = -1 -%}
+{%- if stock_tracked and inicial > 0 and stock_qty > 0 and stock_qty <= inicial -%}
+  {%- assign vendido = inicial | minus: stock_qty | times: 100.0 | divided_by: inicial | round -%}
+{%- endif -%}
+
+{%- comment -%} Valoración: real, ejemplos (borrador) o ninguna {%- endcomment -%}
+{%- capture rt -%}{%- render 'nd-reviews', mode: 'rating', product: product, key: key, ejemplos: ejemplos -%}{%- endcapture -%}
+{%- assign rtp = rt | split: '|' -%}
+{%- assign rt_avg = rtp[0] -%}
+{%- assign rt_count = rtp[1] | plus: 0 -%}
+{%- assign rt_src = rtp[2] -%}
+
+{%- comment -%} Packs: se arma una vez y se imprime después del bloque de precio {%- endcomment -%}
+{%- capture packs_html -%}
+  {%- for v in product.variants -%}
+    {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
+    {%- assign un = u | plus: 0 -%}
+    {%- assign ref = single.price | times: un -%}
+    {%- if v.compare_at_price > ref -%}{%- assign ref = v.compare_at_price -%}{%- endif -%}
+    {%- assign save = ref | minus: v.price -%}
+    {%- if save < 0 -%}{%- assign save = 0 -%}{%- endif -%}
+    {%- assign pct = 0 -%}
+    {%- if save > 0 -%}{%- assign pct = save | times: 100.0 | divided_by: ref | round -%}{%- endif -%}
+    {%- capture pn -%}{%- render 'nd-packnames', key: key, size: un, field: 'n' -%}{%- endcapture -%}
+    {%- capture ps -%}{%- render 'nd-packnames', key: key, size: un, field: 's' -%}{%- endcapture -%}
+    {%- capture cuota -%}{%- render 'nd-cuota', price: v.price, n: nd_cuotas -%}{%- endcapture -%}
+    {%- assign price_txt = v.price | money_without_trailing_zeros -%}
+    {%- assign ref_txt = ref | money_without_trailing_zeros -%}
+    {%- assign save_txt = save | money_without_trailing_zeros -%}
+    {%- if v.id == sel.id -%}
+      {%- assign init_price = price_txt -%}{%- assign init_ref = ref_txt -%}{%- assign init_save = save -%}{%- assign init_save_txt = save_txt -%}
+      {%- assign init_pct = pct -%}{%- assign init_cuota = cuota -%}{%- assign init_name = pn -%}{%- assign init_cents = v.price -%}
+    {%- endif -%}
+    {%- if product.variants.size > 1 -%}
+    <label class="nd-pack{% if v.id == sel.id %} is-selected{% endif %}{% if v.id == best_id %} is-best{% endif %}{% unless v.available %} is-out{% endunless %}" for="nd-pack-{{ v.id }}">
+      <input type="radio" name="id" id="nd-pack-{{ v.id }}" value="{{ v.id }}" class="nd-pack-input" {% if v.id == sel.id %}checked{% endif %} {% unless v.available %}disabled{% endunless %}
+        data-units="{{ un }}" data-name="{{ pn | escape }}" data-cents="{{ v.price }}" data-price="{{ price_txt | escape }}" data-ref="{{ ref_txt | escape }}"
+        data-save="{{ save_txt | escape }}" data-has-save="{{ save | at_least: 0 | at_most: 1 }}" data-pct="{{ pct }}" data-cuota="{{ cuota | escape }}">
+      <span class="nd-pack-ring" aria-hidden="true"></span>
+      <span class="nd-pack-radio" aria-hidden="true"></span>
+      <span class="nd-pack-main">
+        <b class="nd-pack-name">{{ pn }}</b>
+        <small>{{ ps }}</small>
+        {%- if v.id == best_id -%}<span class="nd-tag nd-tag-save">Mayor ahorro</span>{%- endif -%}
+      </span>
+      <span class="nd-pack-money">
+        {%- if v.available -%}
+          <b>{{ price_txt }}</b>
+          {%- if save > 0 -%}<s><span class="nd-sr">Por separado </span>{{ ref_txt }}</s><em>Ahorrás {{ save_txt }}</em>{%- endif -%}
+          {%- if settings.nd_cuotas_on -%}<small>{{ nd_cuotas }} × {{ cuota }}</small>{%- endif -%}
+        {%- else -%}<b class="nd-soldout">Sin stock</b>{%- endif -%}
+      </span>
+    </label>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign cta_text = 'Agregar al carrito' -%}
+{%- unless sel.available -%}{%- assign cta_text = 'Agotado' -%}{%- endunless -%}
+{%- assign tiene_ahorro = false -%}
+{%- if init_save > 0 -%}{%- assign tiene_ahorro = true -%}{%- endif -%}
+
+<article class="nd-pdp" data-nd-pdp data-key="{{ key }}" data-product="{{ product.id }}">
+
+  {%- comment -%} ─────────── Compra: foto + columna de compra ─────────── {%- endcomment -%}
+  <section class="nd-wrap nd-top" aria-label="Comprar {{ product.title | escape }}">
+    <div class="nd-gallery" data-nd-gallery>
+      {%- assign g_items = gallery | split: '||' -%}
+      <div class="nd-gallery-track" data-nd-track role="region" aria-roledescription="carrusel" aria-label="Fotos de {{ short | escape }}" tabindex="0">
+        {%- for g in g_items -%}
+          {%- assign gp = g | split: '|' -%}
+          <figure class="nd-gallery-slide" data-i="{{ forloop.index0 }}">
+            <img src="{{ gp[0] | asset_url }}" alt="{{ gp[1] | escape }}" width="1000" height="1000" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+          </figure>
+        {%- endfor -%}
+      </div>
+      <span class="nd-gallery-count" aria-hidden="true" data-nd-count>1 / {{ g_items.size }}</span>
+      <div class="nd-gallery-dots" aria-hidden="true">{%- for g in g_items -%}<i data-i="{{ forloop.index0 }}"{% if forloop.first %} class="is-active"{% endif %}></i>{%- endfor -%}</div>
+      <div class="nd-gallery-thumbs" role="group" aria-label="Elegir foto">
+        {%- for g in g_items -%}
+          {%- assign gp = g | split: '|' -%}
+          <button type="button" data-i="{{ forloop.index0 }}" aria-label="Ver foto {{ forloop.index }} de {{ g_items.size }}"{% if forloop.first %} aria-current="true"{% endif %}><img src="{{ gp[0] | asset_url }}" alt="" width="72" height="72" loading="lazy"></button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="nd-buy" data-nd-buy>
+      {%- comment -%} 1 · Disponibilidad {%- endcomment -%}
+      <div class="nd-avail" data-state="{{ stock_state }}">
+        <p class="nd-avail-line">
+          <span class="nd-avail-dot" aria-hidden="true"></span>
+          {%- case stock_state -%}
+            {%- when 'out' -%}<b>Agotado por el momento</b>
+            {%- when 'low' -%}<b>Últimas unidades</b><span>· {% if stock_qty == 1 %}queda 1{% else %}quedan {{ stock_qty }}{% endif %}</span>
+            {%- else -%}<b>En stock</b><span>· listo para despachar</span>
+          {%- endcase -%}
+          {%- if product.tags contains 'mas-vendido' -%}<i class="nd-tag nd-tag-sky">Más vendido</i>{%- endif -%}
+        </p>
+        {%- if stock_state == 'low' and vendido >= 0 -%}
+          <div class="nd-meter" role="img" aria-label="{{ vendido }}% vendido"><i style="width: {{ vendido }}%"></i></div>
+          <p class="nd-meter-txt">{{ vendido }}% vendido</p>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} 2 · Nombre y valoración {%- endcomment -%}
+      <h1 class="nd-title">{{ product.title }}</h1>
+      <div class="nd-rating">
+        {%- if rt_src == 'none' -%}
+          <a href="#opiniones" class="nd-rating-link nd-rating-none">Todavía sin opiniones · <u>sé el primero en opinar</u></a>
+        {%- else -%}
+          <a href="#opiniones" class="nd-rating-link">
+            {% render 'nd-stars', score: rt_avg %}<b>{{ rt_avg | replace: '.', ',' }}<span class="nd-sr"> de 5 estrellas</span></b>
+            {%- if rt_src == 'ejemplo' -%}<span>· {{ rt_count }} ejemplos de opiniones</span>{%- else -%}<span>· {{ rt_count }} {% if rt_count == 1 %}opinión{% else %}opiniones{% endif %}</span>{%- endif -%}
+          </a>
+        {%- endif -%}
+      </div>
+      <p class="nd-lead">{{ lead }}</p>
+
+      {%- comment -%} 3 · Precio, cuotas y envío {%- endcomment -%}
+      <div class="nd-pricebox" data-nd-pricebox>
+        <p class="nd-price-row">
+          <span class="nd-price" data-o="price">{{ init_price }}</span>
+          <s class="nd-was" data-o="was"{% unless tiene_ahorro %} hidden{% endunless %}><span class="nd-sr">Por separado </span><span data-o="was-v">{{ init_ref }}</span></s>
+          <span class="nd-save" data-o="save"{% unless tiene_ahorro %} hidden{% endunless %}>Ahorrás <b data-o="save-v">{{ init_save_txt }}</b> <i data-o="pct">{{ init_pct }}% menos</i></span>
+        </p>
+        {%- if oferta_fin != blank -%}<p class="nd-offer-end">{% render 'nd-icon', name: 'clock', size: 15 %}Precio de oferta hasta el {{ oferta_fin | date: '%d/%m' }}</p>{%- endif -%}
+        {%- if settings.nd_cuotas_on -%}<p class="nd-cuotas"><b data-o="cuotas">{{ nd_cuotas }} cuotas de {{ init_cuota }}</b> sin interés con tarjeta de crédito</p>{%- endif -%}
+        {%- if settings.nd_envio_on -%}<p class="nd-ship">{% render 'nd-icon', name: 'truck', size: 18 %}<span>{{ settings.nd_envio_texto | default: 'Envío gratis a todo el país' }}</span></p>{%- endif -%}
+        <p class="nd-sr" role="status" aria-live="polite" data-o="live"></p>
+      </div>
+
+      {%- comment -%} 4 · Tres beneficios {%- endcomment -%}
+      <ul class="nd-b3">
+        <li>{% render 'nd-icon', name: 'check', size: 18, stroke: 2.5 %}<div><b>{{ b1t }}</b><span>{{ b1d }}</span></div></li>
+        <li>{% render 'nd-icon', name: 'check', size: 18, stroke: 2.5 %}<div><b>{{ b2t }}</b><span>{{ b2d }}</span></div></li>
+        <li>{% render 'nd-icon', name: 'check', size: 18, stroke: 2.5 %}<div><b>{{ b3t }}</b><span>{{ b3d }}</span></div></li>
+      </ul>
+
+      <form method="post" action="{{ routes.cart_add_url }}" class="nd-buyform" data-nd-form id="nd-form-{{ key }}" novalidate>
+        <input type="hidden" name="form_type" value="product">
+        <input type="hidden" name="quantity" value="1">
+        {%- if product.variants.size > 1 -%}
+        {%- comment -%} 5 · Elección del pack {%- endcomment -%}
+        <fieldset class="nd-packs" id="elegir-pack">
+          <legend>Elegí tu pack{% if best_save > 0 %} y ahorrá{% endif %}</legend>
+          {{ packs_html }}
+        </fieldset>
+        {%- else -%}
+        <input type="hidden" name="id" value="{{ sel.id }}" data-units="1" data-name="{{ init_name | escape }}" data-cents="{{ init_cents }}" data-price="{{ init_price | escape }}" data-ref="{{ init_ref | escape }}" data-save="{{ init_save_txt | escape }}" data-has-save="{% if tiene_ahorro %}1{% else %}0{% endif %}" data-pct="{{ init_pct }}" data-cuota="{{ init_cuota | escape }}" class="nd-pack-input">
+        {%- endif -%}
+
+        {%- comment -%} 6 · Botón de compra: el único botón principal {%- endcomment -%}
+        <button type="submit" class="nd-btn nd-btn-primary nd-btn-lg nd-btn-block nd-cta" data-nd-cta {% unless sel.available %}disabled{% endunless %}>
+          <span class="nd-cta-label">{% render 'nd-icon', name: 'bag', size: 20 %}<span data-nd-cta-text>{{ cta_text }}</span></span>
+          <span class="nd-cta-spinner" aria-hidden="true"></span>
+        </button>
+        <p class="nd-form-msg" role="alert" data-nd-msg hidden></p>
+        {%- if settings.nd_cuotas_on -%}<p class="nd-microcopy">{{ nd_cuotas }} cuotas sin interés con tarjeta de crédito. Pagás en el checkout seguro de Shopify.</p>{%- endif -%}
+      </form>
+
+      {%- comment -%} 7 · Opiniones breves y medios de pago {%- endcomment -%}
+      {%- capture rot_cards -%}{%- render 'nd-reviews', mode: 'cards', product: product, key: key, ejemplos: ejemplos, limit: 10 -%}{%- endcapture -%}
+      {%- if rot_cards != blank -%}
+      <div class="nd-rot" data-nd-rot role="group" aria-roledescription="carrusel" aria-label="Opiniones breves">
+        <p class="nd-rot-head">{% if rt_src == 'ejemplo' %}Ejemplos de opiniones{% else %}Opiniones de clientes{% endif %}</p>
+        <div class="nd-rot-stage" data-nd-rot-stage>{{ rot_cards }}</div>
+        <div class="nd-rot-dots" data-nd-rot-dots></div>
+      </div>
+      {%- endif -%}
+      <div class="nd-pay" aria-label="Medios de pago aceptados">
+        <img src="{{ 'nd-nidomia-pagos-visa.svg' | asset_url }}" alt="Visa" width="52" height="32" loading="lazy">
+        <img src="{{ 'nd-nidomia-pagos-mastercard.svg' | asset_url }}" alt="Mastercard" width="52" height="32" loading="lazy">
+        <img src="{{ 'nd-nidomia-pagos-american-express.svg' | asset_url }}" alt="American Express" width="52" height="32" loading="lazy">
+        <img src="{{ 'nd-nidomia-pagos-mercado-pago.svg' | asset_url }}" alt="Mercado Pago" width="52" height="32" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ─────────── Cómo lo consigue: cada explicación se sincroniza con su demostración ─────────── {%- endcomment -%}
+  <section class="nd-section nd-wrap nd-how" data-nd-how aria-labelledby="t-how">
+    <header class="nd-section-head" data-reveal>
+      <p class="nd-eyebrow">Cómo lo consigue</p>
+      <h2 id="t-how">{{ how_title }}</h2>
+      <p class="nd-lede">{{ hook }}</p>
+    </header>
+    <div class="nd-how-grid">
+      <div class="nd-how-stage" data-nd-stage>
+        <div class="nd-how-media is-active" data-nd-media="0">{{ s1m }}</div>
+        <div class="nd-how-media" data-nd-media="1">{{ s2m }}</div>
+        <div class="nd-how-media" data-nd-media="2">{{ s3m }}</div>
+      </div>
+      <ol class="nd-how-steps">
+        <li class="nd-step is-active" data-nd-step="0"><span class="nd-step-n" aria-hidden="true">1</span><h3>{{ s1t }}</h3><p>{{ s1p }}</p></li>
+        <li class="nd-step" data-nd-step="1"><span class="nd-step-n" aria-hidden="true">2</span><h3>{{ s2t }}</h3><p>{{ s2p }}</p></li>
+        <li class="nd-step" data-nd-step="2"><span class="nd-step-n" aria-hidden="true">3</span><h3>{{ s3t }}</h3><p>{{ s3p }}</p></li>
+      </ol>
+    </div>
+  </section>
+
+  {%- comment -%} ─────────── Demostración: comparador + video ─────────── {%- endcomment -%}
+  <section class="nd-section nd-wrap nd-pdp-demo" aria-labelledby="t-demo-p">
+    <header class="nd-section-head" data-reveal>
+      <p class="nd-eyebrow">Demostración</p>
+      <h2 id="t-demo-p">{{ cmp_title }}</h2>
+      <p class="nd-lede">{{ cmp_text }}</p>
+    </header>
+    <div class="nd-pdp-demo-grid">
+      <div class="nd-demo-cmp" data-reveal>{{ cmp_html }}</div>
+      <div class="nd-demo-vid" data-reveal>
+        <h3>{{ vid_title }}</h3>
+        <p>{{ vid_text }}</p>
+        {{ vid_html }}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ─────────── La duda principal {%- endcomment -%}
+  <section class="nd-wrap nd-objection-wrap" aria-label="La duda más común">
+    <div class="nd-objection" data-reveal>
+      <span class="nd-objection-ico">{% render 'nd-icon', name: 'info', size: 24 %}</span>
+      <div>
+        <p class="nd-eyebrow">La duda más común</p>
+        <h3>{{ obj_q }}</h3>
+        <div class="nd-objection-a">{{ obj_a }}</div>
+        {%- if note != blank -%}<p class="nd-callout">{{ note }}</p>{%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ─────────── Opiniones: tarjetas compactas {%- endcomment -%}
+  <section class="nd-section nd-wrap nd-opiniones" id="opiniones" aria-labelledby="t-op">
+    <header class="nd-section-head nd-op-head" data-reveal>
+      <div>
+        <p class="nd-eyebrow">{% if rt_src == 'ejemplo' %}Vista previa del diseño{% else %}Opiniones de clientes{% endif %}</p>
+        <h2 id="t-op">{% if rt_src == 'ejemplo' %}Ejemplos de <em>opiniones</em>{% elsif rt_src == 'none' %}Todavía no hay <em>opiniones</em>{% else %}Quienes ya lo <em>usaron</em>{% endif %}</h2>
+        {%- if rt_src != 'none' -%}<p class="nd-op-sum">{% render 'nd-stars', score: rt_avg %}<b>{{ rt_avg | replace: '.', ',' }}</b><span>de 5 · {{ rt_count }} {% if rt_src == 'ejemplo' %}ejemplos{% elsif rt_count == 1 %}opinión{% else %}opiniones{% endif %}</span></p>{%- endif -%}
+        {%- if rt_src == 'ejemplo' -%}<p class="nd-note">{% render 'nd-icon', name: 'info', size: 16 %}<span>Son textos ficticios para evaluar cómo queda el diseño. Los nombres, las situaciones y las valoraciones no corresponden a clientes reales. En la tienda publicada este espacio se alimenta con opiniones reales y las estrellas se calculan a partir de ellas.</span></p>{%- endif -%}
+      </div>
+      <button type="button" class="nd-btn nd-btn-quiet" data-nd-opinar="{{ product.title | escape }}">{% render 'nd-icon', name: 'pen', size: 18 %}Escribir una opinión</button>
+    </header>
+    {%- capture grid_cards -%}{%- render 'nd-reviews', mode: 'cards', product: product, key: key, ejemplos: ejemplos, limit: 12 -%}{%- endcapture -%}
+    {%- if grid_cards != blank -%}
+      <div class="nd-rev-grid is-collapsed" data-nd-revgrid data-reveal>{{ grid_cards }}</div>
+      <button type="button" class="nd-link nd-more-btn" data-nd-revmore aria-expanded="false">Ver todas las opiniones</button>
+    {%- endif -%}
+  </section>
+
+  {%- comment -%} ─────────── Detalles y preguntas {%- endcomment -%}
+  <section class="nd-section nd-wrap nd-details" aria-labelledby="t-det">
+    <header class="nd-section-head" data-reveal>
+      <p class="nd-eyebrow">Detalles y preguntas</p>
+      <h2 id="t-det">Todo lo que conviene <em>saber.</em></h2>
+    </header>
+    <div class="nd-details-grid">
+      <div class="nd-details-col" data-reveal>
+        {%- assign incl_items = incl | default: '' | split: '||' -%}
+        {%- if incl_items.size > 0 -%}
+        <h3>{{ incl_title | default: 'Qué incluye' }}</h3>
+        <ul class="nd-incl">{%- for i in incl_items -%}<li>{% render 'nd-icon', name: 'check', size: 18, stroke: 2.5 %}<span>{{ i }}</span></li>{%- endfor -%}</ul>
+        {%- endif -%}
+        <h3>Ficha técnica</h3>
+        <dl class="nd-specs">
+          {%- assign spec_items = specs | default: '' | split: '||' -%}
+          {%- for sp in spec_items -%}{%- assign spp = sp | split: '::' -%}<div><dt>{{ spp[0] }}</dt><dd>{{ spp[1] }}</dd></div>{%- endfor -%}
+        </dl>
+      </div>
+      <div class="nd-details-col" data-reveal>
+        <h3>Preguntas frecuentes</h3>
+        {%- assign faq_items = faqs | default: '' | split: '||' -%}
+        {%- for fq in faq_items -%}
+          {%- assign fqp = fq | split: '::' -%}
+          <details class="nd-q" name="faq-{{ key }}"><summary>{{ fqp[0] }}<span class="nd-q-ico">{% render 'nd-icon', name: 'plus', size: 18 %}</span></summary><p>{{ fqp[1] }}</p></details>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ─────────── Seguí explorando {%- endcomment -%}
+  <section class="nd-section nd-wrap nd-explore" aria-labelledby="t-more">
+    <header class="nd-section-head" data-reveal>
+      <p class="nd-eyebrow">Otras soluciones</p>
+      <h2 id="t-more">Seguí <em>explorando.</em></h2>
+    </header>
+    {% render 'nd-more', key: key %}
+  </section>
+
+  {%- comment -%} ─────────── Barra inferior móvil: aparece cuando el botón principal sale de pantalla ─────────── {%- endcomment -%}
+  <div class="nd-sticky" data-nd-sticky aria-hidden="true" inert>
+    <div class="nd-sticky-in">
+      <div class="nd-sticky-info" aria-live="polite">
+        <p class="nd-sticky-price"><b data-nd-sticky-price>{{ init_price }}</b><s data-nd-sticky-was{% unless tiene_ahorro %} hidden{% endunless %}>{{ init_ref }}</s></p>
+        <p class="nd-sticky-pack" data-nd-sticky-pack>{{ init_name }}</p>
+      </div>
+      <button type="button" class="nd-btn nd-btn-primary nd-btn-md nd-sticky-add" data-nd-sticky-add {% unless sel.available %}disabled{% endunless %}>
+        <span class="nd-cta-label"><span data-nd-sticky-text>{{ cta_text }}</span></span><span class="nd-cta-spinner" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</article>
+
+{%- assign ld_img = gallery | split: '||' | first | split: '|' | first | asset_url -%}
+{%- assign ld_pre = ld_img | slice: 0, 2 -%}
+{%- if ld_pre == '//' -%}{%- assign ld_img = ld_img | prepend: 'https:' -%}{%- endif -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "description": {{ lead | json }},
+  "sku": {{ single.sku | json }},
+  "brand": {"@type": "Brand", "name": "Nidomía"},
+  "image": {{ ld_img | json }},
+  "offers": {
+    "@type": "Offer",
+    "url": {{ product.url | prepend: request.origin | json }},
+    "priceCurrency": {{ cart.currency.iso_code | default: shop.currency | json }},
+    "price": {{ sel.price | divided_by: 100.0 | json }},
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+  }{% if rt_src == 'real' or rt_src == 'agregado' %},
+  "aggregateRating": {"@type": "AggregateRating", "ratingValue": {{ rt_avg | json }}, "reviewCount": {{ rt_count | json }}}{% endif %}
+}
+</script>

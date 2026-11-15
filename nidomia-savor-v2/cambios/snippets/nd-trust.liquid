@@ -1,0 +1,80 @@
+{%- comment -%}
+  Confianza antes del cierre (breve y escaneable): opiniones, medios de pago, envío y las preguntas que frenan la compra.
+  Nada de plazos ni políticas inventadas: lo que no está en Shopify o en Ajustes del tema no se muestra.
+{%- endcomment -%}
+{%- assign nd_cuotas = settings.nd_cuotas | default: 3 -%}
+{%- capture nd_cards -%}
+  {%- if ejemplos -%}
+    {%- render 'nd-reviews', mode: 'cards', product: mandolina, key: 'mandolina', ejemplos: ejemplos, limit: 1, pname: 'Mandolina SupremeCut' -%}
+    {%- render 'nd-reviews', mode: 'cards', product: mopa, key: 'mopa', ejemplos: ejemplos, limit: 1, offset: 1, pname: 'Mopa con escurridor' -%}
+    {%- render 'nd-reviews', mode: 'cards', product: arrancador, key: 'arrancador', ejemplos: ejemplos, limit: 1, offset: 2, pname: 'Arrancador e inflador' -%}
+  {%- else -%}
+    {%- render 'nd-reviews', mode: 'cards', product: mandolina, key: 'mandolina', ejemplos: false, limit: 1, pname: 'Mandolina SupremeCut' -%}
+    {%- render 'nd-reviews', mode: 'cards', product: mopa, key: 'mopa', ejemplos: false, limit: 1, pname: 'Mopa con escurridor' -%}
+    {%- render 'nd-reviews', mode: 'cards', product: tender, key: 'tender', ejemplos: false, limit: 1, pname: 'Tender retráctil' -%}
+    {%- render 'nd-reviews', mode: 'cards', product: lapiz, key: 'lapiz', ejemplos: false, limit: 1, pname: 'Lápiz 3D + pizarra LED' -%}
+    {%- render 'nd-reviews', mode: 'cards', product: arrancador, key: 'arrancador', ejemplos: false, limit: 1, pname: 'Arrancador e inflador' -%}
+  {%- endif -%}
+{%- endcapture -%}
+<div class="nd-trust-grid">
+  {%- if nd_cards != blank -%}
+  <div class="nd-trust-reviews" data-reveal>
+    <h3>{% if ejemplos %}Ejemplos de opiniones{% else %}Lo que cuentan quienes ya compraron{% endif %}</h3>
+    {%- if ejemplos -%}<p class="nd-note">{% render 'nd-icon', name: 'info', size: 16 %}<span>Textos de ejemplo para evaluar el diseño. En la tienda publicada acá van opiniones reales de clientes.</span></p>{%- endif -%}
+    <div class="nd-rev-grid nd-rev-grid-home">{{ nd_cards }}</div>
+  </div>
+  {%- endif -%}
+
+  <ul class="nd-facts" data-reveal>
+    <li>
+      <span class="nd-fact-ico">{% render 'nd-icon', name: 'card', size: 22 %}</span>
+      <div>
+        <b>Medios de pago</b>
+        <p>{% if settings.nd_cuotas_on %}Hasta {{ nd_cuotas }} cuotas sin interés con tarjeta de crédito.{% else %}Tarjetas de crédito y débito, y Mercado Pago.{% endif %}</p>
+        <div class="nd-pay" aria-label="Medios de pago aceptados">
+          <img src="{{ 'nd-nidomia-pagos-visa.svg' | asset_url }}" alt="Visa" width="52" height="32" loading="lazy">
+          <img src="{{ 'nd-nidomia-pagos-mastercard.svg' | asset_url }}" alt="Mastercard" width="52" height="32" loading="lazy">
+          <img src="{{ 'nd-nidomia-pagos-american-express.svg' | asset_url }}" alt="American Express" width="52" height="32" loading="lazy">
+          <img src="{{ 'nd-nidomia-pagos-mercado-pago.svg' | asset_url }}" alt="Mercado Pago" width="52" height="32" loading="lazy">
+        </div>
+      </div>
+    </li>
+    <li>
+      <span class="nd-fact-ico">{% render 'nd-icon', name: 'truck', size: 22 %}</span>
+      <div>
+        <b>Envío</b>
+        <p>{% if settings.nd_envio_on %}{{ settings.nd_envio_texto | default: 'Envío gratis a todo el país' }}, también en los packs.{% else %}Calculás el costo de envío antes de pagar.{% endif %}{% if settings.nd_plazo_entrega != blank %} {{ settings.nd_plazo_entrega }}{% endif %}</p>
+        {%- if shop.shipping_policy != blank -%}<a class="nd-link" href="{{ shop.shipping_policy.url }}">Condiciones de envío {% render 'nd-icon', name: 'arrow', size: 16 %}</a>{%- endif -%}
+      </div>
+    </li>
+    <li>
+      <span class="nd-fact-ico">{% render 'nd-icon', name: 'shield', size: 22 %}</span>
+      <div>
+        <b>Pago seguro</b>
+        <p>Pagás en el checkout de Shopify, con conexión cifrada. Antes de confirmar ves el total y el estado del pago.</p>
+      </div>
+    </li>
+  </ul>
+
+  <div class="nd-faq" data-reveal>
+    <h3>Las preguntas que más frenan la compra</h3>
+    <details class="nd-q" name="faq-home">
+      <summary>¿En cuántas cuotas puedo pagar?<span class="nd-q-ico">{% render 'nd-icon', name: 'plus', size: 18 %}</span></summary>
+      <p>{% if settings.nd_cuotas_on %}Podés pagar en {{ nd_cuotas }} cuotas sin interés con tarjeta de crédito. En cada producto ves el valor de la cuota antes de agregarlo al carrito.{% else %}Las opciones de pago se muestran en el checkout, antes de confirmar.{% endif %}</p>
+    </details>
+    <details class="nd-q" name="faq-home">
+      <summary>¿El envío tiene costo?<span class="nd-q-ico">{% render 'nd-icon', name: 'plus', size: 18 %}</span></summary>
+      <p>{% if settings.nd_envio_on %}{{ settings.nd_envio_texto | default: 'Envío gratis a todo el país' }}: está incluido desde la primera unidad y también en los packs.{% else %}El costo de envío se calcula en el checkout, antes de pagar.{% endif %}{% if settings.nd_plazo_entrega != blank %} {{ settings.nd_plazo_entrega }}{% endif %}</p>
+    </details>
+    <details class="nd-q" name="faq-home">
+      <summary>¿Cómo sé cuál me conviene?<span class="nd-q-ico">{% render 'nd-icon', name: 'plus', size: 18 %}</span></summary>
+      <p>Cada ficha empieza con el resultado que vas a conseguir y responde la duda más común de ese producto: medidas, qué incluye y con qué es compatible. Si vas a regalar o repartir en dos ambientes, mirá los packs: son más baratos que comprar las mismas unidades sueltas.</p>
+    </details>
+    {%- if shop.refund_policy != blank -%}
+    <details class="nd-q" name="faq-home">
+      <summary>¿Puedo cambiarlo o devolverlo?<span class="nd-q-ico">{% render 'nd-icon', name: 'plus', size: 18 %}</span></summary>
+      <p>Las condiciones de cambios y devoluciones están detalladas en nuestra política. <a class="nd-link" href="{{ shop.refund_policy.url }}">Leer la política de cambios y devoluciones</a></p>
+    </details>
+    {%- endif -%}
+  </div>
+</div>

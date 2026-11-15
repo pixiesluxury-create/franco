@@ -1,0 +1,68 @@
+{%- comment -%}Contenido de la ficha · Mandolina SupremeCut. Los precios NO están acá: salen de Shopify.{%- endcomment -%}
+{%- capture s1m -%}
+  <div class="nd-fig nd-fig-switch" data-nd-switch>
+    <div class="nd-switch-stage">
+      <div class="nd-switch-pane is-active" data-pane="rodajas">{% render 'nd-clip', chunks: 'nd-clips-rodajas-0.js,nd-clips-rodajas-1.js,nd-clips-rodajas-2.js', poster: 'nd-images-mandolina-rodajas-poster.webp', label: 'Rodajas de pepino cayendo al recipiente', w: 1, h: 1 %}</div>
+      <div class="nd-switch-pane" data-pane="rallado">{% render 'nd-clip', chunks: 'nd-clips-rallado-0.js,nd-clips-rallado-1.js,nd-clips-rallado-2.js', poster: 'nd-images-mandolina-rallado-poster.webp', label: 'Verdura rallada sobre el recipiente', w: 1, h: 1 %}</div>
+      <div class="nd-switch-pane" data-pane="cubos">{% render 'nd-fig', file: 'nd-images-mandolina-cubos.webp', alt: 'Zanahoria cortada en cubos que caen sobre el recipiente', w: 622, h: 620 %}</div>
+    </div>
+    <div class="nd-chips" role="tablist" aria-label="Elegir el corte">
+      <button type="button" role="tab" aria-selected="true" data-pane-target="rodajas">Rodajas</button>
+      <button type="button" role="tab" aria-selected="false" data-pane-target="rallado">Rallado</button>
+      <button type="button" role="tab" aria-selected="false" data-pane-target="cubos">Cubos</button>
+    </div>
+  </div>
+{%- endcapture -%}
+{%- capture s2m -%}{% render 'nd-clip', chunks: 'nd-clips-cubos-0.js,nd-clips-cubos-1.js,nd-clips-cubos-2.js', poster: 'nd-images-mandolina-cubos-poster.webp', label: 'Bajás la tapa y los cubos caen directo al recipiente', w: 1, h: 1, autoplay: true %}{%- endcapture -%}
+{%- capture s3m -%}{% render 'nd-fig', file: 'nd-images-placa-limpieza.webp', alt: 'La mandolina se desarma: recipiente desmontable y peine de limpieza', w: 1254, h: 1254 %}{%- endcapture -%}
+{%- capture cmp_html -%}{% render 'nd-compare', a: 'nd-images-supremecut-pepino-entero.webp', b: 'nd-images-supremecut-pepino-rodajas.webp', alt_a: 'Pepino entero junto a la mandolina con el recipiente vacío', alt_b: 'Pepino en rodajas dentro del recipiente de la mandolina', la: 'Antes · entero', lb: 'Después · rodajas', w: 1200, h: 800, label: 'Deslizá para comparar el pepino entero y las rodajas', lazy: true %}{%- endcapture -%}
+{%- capture vid_html -%}
+  {% render 'nd-clip', chunks: 'nd-nidomia-films-supremecut-en-accion-0.js,nd-nidomia-films-supremecut-en-accion-1.js,nd-nidomia-films-supremecut-en-accion-2.js,nd-nidomia-films-supremecut-en-accion-3.js,nd-nidomia-films-supremecut-en-accion-4.js,nd-nidomia-films-supremecut-en-accion-5.js', poster: 'nd-nidomia-films-supremecut-en-accion.webp', label: 'SupremeCut en acción: cubos, rodajas y rallado en 15 segundos', w: 512, h: 910, vertical: true %}
+  <div class="nd-pieces">
+    <h4>Mirá cada pieza en uso</h4>
+    <div class="nd-fig nd-fig-switch nd-switch-tall" data-nd-switch>
+      <div class="nd-switch-stage">
+        <div class="nd-switch-pane is-active" data-pane="rejilla">{% render 'nd-clip', chunks: 'nd-clips-uso-dados-0.js,nd-clips-uso-dados-1.js', poster: 'nd-images-uso-dados.webp', label: 'La rejilla: cubitos que caen al recipiente', w: 512, h: 910, vertical: true %}</div>
+        <div class="nd-switch-pane" data-pane="protector">{% render 'nd-clip', chunks: 'nd-clips-uso-laminas-0.js,nd-clips-uso-laminas-1.js', poster: 'nd-images-uso-laminas.webp', label: 'El protector sujeta la verdura mientras rebanás', w: 512, h: 910, vertical: true %}</div>
+        <div class="nd-switch-pane" data-pane="pepino">{% render 'nd-clip', chunks: 'nd-clips-uso-pepino-0.js,nd-clips-uso-pepino-1.js', poster: 'nd-images-uso-pepino.webp', label: 'Rodajas de pepino', w: 512, h: 910, vertical: true %}</div>
+        <div class="nd-switch-pane" data-pane="zanahoria">{% render 'nd-clip', chunks: 'nd-clips-uso-zanahoria-0.js', poster: 'nd-images-uso-zanahoria.webp', label: 'Zanahoria rallada', w: 512, h: 910, vertical: true %}</div>
+        <div class="nd-switch-pane" data-pane="recipiente">{% render 'nd-clip', chunks: 'nd-clips-uso-piezas-0.js,nd-clips-uso-piezas-1.js,nd-clips-uso-piezas-2.js', poster: 'nd-images-uso-piezas.webp', label: 'El recipiente y las piezas se separan para lavar', w: 512, h: 910, vertical: true %}</div>
+      </div>
+      <div class="nd-chips" role="tablist" aria-label="Elegir una pieza">
+        <button type="button" role="tab" aria-selected="true" data-pane-target="rejilla">Rejilla</button>
+        <button type="button" role="tab" aria-selected="false" data-pane-target="protector">Protector</button>
+        <button type="button" role="tab" aria-selected="false" data-pane-target="pepino">Rodajas</button>
+        <button type="button" role="tab" aria-selected="false" data-pane-target="zanahoria">Rallado</button>
+        <button type="button" role="tab" aria-selected="false" data-pane-target="recipiente">Recipiente</button>
+      </div>
+    </div>
+  </div>
+{%- endcapture -%}
+{%- capture obj_a -%}
+<p><b>Cortes.</b> Cubos para el salteado, rodajas para la ensalada y rallado para la tortilla: cambiás la cuchilla y listo.</p>
+<p><b>Qué trae el modelo de referencia.</b> Cuchillas intercambiables (rejilla para cubos, cuchillas para rebanar y rallar), tapa de presión, protector de alimentos, recipiente y peine de limpieza.</p>
+<p><b>Cómo se limpia.</b> Separás el recipiente y retirás por los bordes la cuchilla que usaste. Si quedó verdura en la rejilla, la sacás con el peine. Lavás las piezas a mano con agua y detergente y las dejás secar antes de guardarlas.</p>
+{%- endcapture -%}
+{% render 'nd-pdp',
+  product: product, key: 'mandolina', ejemplos: ejemplos, short: 'Mandolina SupremeCut', cat: 'Cocina',
+  lead: 'Cortás para el salteado y los cubos caen directo al recipiente.',
+  gallery: 'nd-images-mandolina-completa.webp|Mandolina gris con cuchillas verdes y recipiente transparente||nd-images-mandolina-estudio-cubos.webp|Mandolina SupremeCut con zanahoria cortada en cubos dentro del recipiente||nd-images-mandolina-accesorios.webp|Cuchillas intercambiables y accesorios del modelo de referencia||nd-images-mandolina-cubos.webp|Zanahoria cortada en cubos que caen sobre el recipiente||nd-images-mandolina-rodajas.webp|Rodajas preparadas con la mandolina||nd-images-mandolina-variedad.webp|Cubos, rodajas y rallado sobre la mesada||nd-images-placa-agarre.webp|Rebanás con mejor agarre: el protector sujeta la papa||nd-images-placa-limpieza.webp|Se desarma para lavar: recipiente desmontable y peine de limpieza||nd-images-placa-kit.webp|Qué trae el modelo de referencia',
+  b1t: 'Tres cortes con un solo utensilio', b1d: 'Cubos, rodajas y rallado con cuchillas intercambiables.',
+  b2t: 'Todo cae al recipiente', b2d: 'Lo que cortás queda listo para volcar a la sartén o al bol.',
+  b3t: 'Se desarma para lavar', b3d: 'Separás el recipiente y la cuchilla que usaste.',
+  how_title: 'Tres cortes, un solo utensilio.',
+  hook: '¿Picar es lo que más te demora antes de cocinar? Así lo resuelve la SupremeCut.',
+  s1t: 'Tres cortes con un solo utensilio', s1p: 'Cambiá la cuchilla según la receta: cubos para el salteado, rodajas para la ensalada y rallado para la tortilla. Tocá cada corte para verlo en uso.', s1m: s1m,
+  s2t: 'Todo cae al recipiente', s2p: 'Apoyá un trozo que entre en la rejilla y bajá la tapa. Los cubitos caen directo al recipiente y los volcás a la sartén sin pasar por la tabla.', s2m: s2m,
+  s3t: 'Se desarma para lavar', s3p: 'Separá el recipiente y la cuchilla que usaste. El peine saca lo que queda entre los cuadrados de la rejilla.', s3m: s3m,
+  cmp_title: 'De un pepino entero a rodajas finas.',
+  cmp_text: 'Con el rebanador y el protector, deslizá el pepino sobre la cuchilla. Las rodajas se juntan debajo, listas para sumar a la ensalada.',
+  cmp_html: cmp_html,
+  vid_title: 'Tres cortes, en 15 segundos.', vid_text: 'Fijate dónde cae la verdura cuando bajás la tapa y cómo cambia el corte al intercambiar la cuchilla.', vid_html: vid_html,
+  obj_q: '¿Qué cortes hace, qué incluye y cómo se limpia?', obj_a: obj_a,
+  note: 'Usala con vegetales y sin forzar la tapa. No es una herramienta para huesos, carne ni alimentos congelados.',
+  incl_title: 'Qué trae el modelo de referencia',
+  incl: 'Cuchillas intercambiables para cubos, rodajas y rallado||Tapa de presión||Protector de alimentos para sujetar mientras rebanás||Recipiente desmontable||Peine de limpieza',
+  specs: 'Modelo::SupremeCut gris y verde (modelo de referencia)||Cortes::Cubos, rodajas y rallado||Cuchillas::Acero inoxidable, según las referencias||Uso indicado::Vegetales; no para huesos, carne ni congelados',
+  faqs: '¿Sirve para papa y cebolla?::Sí. Para una tortilla, cortá la papa en porciones que puedas sujetar con el protector y pasalas por el rebanador. Para una salsa, poné un trozo de cebolla que entre en la rejilla y bajá la tapa para hacer cubitos.||¿Cómo mantengo los dedos lejos de la cuchilla?::Apoyá la mandolina sobre una mesada firme. Para rebanar o rallar, sujetá la verdura con el protector. Cuando el pedacito sea demasiado chico para sujetarlo, terminá ese corte con un cuchillo sobre la tabla.||¿Qué cambia entre el individual y los packs?::Los packs traen más mandolinas del mismo modelo. En la elección del pack ves cuánto ahorrás frente a comprarlas por separado. Si es para una sola cocina, con una ya hacés cubos, rodajas y rallado.'
+%}

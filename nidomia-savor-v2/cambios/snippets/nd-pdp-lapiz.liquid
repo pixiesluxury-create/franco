@@ -1,0 +1,38 @@
+{%- comment -%}Contenido de la ficha · Lápiz 3D + pizarra LED. Los precios salen de Shopify.{%- endcomment -%}
+{%- capture s1m -%}{% render 'nd-fig', file: 'nd-nidomia-taller-uso.webp', alt: 'Mano con el lápiz 3D celeste dibujando una estrella de filamento sobre una base de trabajo', w: 1152, h: 768 %}{%- endcapture -%}
+{%- capture s2m -%}{% render 'nd-fig', file: 'nd-nidomia-taller-detail.webp', alt: 'Pizarra LED iluminada con un planeta dibujado con marcadores', w: 1152, h: 1152 %}{%- endcapture -%}
+{%- capture s3m -%}{% render 'nd-fig', file: 'nd-nidomia-taller-hero.webp', alt: 'El lápiz 3D, una figura de filamento y la pizarra LED sobre una mesa', w: 1440, h: 960 %}{%- endcapture -%}
+{%- capture cmp_html -%}{% render 'nd-compare', start: 72, a: 'nd-nidomia-taller-placa-uso.webp', b: 'nd-nidomia-taller-placa-detail.webp', alt_a: 'Lápiz 3D dibujando una estrella de filamento', alt_b: 'Pizarra LED con un dibujo iluminado y siete marcadores', la: 'Figura de filamento', lb: 'Dibujo con luz', w: 960, h: 960, label: 'Deslizá para comparar la figura de filamento y el dibujo con luz', lazy: true %}{%- endcapture -%}
+{%- capture vid_html -%}
+  {% render 'nd-clip', chunks: 'nd-nidomia-taller-clip-0.js,nd-nidomia-taller-clip-1.js', poster: 'nd-nidomia-taller-placa-hero.webp', label: 'El lápiz 3D y la pizarra LED en uso', w: 768, h: 512 %}
+  {% render 'nd-yt', id: '4iLThIusBSI', start: '153', end: '211', poster: 'nd-nidomia-films-lapiz.webp', title: 'Dibujá con filamento', source: 'Alex7 Tutoriales', note: 'lápiz 3DPEN-2, video de referencia, 58 s' %}
+  {% render 'nd-yt', id: 'eQ7aVms_6fc', start: '83', end: '110', poster: 'nd-nidomia-films-pizarra.webp', title: 'Escribí, iluminá y borrá', source: 'PulseTV Deal', note: 'pizarra LED de referencia, 27 s' %}
+{%- endcapture -%}
+{%- capture obj_a -%}
+<p><b>Qué incluye el kit.</b> El lápiz 3DPEN-2 con filamento inicial, cable y soporte; una pizarra de placa acrílica de 20 × 30 cm con luz LED; siete marcadores y un paño para borrar.</p>
+<p><b>Qué se usa en cada superficie.</b> En la placa acrílica dibujás con los marcadores. Para el lápiz 3D usá una base de trabajo apta para filamento caliente: no se usa sobre la pizarra.</p>
+<p><b>Cuándo hace falta supervisión.</b> El lápiz trabaja con una punta caliente. Un adulto debe acompañar el uso y seguir las indicaciones de edad y seguridad del modelo.</p>
+{%- endcapture -%}
+{% render 'nd-pdp',
+  product: product, key: 'lapiz', ejemplos: ejemplos, short: 'Lápiz 3D + pizarra LED', cat: 'Creatividad',
+  lead: 'Podés levantar una figura de filamento o hacer brillar un dibujo en la pizarra.',
+  gallery: 'nd-nidomia-taller-hero.webp|Lápiz 3D celeste, figura de filamento y pizarra LED sobre una mesa||nd-nidomia-taller-placa-hero.webp|Un dibujo, dos formas de crear||nd-nidomia-taller-placa-uso.webp|Dibujá una figura que se levanta con el filamento||nd-nidomia-taller-placa-detail.webp|Prendé la luz de tu dibujo: siete marcadores y pizarra reutilizable||nd-nidomia-taller-detail.webp|Pizarra LED con un planeta dibujado||nd-nidomia-taller-uso.webp|Lápiz 3D dibujando una estrella sobre una base de trabajo',
+  b1t: 'Creá en volumen', b1d: 'Seguí un contorno con filamento y uní piezas cuando estén firmes.',
+  b2t: 'Dibujá con luz', b2d: 'Marcador sobre la pizarra LED; borrás y empezás de nuevo.',
+  b3t: 'Dos actividades en un kit', b3d: 'Alterná el dibujo con luz y los proyectos de construcción.',
+  how_title: 'Un kit, dos formas de crear.',
+  hook: '¿Otro dibujo que queda en el papel? Acá levantás figuras con filamento o dibujás con luz.',
+  s1t: 'Creá en volumen', s1p: 'Seguí un contorno con el lápiz y dejá que el filamento se enfríe antes de levantar la figura. Podés unir piezas una vez que estén firmes.', s1m: s1m,
+  s2t: 'Dibujá con luz', s2p: 'Dibujá con marcador sobre la placa iluminada. Cuando quieras cambiar, borrás con el paño y empezás de nuevo: la placa es reutilizable.', s2m: s2m,
+  s3t: 'Dos actividades en un kit', s3p: 'Son actividades distintas, cada una con su superficie: la pizarra para dibujos y mensajes, el lápiz para figuras que quedan.', s3m: s3m,
+  cmp_title: 'Un trazo, dos resultados.',
+  cmp_text: 'Con el lápiz levantás una figura. Con los marcadores cambiás el dibujo de la placa todas las veces que quieras.',
+  cmp_html: cmp_html,
+  vid_title: 'Un trazo en relieve. Otro con luz.', vid_text: 'Son dos actividades distintas. Mirá qué hace el lápiz y qué podés dibujar en la pizarra.', vid_html: vid_html,
+  obj_q: '¿Qué incluye el kit, qué se usa en cada superficie y cuándo hace falta supervisión?', obj_a: obj_a,
+  note: 'La pizarra se usa solo con marcadores. El filamento caliente va siempre sobre una base de trabajo apta.',
+  incl_title: 'Qué incluye el kit',
+  incl: 'Lápiz 3DPEN-2 con filamento inicial, cable y soporte||Pizarra de placa acrílica de 20 × 30 cm con luz LED||Siete marcadores||Paño para borrar',
+  specs: 'Lápiz::3DPEN-2 con filamento inicial, cable y soporte||Pizarra::Placa acrílica de 20 × 30 cm con luz LED||Para dibujar::Siete marcadores y paño para borrar',
+  faqs: '¿Los dibujos quedan para siempre?::Podés conservar las figuras de filamento. En la pizarra, el dibujo con marcador se puede borrar para volver a usarla.||¿Lo puede usar un chico solo?::El lápiz trabaja con una punta caliente. Un adulto debe acompañar el uso y seguir las indicaciones de edad y seguridad del modelo.||¿Qué necesito además del kit?::Para el lápiz, una base de trabajo apta para filamento caliente. Para la pizarra alcanza con los marcadores y el paño que trae.'
+%}

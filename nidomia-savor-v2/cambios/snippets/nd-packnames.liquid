@@ -1,0 +1,19 @@
+{%- comment -%}
+  Nombre (field: 'n') y bajada (field: 's') de cada pack según producto y tamaño (1, 2 o 4 unidades).
+  Salida sin espacios. Uso: {% capture t %}{% render 'nd-packnames', key: 'mopa', size: 2, field: 'n' %}{% endcapture %}
+{%- endcomment -%}
+{%- assign nd_k = key | append: size -%}
+{%- case nd_k -%}
+  {%- when 'mandolina1' -%}{%- if field == 'n' -%}1 mandolina{%- else -%}Para tu cocina{%- endif -%}
+  {%- when 'mandolina2' -%}{%- if field == 'n' -%}2 mandolinas{%- else -%}Una para vos. Otra para regalar.{%- endif -%}
+  {%- when 'mandolina4' -%}{%- if field == 'n' -%}3 + 1 de regalo{%- else -%}Cuatro equipos, pagás tres{%- endif -%}
+  {%- when 'mopa1' -%}{%- if field == 'n' -%}1 mopa{%- else -%}Para tu casa{%- endif -%}
+  {%- when 'mopa2' -%}{%- if field == 'n' -%}2 mopas{%- else -%}Una para cada piso{%- endif -%}
+  {%- when 'tender1' -%}{%- if field == 'n' -%}1 tender{%- else -%}Para tu lavadero{%- endif -%}
+  {%- when 'tender2' -%}{%- if field == 'n' -%}2 tenders{%- else -%}Balcón y lavadero{%- endif -%}
+  {%- when 'lapiz1' -%}{%- if field == 'n' -%}1 kit{%- else -%}Lápiz y pizarra{%- endif -%}
+  {%- when 'lapiz2' -%}{%- if field == 'n' -%}2 kits{%- else -%}Uno para cada artista{%- endif -%}
+  {%- when 'arrancador1' -%}{%- if field == 'n' -%}1 equipo{%- else -%}Para tu auto{%- endif -%}
+  {%- when 'arrancador2' -%}{%- if field == 'n' -%}2 equipos{%- else -%}Uno por vehículo{%- endif -%}
+  {%- else -%}{%- if field == 'n' -%}{{ size }} unidades{%- else -%}Pack de {{ size }}{%- endif -%}
+{%- endcase -%}

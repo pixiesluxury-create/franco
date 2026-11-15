@@ -1,0 +1,147 @@
+{%- comment -%}
+  Portada como recorrido de compra. Cada sección responde una pregunta:
+  1 Hero (¿Qué es Nidomía?) · 2 Soluciones (¿Qué quiero resolver?) · 3 Demostración (¿Cómo funciona?)
+  4 Packs (¿Cuánto me conviene?) · 5 Confianza (¿Puedo comprar tranquilo?)
+{%- endcomment -%}
+<div class="nd-home">
+
+  {%- comment -%} 1 · HERO aprobado: imagen propia para celular y escritorio + un único botón principal {%- endcomment -%}
+  <section class="nd-hero" aria-labelledby="portada-titulo">
+    <h1 class="nd-sr" id="portada-titulo">Menos tareas. Más tiempo para vos.</h1>
+    <picture>
+      <source media="(max-width: 639px)" srcset="{{ 'nd-nidomia-portada-cielo-movil.webp' | asset_url }}" width="900" height="1125">
+      <img src="{{ 'nd-nidomia-portada-cielo.webp' | asset_url }}" width="2080" height="756" fetchpriority="high" alt="Mandolina SupremeCut en una cocina celeste. Soluciones para cocinar, limpiar y ordenar. {% if settings.nd_cuotas_on %}{{ settings.nd_cuotas | default: 3 }} cuotas sin interés con tarjeta de crédito.{% endif %}">
+    </picture>
+    <div class="nd-hero-actions">
+      <a class="nd-btn nd-btn-primary nd-btn-lg" href="#soluciones">Encontrá tu solución {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
+    </div>
+  </section>
+
+  {%- comment -%} 2 · CINCO SOLUCIONES A SIMPLE VISTA {%- endcomment -%}
+  <section class="nd-section nd-wrap" id="soluciones" aria-labelledby="t-soluciones">
+    <header class="nd-section-head" data-reveal>
+      <p class="nd-eyebrow">Elegí por lo que necesitás</p>
+      <h2 id="t-soluciones">¿Qué querés <em>resolver hoy?</em></h2>
+    </header>
+    <div class="nd-cards">
+      {% render 'nd-card', product: mandolina, cat: 'Cocina', name: 'Mandolina SupremeCut', line: 'Cortás y todo cae al recipiente.', img: 'nd-images-mandolina-estudio-cubos.webp', alt: 'Mandolina SupremeCut con zanahoria cortada en cubos dentro del recipiente', pos: '50% 59%' %}
+      {% render 'nd-card', product: mopa, cat: 'Limpieza', name: 'Mopa con escurridor', line: 'Enjuagás y escurrís sin tocar el paño.', img: 'nd-nidomia-mopa-hero.webp', alt: 'Mopa plana y balde escurridor con dos paños de microfibra', pos: '54% 57%', w: 1440, h: 960 %}
+      {% render 'nd-card', product: tender, cat: 'Lavadero', name: 'Tender retráctil', line: 'Tendés y recuperás el paso al guardarlo.', img: 'nd-nidomia-tender-hero.webp', alt: 'Tender gris de pared con la línea extendida y ropa colgada', pos: '39% 50%', w: 800, h: 507 %}
+      {% render 'nd-card', product: lapiz, cat: 'Creatividad', name: 'Lápiz 3D + pizarra LED', line: 'Levantá una figura o hacé brillar un dibujo.', img: 'nd-nidomia-taller-hero.webp', alt: 'Lápiz 3D celeste y pizarra LED con un dibujo iluminado', pos: '54% 50%', w: 1440, h: 960 %}
+      {% render 'nd-card', product: arrancador, cat: 'Auto', name: 'Arrancador e inflador Oryx', line: 'Arranque e inflado en un solo equipo.', img: 'nd-nidomia-auto-hero.webp', alt: 'Arrancador e inflador Oryx conectado a la cubierta de un auto', pos: '50% 66%', w: 1024, h: 715, wide: true %}
+    </div>
+  </section>
+
+  {%- comment -%} 3 · DEMOSTRACIÓN: antes y después arrastrable, un producto cada 3 segundos {%- endcomment -%}
+  <section class="nd-section nd-demo" id="como-funciona" aria-labelledby="t-demo" data-nd-scenes data-interval="3000">
+    <div class="nd-wrap">
+      <header class="nd-section-head nd-demo-head" data-reveal>
+        <div>
+          <p class="nd-eyebrow">Mirá cómo funciona</p>
+          <h2 id="t-demo">Una solución para <em>cada día.</em></h2>
+          <p class="nd-lede">Arrastrá la imagen con el dedo para comparar. Cada producto cambia solo cada tres segundos; podés frenarlo o avanzar cuando quieras.</p>
+        </div>
+        <div class="nd-scenes-controls" role="group" aria-label="Controles de la demostración">
+          <button type="button" class="nd-round" data-nd-prev aria-label="Producto anterior">{% render 'nd-icon', name: 'left', size: 20 %}</button>
+          <button type="button" class="nd-round nd-round-main" data-nd-toggle aria-pressed="false" aria-label="Pausar el cambio automático">
+            <span class="nd-ico-pause">{% render 'nd-icon', name: 'pause', size: 18 %}</span><span class="nd-ico-play">{% render 'nd-icon', name: 'play', size: 18 %}</span>
+          </button>
+          <button type="button" class="nd-round" data-nd-next aria-label="Producto siguiente">{% render 'nd-icon', name: 'right', size: 20 %}</button>
+        </div>
+      </header>
+
+      <div class="nd-deck" data-nd-deck aria-roledescription="carrusel" aria-label="Demostraciones por producto">
+        {%- comment -%} 0 · Mandolina: pepino entero → rodajas {%- endcomment -%}
+        <div class="nd-slide is-active" id="demo-0" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="1 de 5: Mandolina SupremeCut">
+          {% render 'nd-compare', a: 'nd-images-supremecut-pepino-entero.webp', b: 'nd-images-supremecut-pepino-rodajas.webp', alt_a: 'Pepino entero junto a la mandolina con el recipiente vacío', alt_b: 'Pepino en rodajas dentro del recipiente de la mandolina', la: 'Antes', lb: 'Después', w: 1200, h: 800, label: 'Deslizá para comparar el pepino entero y las rodajas' %}
+          <div class="nd-slide-info">
+            <div><p class="nd-slide-cat">Cocina · Mandolina SupremeCut</p><h3>De un pepino entero a rodajas listas.</h3><p>Pasás la verdura y el corte cae directo al recipiente.</p></div>
+            {% render 'nd-slide-cta', product: mandolina, name: 'Mandolina SupremeCut' %}
+          </div>
+        </div>
+        <div class="nd-slide" id="demo-1" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="2 de 5: Mopa con escurridor" aria-hidden="true">
+          {% render 'nd-compare', start: 72, a: 'nd-nidomia-mopa-placa-hero.webp', b: 'nd-nidomia-mopa-placa-detail.webp', alt_a: 'Mopa plana con balde de dos ranuras y dos paños de microfibra', alt_b: 'Balde desde arriba: una ranura enjuaga y la otra escurre', la: 'El kit', lb: 'Las dos ranuras', w: 960, h: 960, label: 'Deslizá para comparar el kit de la mopa y las dos ranuras del balde', lazy: true %}
+          <div class="nd-slide-info">
+            <div><p class="nd-slide-cat">Limpieza · Mopa con escurridor</p><h3>Un lado enjuaga. El otro escurre.</h3><p>Pasás el paño de una ranura a la otra, sin retorcerlo.</p></div>
+            {% render 'nd-slide-cta', product: mopa, name: 'Mopa con escurridor' %}
+          </div>
+        </div>
+        <div class="nd-slide" id="demo-2" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="3 de 5: Tender retráctil" aria-hidden="true">
+          {% render 'nd-compare', start: 72, a: 'nd-nidomia-tender-placa-uso.webp', b: 'nd-nidomia-tender-placa-detail.webp', alt_a: 'Tender con la línea extendida a la medida', alt_b: 'Tender con la línea recogida y la pared libre', la: 'Línea extendida', lb: 'Línea recogida', w: 960, h: 960, label: 'Deslizá para comparar el tender con la línea extendida y recogida', lazy: true %}
+          <div class="nd-slide-info">
+            <div><p class="nd-slide-cat">Lavadero · Tender retráctil</p><h3>El balcón vuelve a quedar libre.</h3><p>Tendés cuando hay ropa y, al guardar la línea, recuperás el paso.</p></div>
+            {% render 'nd-slide-cta', product: tender, name: 'Tender retráctil' %}
+          </div>
+        </div>
+        <div class="nd-slide" id="demo-3" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="4 de 5: Lápiz 3D más pizarra LED" aria-hidden="true">
+          {% render 'nd-compare', start: 72, a: 'nd-nidomia-taller-placa-uso.webp', b: 'nd-nidomia-taller-placa-detail.webp', alt_a: 'Lápiz 3D dibujando una estrella de filamento', alt_b: 'Pizarra LED con un dibujo iluminado y siete marcadores', la: 'Figura de filamento', lb: 'Dibujo con luz', w: 960, h: 960, label: 'Deslizá para comparar la figura de filamento y el dibujo con luz', lazy: true %}
+          <div class="nd-slide-info">
+            <div><p class="nd-slide-cat">Creatividad · Lápiz 3D + pizarra LED</p><h3>Un kit, dos formas de crear.</h3><p>Levantás una figura con el lápiz o hacés brillar un dibujo en la pizarra.</p></div>
+            {% render 'nd-slide-cta', product: lapiz, name: 'Lápiz 3D + pizarra LED' %}
+          </div>
+        </div>
+        <div class="nd-slide" id="demo-4" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="5 de 5: Arrancador e inflador Oryx" aria-hidden="true">
+          {% render 'nd-compare', start: 72, a: 'nd-nidomia-auto-placa-hero.webp', b: 'nd-nidomia-auto-placa-uso.webp', alt_a: 'Oryx inflando una cubierta', alt_b: 'Oryx con las pinzas listas para asistir el arranque', la: 'Para la cubierta', lb: 'Para la batería', w: 960, h: 960, label: 'Deslizá para comparar el uso como inflador y como arrancador', lazy: true %}
+          <div class="nd-slide-info">
+            <div><p class="nd-slide-cat">Auto · Arrancador e inflador Oryx</p><h3>Una rueda baja o una batería sin carga.</h3><p>Los dos imprevistos se resuelven con un mismo equipo.</p></div>
+            {% render 'nd-slide-cta', product: arrancador, name: 'Arrancador e inflador Oryx' %}
+          </div>
+        </div>
+      </div>
+
+      <div class="nd-tabs" role="tablist" aria-label="Elegir un producto">
+        <button type="button" role="tab" class="nd-tab is-active" data-nd-tab="0" aria-selected="true" aria-controls="demo-0"><img src="{{ 'nd-images-mandolina-estudio-cubos.webp' | asset_url }}" alt="" width="52" height="52" loading="lazy" style="--pos:50% 59%"><span>Cocina</span><i class="nd-tab-bar" aria-hidden="true"></i></button>
+        <button type="button" role="tab" class="nd-tab" data-nd-tab="1" aria-selected="false" aria-controls="demo-1" tabindex="-1"><img src="{{ 'nd-nidomia-mopa-hero.webp' | asset_url }}" alt="" width="52" height="52" loading="lazy" style="--pos:54% 57%"><span>Limpieza</span><i class="nd-tab-bar" aria-hidden="true"></i></button>
+        <button type="button" role="tab" class="nd-tab" data-nd-tab="2" aria-selected="false" aria-controls="demo-2" tabindex="-1"><img src="{{ 'nd-nidomia-tender-hero.webp' | asset_url }}" alt="" width="52" height="52" loading="lazy" style="--pos:39% 50%"><span>Lavadero</span><i class="nd-tab-bar" aria-hidden="true"></i></button>
+        <button type="button" role="tab" class="nd-tab" data-nd-tab="3" aria-selected="false" aria-controls="demo-3" tabindex="-1"><img src="{{ 'nd-nidomia-taller-hero.webp' | asset_url }}" alt="" width="52" height="52" loading="lazy" style="--pos:54% 50%"><span>Creatividad</span><i class="nd-tab-bar" aria-hidden="true"></i></button>
+        <button type="button" role="tab" class="nd-tab" data-nd-tab="4" aria-selected="false" aria-controls="demo-4" tabindex="-1"><img src="{{ 'nd-nidomia-auto-hero.webp' | asset_url }}" alt="" width="52" height="52" loading="lazy" style="--pos:50% 66%"><span>Auto</span><i class="nd-tab-bar" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} 4 · OFERTAS: qué incluye, cuánto cuesta y cuánto se ahorra (precios reales de las variantes) {%- endcomment -%}
+  {%- capture s1 -%}{%- render 'nd-offer', mode: 'saving', product: mandolina, key: 'mandolina' -%}{%- endcapture -%}
+  {%- capture s2 -%}{%- render 'nd-offer', mode: 'saving', product: mopa, key: 'mopa' -%}{%- endcapture -%}
+  {%- capture s3 -%}{%- render 'nd-offer', mode: 'saving', product: tender, key: 'tender' -%}{%- endcapture -%}
+  {%- capture s4 -%}{%- render 'nd-offer', mode: 'saving', product: lapiz, key: 'lapiz' -%}{%- endcapture -%}
+  {%- capture s5 -%}{%- render 'nd-offer', mode: 'saving', product: arrancador, key: 'arrancador' -%}{%- endcapture -%}
+  {%- assign n1 = s1 | plus: 0 -%}{%- assign n2 = s2 | plus: 0 -%}{%- assign n3 = s3 | plus: 0 -%}{%- assign n4 = s4 | plus: 0 -%}{%- assign n5 = s5 | plus: 0 -%}
+  {%- assign top = n1 -%}
+  {%- if n2 > top -%}{%- assign top = n2 -%}{%- endif -%}
+  {%- if n3 > top -%}{%- assign top = n3 -%}{%- endif -%}
+  {%- if n4 > top -%}{%- assign top = n4 -%}{%- endif -%}
+  {%- if n5 > top -%}{%- assign top = n5 -%}{%- endif -%}
+  {%- if top > 0 -%}
+  <section class="nd-section nd-wrap nd-offers" id="packs" aria-labelledby="t-packs">
+    <header class="nd-section-head" data-reveal>
+      <p class="nd-eyebrow">Packs</p>
+      <h2 id="t-packs">Llevá más y <em>pagá menos.</em></h2>
+      <p class="nd-lede">El ahorro está calculado contra comprar las mismas unidades por separado, con los precios actuales de la tienda.</p>
+    </header>
+    <div class="nd-offers-list">
+      {%- comment -%} Primero la de mayor ahorro, después las demás {%- endcomment -%}
+      {%- if n1 == top -%}{% render 'nd-offer', mode: 'row', product: mandolina, key: 'mandolina', name: 'Mandolina SupremeCut', img: 'nd-images-mandolina-estudio-cubos.webp', pos: '50% 59%', is_best: true %}{%- endif -%}
+      {%- if n2 == top -%}{% render 'nd-offer', mode: 'row', product: mopa, key: 'mopa', name: 'Mopa con escurridor', img: 'nd-nidomia-mopa-hero.webp', pos: '54% 57%', is_best: true %}{%- endif -%}
+      {%- if n3 == top -%}{% render 'nd-offer', mode: 'row', product: tender, key: 'tender', name: 'Tender retráctil', img: 'nd-nidomia-tender-hero.webp', pos: '39% 50%', is_best: true %}{%- endif -%}
+      {%- if n4 == top -%}{% render 'nd-offer', mode: 'row', product: lapiz, key: 'lapiz', name: 'Lápiz 3D + pizarra LED', img: 'nd-nidomia-taller-hero.webp', pos: '54% 50%', is_best: true %}{%- endif -%}
+      {%- if n5 == top -%}{% render 'nd-offer', mode: 'row', product: arrancador, key: 'arrancador', name: 'Arrancador e inflador Oryx', img: 'nd-nidomia-auto-hero.webp', pos: '50% 66%', is_best: true %}{%- endif -%}
+      {%- if n1 != top -%}{% render 'nd-offer', mode: 'row', product: mandolina, key: 'mandolina', name: 'Mandolina SupremeCut', img: 'nd-images-mandolina-estudio-cubos.webp', pos: '50% 59%' %}{%- endif -%}
+      {%- if n2 != top -%}{% render 'nd-offer', mode: 'row', product: mopa, key: 'mopa', name: 'Mopa con escurridor', img: 'nd-nidomia-mopa-hero.webp', pos: '54% 57%' %}{%- endif -%}
+      {%- if n3 != top -%}{% render 'nd-offer', mode: 'row', product: tender, key: 'tender', name: 'Tender retráctil', img: 'nd-nidomia-tender-hero.webp', pos: '39% 50%' %}{%- endif -%}
+      {%- if n4 != top -%}{% render 'nd-offer', mode: 'row', product: lapiz, key: 'lapiz', name: 'Lápiz 3D + pizarra LED', img: 'nd-nidomia-taller-hero.webp', pos: '54% 50%' %}{%- endif -%}
+      {%- if n5 != top -%}{% render 'nd-offer', mode: 'row', product: arrancador, key: 'arrancador', name: 'Arrancador e inflador Oryx', img: 'nd-nidomia-auto-hero.webp', pos: '50% 66%' %}{%- endif -%}
+    </div>
+  </section>
+  {%- endif -%}
+
+  {%- comment -%} 5 · CONFIANZA: opiniones, medios de pago, envío y las preguntas que frenan la compra {%- endcomment -%}
+  <section class="nd-section nd-trust" id="confianza" aria-labelledby="t-confianza">
+    <div class="nd-wrap">
+      <header class="nd-section-head" data-reveal>
+        <p class="nd-eyebrow">Antes de comprar</p>
+        <h2 id="t-confianza">Comprá con <em>tranquilidad.</em></h2>
+      </header>
+      {% render 'nd-trust', mandolina: mandolina, mopa: mopa, tender: tender, lapiz: lapiz, arrancador: arrancador, ejemplos: ejemplos %}
+    </div>
+  </section>
+</div>

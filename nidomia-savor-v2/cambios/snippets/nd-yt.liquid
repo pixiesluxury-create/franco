@@ -1,0 +1,6 @@
+{%- comment -%}Referencia de uso en YouTube (video de terceros, rotulado). Se incrusta recién al tocar.{%- endcomment -%}
+<div class="nd-yt" data-nd-yt data-id="{{ id }}" data-start="{{ start }}" data-end="{{ end }}" style="--ar: 16 / 9">
+  <img src="{{ poster | asset_url }}" alt="" width="480" height="270" loading="lazy" decoding="async">
+  <button type="button" class="nd-clip-btn" data-nd-yt-btn aria-label="Ver video: {{ title | escape }}"><span class="nd-clip-ico">{% render 'nd-icon', name: 'play', size: 26 %}</span></button>
+  <div class="nd-yt-cap"><b>{{ title }}</b><span>{{ source }}{% if note %} · {{ note }}{% endif %}</span></div>
+</div>

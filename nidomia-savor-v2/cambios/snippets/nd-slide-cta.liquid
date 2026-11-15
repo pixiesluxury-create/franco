@@ -1,0 +1,11 @@
+{%- assign nd_n = settings.nd_cuotas | default: 3 -%}
+{%- assign nd_single = nil -%}
+{%- for v in product.variants -%}
+  {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
+  {%- if u == '1' and nd_single == nil -%}{%- assign nd_single = v -%}{%- endif -%}
+{%- endfor -%}
+{%- if nd_single == nil -%}{%- assign nd_single = product.first_available_variant | default: product.variants.first -%}{%- endif -%}
+<div class="nd-slide-cta">
+  {%- if product != blank and product.available -%}<p class="nd-slide-price"><b>{{ nd_single.price | money_without_trailing_zeros }}</b>{% if settings.nd_cuotas_on %}<small>{{ nd_n }} cuotas de {% render 'nd-cuota', price: nd_single.price, n: nd_n %}</small>{% endif %}</p>{%- endif -%}
+  <a class="nd-link nd-link-lg" href="{{ product.url | default: routes.root_url }}">Ver {{ name }} {% render 'nd-icon', name: 'arrow', size: 18 %}</a>
+</div>

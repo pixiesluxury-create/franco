@@ -1,0 +1,10 @@
+{%- comment -%}
+  Devuelve cuántas unidades trae una variante según su nombre: 1, 2 o 4 ("3 + 1 de regalo").
+  Uso: {% capture u %}{% render 'nd-units', title: variant.title %}{% endcapture %}
+  Importante: no dejar espacios ni saltos de línea en la salida.
+{%- endcomment -%}
+{%- assign nd_l = title | downcase | strip -%}
+{%- if nd_l contains '3+1' or nd_l contains '3 + 1' or nd_l contains '4 unidades' or nd_l contains 'x4' or nd_l contains 'pack 4' or nd_l contains 'cuádruple' or nd_l contains 'cuadruple' -%}4
+{%- elsif nd_l contains '2 unidades' or nd_l contains 'dúo' or nd_l contains 'duo' or nd_l contains 'pack x2' or nd_l contains 'x2' or nd_l contains 'pack 2' or nd_l contains 'doble' -%}2
+{%- else -%}1
+{%- endif -%}
