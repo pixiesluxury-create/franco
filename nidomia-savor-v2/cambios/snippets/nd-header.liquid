@@ -3,16 +3,21 @@
 {%- assign h3 = settings.nd_tender | default: all_products['tender-retractil-de-pared'] -%}
 {%- assign h4 = settings.nd_lapiz | default: all_products['lapiz-3d-y-pizarra-led'] -%}
 {%- assign h5 = settings.nd_arrancador | default: all_products['arrancador-e-inflador-oryx'] -%}
+{%- capture u1 -%}{%- render 'nd-url', product: h1, key: 'mandolina' -%}{%- endcapture -%}
+{%- capture u2 -%}{%- render 'nd-url', product: h2, key: 'mopa' -%}{%- endcapture -%}
+{%- capture u3 -%}{%- render 'nd-url', product: h3, key: 'tender' -%}{%- endcapture -%}
+{%- capture u4 -%}{%- render 'nd-url', product: h4, key: 'lapiz' -%}{%- endcapture -%}
+{%- capture u5 -%}{%- render 'nd-url', product: h5, key: 'arrancador' -%}{%- endcapture -%}
 <header class="nd-header" data-nd-header>
   <div class="nd-header-inner">
     <a href="{{ routes.root_url }}" class="nd-brand" aria-label="Nidomía, ir al inicio"><img width="150" height="43" src="{{ 'nd-marca-nidomia.svg' | asset_url }}" alt="Nidomía"></a>
     <nav class="nd-nav" aria-label="Productos">
       <a href="{{ routes.root_url }}#soluciones">Productos</a>
-      <a href="{{ h1.url | default: routes.root_url }}">Cocina</a>
-      <a href="{{ h2.url | default: routes.root_url }}">Limpieza</a>
-      <a href="{{ h3.url | default: routes.root_url }}">Lavadero</a>
-      <a href="{{ h4.url | default: routes.root_url }}">Creatividad</a>
-      <a href="{{ h5.url | default: routes.root_url }}">Auto</a>
+      <a href="{{ u1 }}">Cocina</a>
+      <a href="{{ u2 }}">Limpieza</a>
+      <a href="{{ u3 }}">Lavadero</a>
+      <a href="{{ u4 }}">Creatividad</a>
+      <a href="{{ u5 }}">Auto</a>
     </nav>
     <div class="nd-header-actions">
       <button type="button" class="nd-icon-btn nd-menu-btn" data-nd-menu-open aria-label="Abrir menú de productos" aria-haspopup="dialog">{% render 'nd-icon', name: 'menu', size: 22 %}</button>
@@ -22,14 +27,15 @@
       </a>
     </div>
   </div>
+  <span class="nd-scroll-progress" data-nd-progress aria-hidden="true"></span>
 </header>
 <dialog class="nd-sheet" id="nd-menu" aria-label="Productos de Nidomía" data-nd-dialog>
   <div class="nd-sheet-head"><b>Productos</b><button type="button" class="nd-icon-btn" data-nd-close aria-label="Cerrar menú">{% render 'nd-icon', name: 'x', size: 22 %}</button></div>
   <ul class="nd-sheet-list">
-    <li><a href="{{ h1.url | default: routes.root_url }}"><span>Cocina</span><b>Mandolina SupremeCut</b></a></li>
-    <li><a href="{{ h2.url | default: routes.root_url }}"><span>Limpieza</span><b>Mopa con escurridor</b></a></li>
-    <li><a href="{{ h3.url | default: routes.root_url }}"><span>Lavadero</span><b>Tender retráctil</b></a></li>
-    <li><a href="{{ h4.url | default: routes.root_url }}"><span>Creatividad</span><b>Lápiz 3D + pizarra LED</b></a></li>
-    <li><a href="{{ h5.url | default: routes.root_url }}"><span>Auto</span><b>Arrancador e inflador Oryx</b></a></li>
+    <li><a href="{{ u1 }}"><span>Cocina</span><b>Mandolina SupremeCut</b></a></li>
+    <li><a href="{{ u2 }}"><span>Limpieza</span><b>Mopa con escurridor</b></a></li>
+    <li><a href="{{ u3 }}"><span>Lavadero</span><b>Tender retráctil</b></a></li>
+    <li><a href="{{ u4 }}"><span>Creatividad</span><b>Lápiz 3D + pizarra LED</b></a></li>
+    <li><a href="{{ u5 }}"><span>Auto</span><b>Arrancador e inflador Oryx</b></a></li>
   </ul>
 </dialog>

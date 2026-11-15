@@ -1,16 +1,20 @@
-{%- comment -%}Franja animada de cuotas y envío. Se pausa con el botón; con movimiento reducido queda quieta.{%- endcomment -%}
+{%- comment -%}
+  Barra de anuncios animada: cuotas, envío, pago seguro y packs. Se pausa con el botón; con movimiento reducido queda quieta.
+  Solo anuncia lo que la tienda realmente ofrece (los ajustes de cuotas y envío mandan).
+{%- endcomment -%}
 {%- assign nd_cuotas = settings.nd_cuotas | default: 3 -%}
 {%- assign nd_texto_envio = settings.nd_envio_texto | default: 'Envío gratis a todo el país' -%}
-{%- if settings.nd_cuotas_on or settings.nd_envio_on -%}
 <aside class="nd-perks" aria-label="Beneficios de compra" data-nd-perks>
-  <p class="nd-sr">{% if settings.nd_cuotas_on %}{{ nd_cuotas }} cuotas sin interés. {% endif %}{% if settings.nd_envio_on %}{{ nd_texto_envio }}.{% endif %}</p>
+  <p class="nd-sr">{% if settings.nd_cuotas_on %}{{ nd_cuotas }} cuotas sin interés. {% endif %}{% if settings.nd_envio_on %}{{ nd_texto_envio }}. {% endif %}Pago seguro con Shopify. Packs con ahorro.</p>
   <div class="nd-perks-window" aria-hidden="true">
     <div class="nd-perks-track">
       {%- for i in (1..2) -%}
       <div class="nd-perks-cycle">
-        {%- for j in (1..8) -%}
-          {%- if settings.nd_cuotas_on -%}<span class="nd-perk">{% render 'nd-icon', name: 'card', size: 17 %}<b>{{ nd_cuotas }} cuotas</b> sin interés</span><i class="nd-perk-dot"></i>{%- endif -%}
-          {%- if settings.nd_envio_on -%}<span class="nd-perk">{% render 'nd-icon', name: 'truck', size: 18 %}<b>{{ nd_texto_envio }}</b></span><i class="nd-perk-dot"></i>{%- endif -%}
+        {%- for j in (1..6) -%}
+          {%- if settings.nd_cuotas_on -%}<span class="nd-perk nd-perk-cuotas"><i class="nd-perk-ico">{% render 'nd-icon', name: 'card', size: 15 %}</i><b>{{ nd_cuotas }} cuotas</b> sin interés</span><i class="nd-perk-dot"></i>{%- endif -%}
+          {%- if settings.nd_envio_on -%}<span class="nd-perk nd-perk-ship"><i class="nd-perk-ico">{% render 'nd-icon', name: 'truck', size: 16 %}</i><b>{{ nd_texto_envio }}</b></span><i class="nd-perk-dot"></i>{%- endif -%}
+          <span class="nd-perk"><i class="nd-perk-ico">{% render 'nd-icon', name: 'shield', size: 15 %}</i><b>Pago seguro</b> con Shopify</span><i class="nd-perk-dot"></i>
+          <span class="nd-perk"><i class="nd-perk-ico">{% render 'nd-icon', name: 'tag', size: 15 %}</i><b>Packs</b> con ahorro</span><i class="nd-perk-dot"></i>
         {%- endfor -%}
       </div>
       {%- endfor -%}
@@ -20,4 +24,3 @@
     <span class="nd-perks-ico-pause">{% render 'nd-icon', name: 'pause', size: 13 %}</span><span class="nd-perks-ico-play">{% render 'nd-icon', name: 'play', size: 13 %}</span>
   </button>
 </aside>
-{%- endif -%}

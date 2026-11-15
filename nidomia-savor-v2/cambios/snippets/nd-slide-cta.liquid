@@ -1,11 +1,14 @@
 {%- assign nd_n = settings.nd_cuotas | default: 3 -%}
-{%- assign nd_single = nil -%}
-{%- for v in product.variants -%}
-  {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
-  {%- if u == '1' and nd_single == nil -%}{%- assign nd_single = v -%}{%- endif -%}
+{%- capture nd_vlist -%}{%- render 'nd-variants', product: product, key: key, preview_ok: preview_ok -%}{%- endcapture -%}
+{%- assign nd_vl = nd_vlist | split: ';;' -%}
+{%- capture nd_url -%}{%- render 'nd-url', product: product, key: key -%}{%- endcapture -%}
+{%- assign nd_price = 0 -%}{%- assign nd_found = false -%}{%- assign nd_any = false -%}
+{%- for row in nd_vl -%}
+  {%- assign f = row | split: '|' -%}
+  {%- if f[4] == '1' -%}{%- assign nd_any = true -%}{%- endif -%}
+  {%- if f[1] == '1' and nd_found == false -%}{%- assign nd_price = f[2] | plus: 0 -%}{%- assign nd_found = true -%}{%- endif -%}
 {%- endfor -%}
-{%- if nd_single == nil -%}{%- assign nd_single = product.first_available_variant | default: product.variants.first -%}{%- endif -%}
 <div class="nd-slide-cta">
-  {%- if product != blank and product.available -%}<p class="nd-slide-price"><b>{{ nd_single.price | money_without_trailing_zeros }}</b>{% if settings.nd_cuotas_on %}<small>{{ nd_n }} cuotas de {% render 'nd-cuota', price: nd_single.price, n: nd_n %}</small>{% endif %}</p>{%- endif -%}
-  <a class="nd-link nd-link-lg" href="{{ product.url | default: routes.root_url }}">Ver {{ name }} {% render 'nd-icon', name: 'arrow', size: 18 %}</a>
+  {%- if nd_any -%}<p class="nd-slide-price"><b>{{ nd_price | money_without_trailing_zeros }}</b>{% if settings.nd_cuotas_on %}<small>{{ nd_n }} cuotas de {% render 'nd-cuota', price: nd_price, n: nd_n %} sin interés</small>{% endif %}</p>{%- endif -%}
+  <a class="nd-link nd-link-lg" href="{{ nd_url }}">Ver {{ name }} {% render 'nd-icon', name: 'arrow', size: 18 %}</a>
 </div>

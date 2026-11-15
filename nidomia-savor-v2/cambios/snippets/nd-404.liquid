@@ -1,0 +1,9 @@
+{%- comment -%}Página no encontrada con el estilo de la tienda (en la tienda publicada o si la dirección no es de ningún producto).{%- endcomment -%}
+<section class="nd-wrap nd-section nd-404">
+  <div class="nd-empty">
+    <span class="nd-fact-ico">{% render 'nd-icon', name: 'info', size: 28 %}</span>
+    <h1 class="nd-h1">No encontramos <em>esa página.</em></h1>
+    <p>Puede que el producto ya no esté disponible o que la dirección haya cambiado.</p>
+    <a class="nd-btn nd-btn-primary nd-btn-lg" href="{{ routes.root_url }}#soluciones">Ver las soluciones {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
+  </div>
+</section>

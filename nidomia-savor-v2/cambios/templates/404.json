@@ -1,0 +1,12 @@
+{
+  "layout": "nidomia",
+  "sections": {
+    "main": {
+      "type": "nidomia-storefront",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

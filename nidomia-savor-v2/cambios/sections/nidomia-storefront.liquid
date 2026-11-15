@@ -1,23 +1,64 @@
 {%- comment -%}
   Tienda Nidomía · despachador de portada, fichas y carrito.
-  Los cinco productos se identifican por ID o handle (o se eligen en Ajustes del tema > Nidomía).
-  Todo precio sale de las variantes reales de Shopify: acá no hay importes escritos a mano.
+
+  Cada producto se resuelve así, en este orden:
+    1) el que elijas en Ajustes del tema > Catálogo Nidomía,
+    2) por su dirección habitual (handle),
+    3) por su ID, buscándolo en la colección "Todos los productos" (sirve si cambió la dirección).
+  Si Shopify no lo devuelve (borrador, sin publicar o sin canal de Tienda online), las tarjetas igual abren la ficha:
+  la dirección /products/<handle> la atiende este tema con una VISTA PREVIA rotulada, solo en borrador o en el editor.
+  En la tienda publicada nunca se muestran importes de ejemplo.
 {%- endcomment -%}
 {%- liquid
   assign nd_slug = ''
+
+  comment
+    Vista previa permitida solo en borrador/vista previa/editor. Nunca en la tienda publicada.
+  endcomment
+  assign nd_preview_ok = false
+  if request.design_mode or theme.role != 'main'
+    assign nd_preview_ok = true
+  endif
 
   assign nd_mandolina = settings.nd_mandolina
   if nd_mandolina == blank
     assign nd_mandolina = all_products['mandolina-supremecut']
   endif
+  if nd_mandolina == blank
+    for p in collections['all'].products
+      if p.id == 15544503828580
+        assign nd_mandolina = p
+        break
+      endif
+    endfor
+  endif
+
   assign nd_mopa = settings.nd_mopa
   if nd_mopa == blank
     assign nd_mopa = all_products['mopa-plana-con-escurridor']
   endif
+  if nd_mopa == blank
+    for p in collections['all'].products
+      if p.id == 15544510087268
+        assign nd_mopa = p
+        break
+      endif
+    endfor
+  endif
+
   assign nd_tender = settings.nd_tender
   if nd_tender == blank
     assign nd_tender = all_products['tender-retractil-de-pared']
   endif
+  if nd_tender == blank
+    for p in collections['all'].products
+      if p.id == 15544516837476
+        assign nd_tender = p
+        break
+      endif
+    endfor
+  endif
+
   assign nd_lapiz = settings.nd_lapiz
   if nd_lapiz == blank
     assign nd_lapiz = all_products['lapiz-3d-y-pizarra-led']
@@ -25,9 +66,26 @@
   if nd_lapiz == blank
     assign nd_lapiz = all_products['lapiz-3d-pizarra-led']
   endif
+  if nd_lapiz == blank
+    for p in collections['all'].products
+      if p.id == 15544521228388
+        assign nd_lapiz = p
+        break
+      endif
+    endfor
+  endif
+
   assign nd_arrancador = settings.nd_arrancador
   if nd_arrancador == blank
     assign nd_arrancador = all_products['arrancador-e-inflador-oryx']
+  endif
+  if nd_arrancador == blank
+    for p in collections['all'].products
+      if p.id == 15544526536804
+        assign nd_arrancador = p
+        break
+      endif
+    endfor
   endif
 
   if product != blank
@@ -49,6 +107,53 @@
     else
       assign nd_slug = 'generico'
     endif
+  elsif request.page_type == '404'
+    comment
+      Dirección de ficha que Shopify no encontró (producto sin publicar o con otra dirección).
+    endcomment
+    assign nd_path = request.path | downcase
+    if nd_path contains '/products/'
+      if nd_path contains 'mandolina'
+        assign nd_slug = 'mandolina'
+      elsif nd_path contains 'mopa'
+        assign nd_slug = 'mopa'
+      elsif nd_path contains 'tender'
+        assign nd_slug = 'tender'
+      elsif nd_path contains 'lapiz' or nd_path contains 'pizarra'
+        assign nd_slug = 'lapiz'
+      elsif nd_path contains 'arrancador' or nd_path contains 'inflador' or nd_path contains 'oryx'
+        assign nd_slug = 'arrancador'
+      endif
+    endif
+    if nd_slug == ''
+      assign nd_slug = 'noencontrada'
+    elsif nd_preview_ok == false
+      comment
+        En la tienda publicada no se inventa un producto: si Shopify no lo devuelve, 404 normal.
+      endcomment
+      case nd_slug
+        when 'mandolina'
+          if nd_mandolina == blank
+            assign nd_slug = 'noencontrada'
+          endif
+        when 'mopa'
+          if nd_mopa == blank
+            assign nd_slug = 'noencontrada'
+          endif
+        when 'tender'
+          if nd_tender == blank
+            assign nd_slug = 'noencontrada'
+          endif
+        when 'lapiz'
+          if nd_lapiz == blank
+            assign nd_slug = 'noencontrada'
+          endif
+        when 'arrancador'
+          if nd_arrancador == blank
+            assign nd_slug = 'noencontrada'
+          endif
+      endcase
+    endif
   endif
 
   comment
@@ -59,7 +164,7 @@
   if settings.nd_ejemplos == 'siempre'
     assign nd_ejemplos = true
   elsif settings.nd_ejemplos != 'nunca'
-    if request.design_mode or theme.role != 'main'
+    if nd_preview_ok
       assign nd_ejemplos = true
     endif
   endif
@@ -84,11 +189,11 @@
     "arrancador": {{ 'nd-nidomia-auto-hero.webp' | asset_url | json }}
   },
   "products": {
-    "mandolina": {% render 'nd-product-binding', item: nd_mandolina, key: 'mandolina' %},
-    "mopa": {% render 'nd-product-binding', item: nd_mopa, key: 'mopa' %},
-    "tender": {% render 'nd-product-binding', item: nd_tender, key: 'tender' %},
-    "lapiz": {% render 'nd-product-binding', item: nd_lapiz, key: 'lapiz' %},
-    "arrancador": {% render 'nd-product-binding', item: nd_arrancador, key: 'arrancador' %}
+    "mandolina": {% render 'nd-product-binding', item: nd_mandolina, key: 'mandolina', preview_ok: nd_preview_ok %},
+    "mopa": {% render 'nd-product-binding', item: nd_mopa, key: 'mopa', preview_ok: nd_preview_ok %},
+    "tender": {% render 'nd-product-binding', item: nd_tender, key: 'tender', preview_ok: nd_preview_ok %},
+    "lapiz": {% render 'nd-product-binding', item: nd_lapiz, key: 'lapiz', preview_ok: nd_preview_ok %},
+    "arrancador": {% render 'nd-product-binding', item: nd_arrancador, key: 'arrancador', preview_ok: nd_preview_ok %}
   }
 }
 </script>
@@ -100,11 +205,12 @@
   {%- when 'lapiz' -%}{%- render 'nd-pdp-lapiz', product: nd_lapiz, ejemplos: nd_ejemplos -%}
   {%- when 'arrancador' -%}{%- render 'nd-pdp-arrancador', product: nd_arrancador, ejemplos: nd_ejemplos -%}
   {%- when 'generico' -%}{%- render 'nd-pdp-generico', product: product, ejemplos: nd_ejemplos -%}
+  {%- when 'noencontrada' -%}{%- render 'nd-404' -%}
   {%- else -%}
     {%- if request.page_type == 'cart' -%}
       {%- render 'nd-cart-page' -%}
     {%- else -%}
-      {%- render 'nd-home', mandolina: nd_mandolina, mopa: nd_mopa, tender: nd_tender, lapiz: nd_lapiz, arrancador: nd_arrancador, ejemplos: nd_ejemplos -%}
+      {%- render 'nd-home', mandolina: nd_mandolina, mopa: nd_mopa, tender: nd_tender, lapiz: nd_lapiz, arrancador: nd_arrancador, ejemplos: nd_ejemplos, preview_ok: nd_preview_ok -%}
     {%- endif -%}
 {%- endcase -%}
 </div>

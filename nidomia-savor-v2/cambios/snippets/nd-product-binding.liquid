@@ -1,26 +1,32 @@
 {%- comment -%}
-  Datos reales de un producto para el JS (carrito, barra inferior): todo sale de Shopify.
+  Datos de un producto para el JS (carrito y barra inferior). Producto real: importes de Shopify.
+  Sin producto y solo en borrador: variantes "preview-…" (importes de ejemplo; el carrito las guarda en el navegador, no en Shopify).
 {%- endcomment -%}
-{%- if item == blank -%}null{%- else -%}
-{%- assign single = nil -%}
-{%- for variant in item.variants -%}
-  {%- capture u -%}{%- render 'nd-units', title: variant.title -%}{%- endcapture -%}
-  {%- if u == '1' and single == nil -%}{%- assign single = variant -%}{%- endif -%}
+{%- capture nd_vlist -%}{%- render 'nd-variants', product: item, key: key, preview_ok: preview_ok -%}{%- endcapture -%}
+{%- assign nd_vl = nd_vlist | split: ';;' -%}
+{%- if nd_vl.size == 0 -%}null{%- else -%}
+{%- assign nd_single = 0 -%}{%- assign nd_single_id = '' -%}{%- assign nd_have = false -%}{%- assign nd_any = false -%}
+{%- for row in nd_vl -%}
+  {%- assign f = row | split: '|' -%}
+  {%- if f[4] == '1' -%}{%- assign nd_any = true -%}{%- endif -%}
+  {%- if f[1] == '1' and nd_have == false -%}{%- assign nd_single = f[2] | plus: 0 -%}{%- assign nd_single_id = f[0] -%}{%- assign nd_have = true -%}{%- endif -%}
 {%- endfor -%}
-{%- if single == nil -%}{%- assign single = item.first_available_variant | default: item.variants.first -%}{%- endif -%}
+{%- capture nd_url -%}{%- render 'nd-url', product: item, key: key -%}{%- endcapture -%}
 {
   "id": {{ item.id | append: '' | json }},
-  "handle": {{ item.handle | json }},
-  "url": {{ item.url | json }},
-  "title": {{ item.title | json }},
-  "variant": {{ single.id | append: '' | json }},
-  "price": {{ single.price | json }},
-  "available": {{ item.available | json }},
+  "handle": {{ item.handle | default: '' | json }},
+  "url": {{ nd_url | json }},
+  "title": {{ item.title | default: key | json }},
+  "preview": {% if item == blank %}true{% else %}false{% endif %},
+  "variant": {{ nd_single_id | json }},
+  "price": {{ nd_single | json }},
+  "available": {{ nd_any | json }},
   "variants": {
-    {%- for variant in item.variants -%}
-      {%- capture u -%}{%- render 'nd-units', title: variant.title -%}{%- endcapture -%}
-      {%- capture pn -%}{%- render 'nd-packnames', key: key, size: u, field: 'n' -%}{%- endcapture -%}
-      {{ variant.id | append: '' | json }}: {"units": {{ u | plus: 0 }}, "name": {{ pn | json }}, "price": {{ variant.price | json }}, "title": {{ variant.title | json }}, "available": {{ variant.available | json }}}{% unless forloop.last %},{% endunless %}
+    {%- for row in nd_vl -%}
+      {%- assign f = row | split: '|' -%}
+      {%- assign av = false -%}{%- if f[4] == '1' -%}{%- assign av = true -%}{%- endif -%}
+      {%- capture pn -%}{%- render 'nd-packnames', key: key, size: f[1], field: 'n' -%}{%- endcapture -%}
+      {{ f[0] | json }}: {"units": {{ f[1] | plus: 0 }}, "name": {{ pn | json }}, "price": {{ f[2] | plus: 0 }}, "title": {{ f[5] | json }}, "available": {{ av }}}{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
   }
 }

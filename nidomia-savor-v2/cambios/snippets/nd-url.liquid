@@ -1,0 +1,10 @@
+{%- comment -%}
+  Dirección de la ficha. Con producto real: su URL. Sin producto (borrador, sin publicar o con otra dirección):
+  /products/<handle habitual>, que el tema atiende con la vista previa (ver sections/nidomia-storefront.liquid).
+  Nunca devuelve el home.
+{%- endcomment -%}
+{%- if product.url != blank -%}{{- product.url -}}
+{%- else -%}
+  {%- capture nd_h -%}{%- render 'nd-handle', key: key -%}{%- endcapture -%}
+  {{- routes.root_url | append: '/' | replace: '//', '/' | append: 'products/' | append: nd_h -}}
+{%- endif -%}

@@ -1,8 +1,28 @@
 {%- comment -%}
   Portada como recorrido de compra. Cada sección responde una pregunta:
   1 Hero (¿Qué es Nidomía?) · 2 Soluciones (¿Qué quiero resolver?) · 3 Demostración (¿Cómo funciona?)
-  4 Packs (¿Cuánto me conviene?) · 5 Confianza (¿Puedo comprar tranquilo?)
+  4 Packs (¿Cuánto me conviene?) · 5 Confianza (¿Puedo comprar tranquilo?) · cierre.
+  Gatillos: problema cotidiano (tarjetas), demostración visual, comparación de valor ("cada una te sale"),
+  ahorro concreto (cuenta animada), prueba social, reducción de dudas y escasez SOLO con datos reales de Shopify.
 {%- endcomment -%}
+{%- assign nd_n = settings.nd_cuotas | default: 3 -%}
+{%- assign nd_envio_txt = settings.nd_envio_texto | default: 'Envío gratis a todo el país' -%}
+
+{%- comment -%} Ahorro de cada pack frente a comprar sueltas (solo precios de variantes) {%- endcomment -%}
+{%- capture s1 -%}{%- render 'nd-offer', mode: 'saving', product: mandolina, key: 'mandolina', preview_ok: preview_ok -%}{%- endcapture -%}
+{%- capture s2 -%}{%- render 'nd-offer', mode: 'saving', product: mopa, key: 'mopa', preview_ok: preview_ok -%}{%- endcapture -%}
+{%- capture s3 -%}{%- render 'nd-offer', mode: 'saving', product: tender, key: 'tender', preview_ok: preview_ok -%}{%- endcapture -%}
+{%- capture s4 -%}{%- render 'nd-offer', mode: 'saving', product: lapiz, key: 'lapiz', preview_ok: preview_ok -%}{%- endcapture -%}
+{%- capture s5 -%}{%- render 'nd-offer', mode: 'saving', product: arrancador, key: 'arrancador', preview_ok: preview_ok -%}{%- endcapture -%}
+{%- assign n1 = s1 | plus: 0 -%}{%- assign n2 = s2 | plus: 0 -%}{%- assign n3 = s3 | plus: 0 -%}{%- assign n4 = s4 | plus: 0 -%}{%- assign n5 = s5 | plus: 0 -%}
+{%- assign top = n1 -%}
+{%- if n2 > top -%}{%- assign top = n2 -%}{%- endif -%}
+{%- if n3 > top -%}{%- assign top = n3 -%}{%- endif -%}
+{%- if n4 > top -%}{%- assign top = n4 -%}{%- endif -%}
+{%- if n5 > top -%}{%- assign top = n5 -%}{%- endif -%}
+{%- assign sin_resolver = false -%}
+{%- if mandolina == blank or mopa == blank or tender == blank or lapiz == blank or arrancador == blank -%}{%- assign sin_resolver = true -%}{%- endif -%}
+
 <div class="nd-home">
 
   {%- comment -%} 1 · HERO aprobado: imagen propia para celular y escritorio + un único botón principal {%- endcomment -%}
@@ -10,27 +30,64 @@
     <h1 class="nd-sr" id="portada-titulo">Menos tareas. Más tiempo para vos.</h1>
     <picture>
       <source media="(max-width: 639px)" srcset="{{ 'nd-nidomia-portada-cielo-movil.webp' | asset_url }}" width="900" height="1125">
-      <img src="{{ 'nd-nidomia-portada-cielo.webp' | asset_url }}" width="2080" height="756" fetchpriority="high" alt="Mandolina SupremeCut en una cocina celeste. Soluciones para cocinar, limpiar y ordenar. {% if settings.nd_cuotas_on %}{{ settings.nd_cuotas | default: 3 }} cuotas sin interés con tarjeta de crédito.{% endif %}">
+      <img src="{{ 'nd-nidomia-portada-cielo.webp' | asset_url }}" width="2080" height="756" fetchpriority="high" alt="Mandolina SupremeCut en una cocina celeste. Soluciones para cocinar, limpiar y ordenar. {% if settings.nd_cuotas_on %}{{ nd_n }} cuotas sin interés con tarjeta de crédito.{% endif %}">
     </picture>
     <div class="nd-hero-actions">
-      <a class="nd-btn nd-btn-primary nd-btn-lg" href="#soluciones">Encontrá tu solución {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
+      <span class="nd-orb nd-orb-a" aria-hidden="true"></span><span class="nd-orb nd-orb-b" aria-hidden="true"></span><span class="nd-orb nd-orb-c" aria-hidden="true"></span>
+      <a class="nd-btn nd-btn-primary nd-btn-lg nd-btn-cta" href="#soluciones">Encontrá tu solución {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
+      {%- if settings.nd_cuotas_on or settings.nd_envio_on -%}
+      <ul class="nd-hero-chips" aria-label="Beneficios de comprar en Nidomía">
+        {%- if settings.nd_cuotas_on -%}<li class="nd-chip-lg nd-chip-cuotas"><i>{% render 'nd-icon', name: 'card', size: 18 %}</i><span><b>{{ nd_n }} cuotas sin interés</b> con tarjeta</span></li>{%- endif -%}
+        {%- if settings.nd_envio_on -%}<li class="nd-chip-lg nd-chip-ship"><i class="nd-truck">{% render 'nd-icon', name: 'truck', size: 18 %}</i><span><b>{{ nd_envio_txt }}</b></span></li>{%- endif -%}
+      </ul>
+      {%- endif -%}
     </div>
   </section>
 
-  {%- comment -%} 2 · CINCO SOLUCIONES A SIMPLE VISTA {%- endcomment -%}
+  {%- comment -%} Cinta de beneficios: reducción de dudas, siempre a la vista {%- endcomment -%}
+  <section class="nd-wrap nd-benefits" aria-label="Por qué comprar en Nidomía">
+    <ul class="nd-benefit-grid">
+      {%- if settings.nd_envio_on -%}<li data-reveal style="--tint:#def1ff"><i class="nd-bico nd-truck">{% render 'nd-icon', name: 'truck', size: 26 %}</i><b>{{ nd_envio_txt }}</b><span>Sin costo de envío, también en los packs.</span></li>{%- endif -%}
+      {%- if settings.nd_cuotas_on -%}<li data-reveal style="--tint:#ebe6fb"><i class="nd-bico">{% render 'nd-icon', name: 'card', size: 26 %}</i><b>{{ nd_n }} cuotas sin interés</b><span>Con tarjeta de crédito: la cuota se ve en cada producto.</span></li>{%- endif -%}
+      <li data-reveal style="--tint:#dcf4ef"><i class="nd-bico">{% render 'nd-icon', name: 'shield', size: 26 %}</i><b>Pago seguro</b><span>Pagás en el checkout cifrado de Shopify.</span></li>
+      {%- if top > 0 -%}<li data-reveal style="--tint:#ffeede"><i class="nd-bico">{% render 'nd-icon', name: 'tag', size: 26 %}</i><b>Packs con ahorro</b><span>Llevá más y pagá menos: el ahorro va en pesos.</span></li>{%- endif -%}
+    </ul>
+  </section>
+
+  {%- comment -%} 2 · CINCO SOLUCIONES A SIMPLE VISTA (identificación con un problema cotidiano) {%- endcomment -%}
   <section class="nd-section nd-wrap" id="soluciones" aria-labelledby="t-soluciones">
     <header class="nd-section-head" data-reveal>
       <p class="nd-eyebrow">Elegí por lo que necesitás</p>
       <h2 id="t-soluciones">¿Qué querés <em>resolver hoy?</em></h2>
+      <p class="nd-lede">Tocá el problema que más se parezca al tuyo y mirá cómo se resuelve.</p>
+      {%- if sin_resolver and preview_ok -%}
+      <p class="nd-preview-note" role="note">{% render 'nd-icon', name: 'info', size: 18 %}<span><b>Vista previa del borrador.</b> Hay productos que aún no se resuelven en tu Shopify (sin publicar o con otra dirección). Sus fichas se abren igual, con importes de ejemplo; publicada, la tienda muestra solo importes reales.</span></p>
+      {%- endif -%}
     </header>
     <div class="nd-cards">
-      {% render 'nd-card', product: mandolina, cat: 'Cocina', name: 'Mandolina SupremeCut', line: 'Cortás y todo cae al recipiente.', img: 'nd-images-mandolina-estudio-cubos.webp', alt: 'Mandolina SupremeCut con zanahoria cortada en cubos dentro del recipiente', pos: '50% 59%' %}
-      {% render 'nd-card', product: mopa, cat: 'Limpieza', name: 'Mopa con escurridor', line: 'Enjuagás y escurrís sin tocar el paño.', img: 'nd-nidomia-mopa-hero.webp', alt: 'Mopa plana y balde escurridor con dos paños de microfibra', pos: '54% 57%', w: 1440, h: 960 %}
-      {% render 'nd-card', product: tender, cat: 'Lavadero', name: 'Tender retráctil', line: 'Tendés y recuperás el paso al guardarlo.', img: 'nd-nidomia-tender-hero.webp', alt: 'Tender gris de pared con la línea extendida y ropa colgada', pos: '39% 50%', w: 800, h: 507 %}
-      {% render 'nd-card', product: lapiz, cat: 'Creatividad', name: 'Lápiz 3D + pizarra LED', line: 'Levantá una figura o hacé brillar un dibujo.', img: 'nd-nidomia-taller-hero.webp', alt: 'Lápiz 3D celeste y pizarra LED con un dibujo iluminado', pos: '54% 50%', w: 1440, h: 960 %}
-      {% render 'nd-card', product: arrancador, cat: 'Auto', name: 'Arrancador e inflador Oryx', line: 'Arranque e inflado en un solo equipo.', img: 'nd-nidomia-auto-hero.webp', alt: 'Arrancador e inflador Oryx conectado a la cubierta de un auto', pos: '50% 66%', w: 1024, h: 715, wide: true %}
+      {% render 'nd-card', product: mandolina, key: 'mandolina', preview_ok: preview_ok, tint: '#def1ff', problem: '¿Picar es lo que más te demora?', cat: 'Cocina', name: 'Mandolina SupremeCut', line: 'Cortás y todo cae al recipiente.', img: 'nd-images-mandolina-estudio-cubos.webp', alt: 'Mandolina SupremeCut con zanahoria cortada en cubos dentro del recipiente', pos: '50% 59%' %}
+      {% render 'nd-card', product: mopa, key: 'mopa', preview_ok: preview_ok, tint: '#dcf4ef', problem: '¿Escurrís el trapo con las manos?', cat: 'Limpieza', name: 'Mopa con escurridor', line: 'Enjuagás y escurrís sin tocar el paño.', img: 'nd-nidomia-mopa-hero.webp', alt: 'Mopa plana y balde escurridor con dos paños de microfibra', pos: '54% 57%', w: 1440, h: 960 %}
+      {% render 'nd-card', product: tender, key: 'tender', preview_ok: preview_ok, tint: '#e3ecf8', problem: '¿El tender te ocupa el balcón?', cat: 'Lavadero', name: 'Tender retráctil', line: 'Tendés y recuperás el paso al guardarlo.', img: 'nd-nidomia-tender-hero.webp', alt: 'Tender gris de pared con la línea extendida y ropa colgada', pos: '39% 50%', w: 800, h: 507 %}
+      {% render 'nd-card', product: lapiz, key: 'lapiz', preview_ok: preview_ok, tint: '#ebe6fb', problem: '¿Otro dibujo que queda en el papel?', cat: 'Creatividad', name: 'Lápiz 3D + pizarra LED', line: 'Levantá una figura o hacé brillar un dibujo.', img: 'nd-nidomia-taller-hero.webp', alt: 'Lápiz 3D celeste y pizarra LED con un dibujo iluminado', pos: '54% 50%', w: 1440, h: 960 %}
+      {% render 'nd-card', product: arrancador, key: 'arrancador', preview_ok: preview_ok, tint: '#ffeede', problem: '¿Rueda baja o batería sin carga?', cat: 'Auto', name: 'Arrancador e inflador Oryx', line: 'Arranque e inflado en un solo equipo.', img: 'nd-nidomia-auto-hero.webp', alt: 'Arrancador e inflador Oryx conectado a la cubierta de un auto', pos: '50% 66%', w: 1024, h: 715, wide: true %}
     </div>
   </section>
+
+  {%- comment -%} Cinta en movimiento: lo que más importa, siempre en la cara {%- endcomment -%}
+  <div class="nd-band" aria-hidden="true" data-nd-band>
+    <div class="nd-band-track">
+      {%- for i in (1..2) -%}
+      <div class="nd-band-cycle">
+        {%- for j in (1..2) -%}
+          {%- if settings.nd_cuotas_on -%}<span>{{ nd_n }} cuotas sin interés</span><i class="nd-spark"></i>{%- endif -%}
+          <span class="is-out">Menos tareas</span><i class="nd-spark"></i>
+          {%- if settings.nd_envio_on -%}<span>{{ nd_envio_txt }}</span><i class="nd-spark"></i>{%- endif -%}
+          <span class="is-out">Más tiempo para vos</span><i class="nd-spark"></i>
+        {%- endfor -%}
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
 
   {%- comment -%} 3 · DEMOSTRACIÓN: antes y después arrastrable, un producto cada 3 segundos {%- endcomment -%}
   <section class="nd-section nd-demo" id="como-funciona" aria-labelledby="t-demo" data-nd-scenes data-interval="3000">
@@ -51,40 +108,39 @@
       </header>
 
       <div class="nd-deck" data-nd-deck aria-roledescription="carrusel" aria-label="Demostraciones por producto">
-        {%- comment -%} 0 · Mandolina: pepino entero → rodajas {%- endcomment -%}
-        <div class="nd-slide is-active" id="demo-0" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="1 de 5: Mandolina SupremeCut">
+        <div class="nd-slide is-active" id="demo-0" data-nd-slide data-tint="#def1ff" role="group" aria-roledescription="diapositiva" aria-label="1 de 5: Mandolina SupremeCut">
           {% render 'nd-compare', a: 'nd-images-supremecut-pepino-entero.webp', b: 'nd-images-supremecut-pepino-rodajas.webp', alt_a: 'Pepino entero junto a la mandolina con el recipiente vacío', alt_b: 'Pepino en rodajas dentro del recipiente de la mandolina', la: 'Antes', lb: 'Después', w: 1200, h: 800, label: 'Deslizá para comparar el pepino entero y las rodajas' %}
           <div class="nd-slide-info">
             <div><p class="nd-slide-cat">Cocina · Mandolina SupremeCut</p><h3>De un pepino entero a rodajas listas.</h3><p>Pasás la verdura y el corte cae directo al recipiente.</p></div>
-            {% render 'nd-slide-cta', product: mandolina, name: 'Mandolina SupremeCut' %}
+            {% render 'nd-slide-cta', product: mandolina, key: 'mandolina', preview_ok: preview_ok, name: 'Mandolina SupremeCut' %}
           </div>
         </div>
-        <div class="nd-slide" id="demo-1" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="2 de 5: Mopa con escurridor" aria-hidden="true">
+        <div class="nd-slide" id="demo-1" data-nd-slide data-tint="#dcf4ef" role="group" aria-roledescription="diapositiva" aria-label="2 de 5: Mopa con escurridor" aria-hidden="true">
           {% render 'nd-compare', start: 72, a: 'nd-nidomia-mopa-placa-hero.webp', b: 'nd-nidomia-mopa-placa-detail.webp', alt_a: 'Mopa plana con balde de dos ranuras y dos paños de microfibra', alt_b: 'Balde desde arriba: una ranura enjuaga y la otra escurre', la: 'El kit', lb: 'Las dos ranuras', w: 960, h: 960, label: 'Deslizá para comparar el kit de la mopa y las dos ranuras del balde', lazy: true %}
           <div class="nd-slide-info">
             <div><p class="nd-slide-cat">Limpieza · Mopa con escurridor</p><h3>Un lado enjuaga. El otro escurre.</h3><p>Pasás el paño de una ranura a la otra, sin retorcerlo.</p></div>
-            {% render 'nd-slide-cta', product: mopa, name: 'Mopa con escurridor' %}
+            {% render 'nd-slide-cta', product: mopa, key: 'mopa', preview_ok: preview_ok, name: 'Mopa con escurridor' %}
           </div>
         </div>
-        <div class="nd-slide" id="demo-2" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="3 de 5: Tender retráctil" aria-hidden="true">
+        <div class="nd-slide" id="demo-2" data-nd-slide data-tint="#e3ecf8" role="group" aria-roledescription="diapositiva" aria-label="3 de 5: Tender retráctil" aria-hidden="true">
           {% render 'nd-compare', start: 72, a: 'nd-nidomia-tender-placa-uso.webp', b: 'nd-nidomia-tender-placa-detail.webp', alt_a: 'Tender con la línea extendida a la medida', alt_b: 'Tender con la línea recogida y la pared libre', la: 'Línea extendida', lb: 'Línea recogida', w: 960, h: 960, label: 'Deslizá para comparar el tender con la línea extendida y recogida', lazy: true %}
           <div class="nd-slide-info">
             <div><p class="nd-slide-cat">Lavadero · Tender retráctil</p><h3>El balcón vuelve a quedar libre.</h3><p>Tendés cuando hay ropa y, al guardar la línea, recuperás el paso.</p></div>
-            {% render 'nd-slide-cta', product: tender, name: 'Tender retráctil' %}
+            {% render 'nd-slide-cta', product: tender, key: 'tender', preview_ok: preview_ok, name: 'Tender retráctil' %}
           </div>
         </div>
-        <div class="nd-slide" id="demo-3" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="4 de 5: Lápiz 3D más pizarra LED" aria-hidden="true">
+        <div class="nd-slide" id="demo-3" data-nd-slide data-tint="#ebe6fb" role="group" aria-roledescription="diapositiva" aria-label="4 de 5: Lápiz 3D más pizarra LED" aria-hidden="true">
           {% render 'nd-compare', start: 72, a: 'nd-nidomia-taller-placa-uso.webp', b: 'nd-nidomia-taller-placa-detail.webp', alt_a: 'Lápiz 3D dibujando una estrella de filamento', alt_b: 'Pizarra LED con un dibujo iluminado y siete marcadores', la: 'Figura de filamento', lb: 'Dibujo con luz', w: 960, h: 960, label: 'Deslizá para comparar la figura de filamento y el dibujo con luz', lazy: true %}
           <div class="nd-slide-info">
             <div><p class="nd-slide-cat">Creatividad · Lápiz 3D + pizarra LED</p><h3>Un kit, dos formas de crear.</h3><p>Levantás una figura con el lápiz o hacés brillar un dibujo en la pizarra.</p></div>
-            {% render 'nd-slide-cta', product: lapiz, name: 'Lápiz 3D + pizarra LED' %}
+            {% render 'nd-slide-cta', product: lapiz, key: 'lapiz', preview_ok: preview_ok, name: 'Lápiz 3D + pizarra LED' %}
           </div>
         </div>
-        <div class="nd-slide" id="demo-4" data-nd-slide role="group" aria-roledescription="diapositiva" aria-label="5 de 5: Arrancador e inflador Oryx" aria-hidden="true">
+        <div class="nd-slide" id="demo-4" data-nd-slide data-tint="#ffeede" role="group" aria-roledescription="diapositiva" aria-label="5 de 5: Arrancador e inflador Oryx" aria-hidden="true">
           {% render 'nd-compare', start: 72, a: 'nd-nidomia-auto-placa-hero.webp', b: 'nd-nidomia-auto-placa-uso.webp', alt_a: 'Oryx inflando una cubierta', alt_b: 'Oryx con las pinzas listas para asistir el arranque', la: 'Para la cubierta', lb: 'Para la batería', w: 960, h: 960, label: 'Deslizá para comparar el uso como inflador y como arrancador', lazy: true %}
           <div class="nd-slide-info">
             <div><p class="nd-slide-cat">Auto · Arrancador e inflador Oryx</p><h3>Una rueda baja o una batería sin carga.</h3><p>Los dos imprevistos se resuelven con un mismo equipo.</p></div>
-            {% render 'nd-slide-cta', product: arrancador, name: 'Arrancador e inflador Oryx' %}
+            {% render 'nd-slide-cta', product: arrancador, key: 'arrancador', preview_ok: preview_ok, name: 'Arrancador e inflador Oryx' %}
           </div>
         </div>
       </div>
@@ -99,18 +155,7 @@
     </div>
   </section>
 
-  {%- comment -%} 4 · OFERTAS: qué incluye, cuánto cuesta y cuánto se ahorra (precios reales de las variantes) {%- endcomment -%}
-  {%- capture s1 -%}{%- render 'nd-offer', mode: 'saving', product: mandolina, key: 'mandolina' -%}{%- endcapture -%}
-  {%- capture s2 -%}{%- render 'nd-offer', mode: 'saving', product: mopa, key: 'mopa' -%}{%- endcapture -%}
-  {%- capture s3 -%}{%- render 'nd-offer', mode: 'saving', product: tender, key: 'tender' -%}{%- endcapture -%}
-  {%- capture s4 -%}{%- render 'nd-offer', mode: 'saving', product: lapiz, key: 'lapiz' -%}{%- endcapture -%}
-  {%- capture s5 -%}{%- render 'nd-offer', mode: 'saving', product: arrancador, key: 'arrancador' -%}{%- endcapture -%}
-  {%- assign n1 = s1 | plus: 0 -%}{%- assign n2 = s2 | plus: 0 -%}{%- assign n3 = s3 | plus: 0 -%}{%- assign n4 = s4 | plus: 0 -%}{%- assign n5 = s5 | plus: 0 -%}
-  {%- assign top = n1 -%}
-  {%- if n2 > top -%}{%- assign top = n2 -%}{%- endif -%}
-  {%- if n3 > top -%}{%- assign top = n3 -%}{%- endif -%}
-  {%- if n4 > top -%}{%- assign top = n4 -%}{%- endif -%}
-  {%- if n5 > top -%}{%- assign top = n5 -%}{%- endif -%}
+  {%- comment -%} 4 · OFERTAS: qué incluye, cuánto cuesta, cuánto se ahorra y cuánto sale cada una (precios de variantes) {%- endcomment -%}
   {%- if top > 0 -%}
   <section class="nd-section nd-wrap nd-offers" id="packs" aria-labelledby="t-packs">
     <header class="nd-section-head" data-reveal>
@@ -120,16 +165,16 @@
     </header>
     <div class="nd-offers-list">
       {%- comment -%} Primero la de mayor ahorro, después las demás {%- endcomment -%}
-      {%- if n1 == top -%}{% render 'nd-offer', mode: 'row', product: mandolina, key: 'mandolina', name: 'Mandolina SupremeCut', img: 'nd-images-mandolina-estudio-cubos.webp', pos: '50% 59%', is_best: true %}{%- endif -%}
-      {%- if n2 == top -%}{% render 'nd-offer', mode: 'row', product: mopa, key: 'mopa', name: 'Mopa con escurridor', img: 'nd-nidomia-mopa-hero.webp', pos: '54% 57%', is_best: true %}{%- endif -%}
-      {%- if n3 == top -%}{% render 'nd-offer', mode: 'row', product: tender, key: 'tender', name: 'Tender retráctil', img: 'nd-nidomia-tender-hero.webp', pos: '39% 50%', is_best: true %}{%- endif -%}
-      {%- if n4 == top -%}{% render 'nd-offer', mode: 'row', product: lapiz, key: 'lapiz', name: 'Lápiz 3D + pizarra LED', img: 'nd-nidomia-taller-hero.webp', pos: '54% 50%', is_best: true %}{%- endif -%}
-      {%- if n5 == top -%}{% render 'nd-offer', mode: 'row', product: arrancador, key: 'arrancador', name: 'Arrancador e inflador Oryx', img: 'nd-nidomia-auto-hero.webp', pos: '50% 66%', is_best: true %}{%- endif -%}
-      {%- if n1 != top -%}{% render 'nd-offer', mode: 'row', product: mandolina, key: 'mandolina', name: 'Mandolina SupremeCut', img: 'nd-images-mandolina-estudio-cubos.webp', pos: '50% 59%' %}{%- endif -%}
-      {%- if n2 != top -%}{% render 'nd-offer', mode: 'row', product: mopa, key: 'mopa', name: 'Mopa con escurridor', img: 'nd-nidomia-mopa-hero.webp', pos: '54% 57%' %}{%- endif -%}
-      {%- if n3 != top -%}{% render 'nd-offer', mode: 'row', product: tender, key: 'tender', name: 'Tender retráctil', img: 'nd-nidomia-tender-hero.webp', pos: '39% 50%' %}{%- endif -%}
-      {%- if n4 != top -%}{% render 'nd-offer', mode: 'row', product: lapiz, key: 'lapiz', name: 'Lápiz 3D + pizarra LED', img: 'nd-nidomia-taller-hero.webp', pos: '54% 50%' %}{%- endif -%}
-      {%- if n5 != top -%}{% render 'nd-offer', mode: 'row', product: arrancador, key: 'arrancador', name: 'Arrancador e inflador Oryx', img: 'nd-nidomia-auto-hero.webp', pos: '50% 66%' %}{%- endif -%}
+      {%- if n1 == top -%}{% render 'nd-offer', mode: 'row', product: mandolina, key: 'mandolina', preview_ok: preview_ok, name: 'Mandolina SupremeCut', img: 'nd-images-mandolina-estudio-cubos.webp', pos: '50% 59%', tint: '#def1ff', is_best: true %}{%- endif -%}
+      {%- if n2 == top -%}{% render 'nd-offer', mode: 'row', product: mopa, key: 'mopa', preview_ok: preview_ok, name: 'Mopa con escurridor', img: 'nd-nidomia-mopa-hero.webp', pos: '54% 57%', tint: '#dcf4ef', is_best: true %}{%- endif -%}
+      {%- if n3 == top -%}{% render 'nd-offer', mode: 'row', product: tender, key: 'tender', preview_ok: preview_ok, name: 'Tender retráctil', img: 'nd-nidomia-tender-hero.webp', pos: '39% 50%', tint: '#e3ecf8', is_best: true %}{%- endif -%}
+      {%- if n4 == top -%}{% render 'nd-offer', mode: 'row', product: lapiz, key: 'lapiz', preview_ok: preview_ok, name: 'Lápiz 3D + pizarra LED', img: 'nd-nidomia-taller-hero.webp', pos: '54% 50%', tint: '#ebe6fb', is_best: true %}{%- endif -%}
+      {%- if n5 == top -%}{% render 'nd-offer', mode: 'row', product: arrancador, key: 'arrancador', preview_ok: preview_ok, name: 'Arrancador e inflador Oryx', img: 'nd-nidomia-auto-hero.webp', pos: '50% 66%', tint: '#ffeede', is_best: true %}{%- endif -%}
+      {%- if n1 != top -%}{% render 'nd-offer', mode: 'row', product: mandolina, key: 'mandolina', preview_ok: preview_ok, name: 'Mandolina SupremeCut', img: 'nd-images-mandolina-estudio-cubos.webp', pos: '50% 59%', tint: '#def1ff' %}{%- endif -%}
+      {%- if n2 != top -%}{% render 'nd-offer', mode: 'row', product: mopa, key: 'mopa', preview_ok: preview_ok, name: 'Mopa con escurridor', img: 'nd-nidomia-mopa-hero.webp', pos: '54% 57%', tint: '#dcf4ef' %}{%- endif -%}
+      {%- if n3 != top -%}{% render 'nd-offer', mode: 'row', product: tender, key: 'tender', preview_ok: preview_ok, name: 'Tender retráctil', img: 'nd-nidomia-tender-hero.webp', pos: '39% 50%', tint: '#e3ecf8' %}{%- endif -%}
+      {%- if n4 != top -%}{% render 'nd-offer', mode: 'row', product: lapiz, key: 'lapiz', preview_ok: preview_ok, name: 'Lápiz 3D + pizarra LED', img: 'nd-nidomia-taller-hero.webp', pos: '54% 50%', tint: '#ebe6fb' %}{%- endif -%}
+      {%- if n5 != top -%}{% render 'nd-offer', mode: 'row', product: arrancador, key: 'arrancador', preview_ok: preview_ok, name: 'Arrancador e inflador Oryx', img: 'nd-nidomia-auto-hero.webp', pos: '50% 66%', tint: '#ffeede' %}{%- endif -%}
     </div>
   </section>
   {%- endif -%}
@@ -142,6 +187,23 @@
         <h2 id="t-confianza">Comprá con <em>tranquilidad.</em></h2>
       </header>
       {% render 'nd-trust', mandolina: mandolina, mopa: mopa, tender: tender, lapiz: lapiz, arrancador: arrancador, ejemplos: ejemplos %}
+    </div>
+  </section>
+
+  {%- comment -%} Cierre: la promesa de la marca y lo que más importa, una vez más {%- endcomment -%}
+  <section class="nd-closing" aria-label="Elegí tu solución">
+    <span class="nd-orb nd-orb-a" aria-hidden="true"></span><span class="nd-orb nd-orb-b" aria-hidden="true"></span>
+    <div class="nd-wrap nd-closing-in" data-reveal>
+      <p class="nd-eyebrow nd-eyebrow-light">Tu casa, más fácil</p>
+      <h2>Menos tareas. <em>Más tiempo para vos.</em></h2>
+      <p class="nd-lede">Cinco soluciones simples para cocinar, limpiar y ordenar. Elegí la tuya y recibila sin vueltas.</p>
+      {%- if settings.nd_cuotas_on or settings.nd_envio_on -%}
+      <ul class="nd-hero-chips nd-hero-chips-light" aria-label="Beneficios de comprar en Nidomía">
+        {%- if settings.nd_cuotas_on -%}<li class="nd-chip-lg nd-chip-cuotas"><i>{% render 'nd-icon', name: 'card', size: 18 %}</i><span><b>{{ nd_n }} cuotas sin interés</b> con tarjeta</span></li>{%- endif -%}
+        {%- if settings.nd_envio_on -%}<li class="nd-chip-lg nd-chip-ship"><i class="nd-truck">{% render 'nd-icon', name: 'truck', size: 18 %}</i><span><b>{{ nd_envio_txt }}</b></span></li>{%- endif -%}
+      </ul>
+      {%- endif -%}
+      <a class="nd-btn nd-btn-light nd-btn-lg" href="#soluciones">Elegir mi solución {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
     </div>
   </section>
 </div>

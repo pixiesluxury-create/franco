@@ -1,24 +1,43 @@
 {%- comment -%}
-  Tarjeta de solución para la grilla del home: imagen, beneficio de una línea y precio real de Shopify.
+  Tarjeta de solución: el problema cotidiano, la imagen, el beneficio en una línea y el precio.
+  Usa nd-variants: con producto real son importes de Shopify; sin producto, solo en borrador, importes de ejemplo.
 {%- endcomment -%}
 {%- assign nd_n = settings.nd_cuotas | default: 3 -%}
-{%- assign nd_single = nil -%}
-{%- for v in product.variants -%}
-  {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
-  {%- if u == '1' and nd_single == nil -%}{%- assign nd_single = v -%}{%- endif -%}
+{%- capture nd_vlist -%}{%- render 'nd-variants', product: product, key: key, preview_ok: preview_ok -%}{%- endcapture -%}
+{%- assign nd_vl = nd_vlist | split: ';;' -%}
+{%- capture nd_url -%}{%- render 'nd-url', product: product, key: key -%}{%- endcapture -%}
+{%- assign nd_price = 0 -%}{%- assign nd_found = false -%}{%- assign nd_any = false -%}{%- assign nd_low = false -%}{%- assign nd_umbral = settings.nd_umbral_stock | default: 5 -%}
+{%- for row in nd_vl -%}
+  {%- assign f = row | split: '|' -%}
+  {%- if f[4] == '1' -%}{%- assign nd_any = true -%}{%- endif -%}
+  {%- if f[1] == '1' and nd_found == false -%}{%- assign nd_price = f[2] | plus: 0 -%}{%- assign nd_found = true -%}
+    {%- assign q = f[8] | plus: 0 -%}{%- if f[7] == 'shopify' and f[9] == 'deny' and q > 0 and q <= nd_umbral -%}{%- assign nd_low = true -%}{%- endif -%}
+  {%- endif -%}
 {%- endfor -%}
-{%- if nd_single == nil -%}{%- assign nd_single = product.first_available_variant | default: product.variants.first -%}{%- endif -%}
-<a class="nd-card{% if wide %} nd-card-wide{% endif %}" href="{{ product.url | default: routes.root_url }}" data-reveal style="--pos: {{ pos }}">
-  <span class="nd-card-media"><img src="{{ img | asset_url }}" alt="{{ alt | escape }}" width="{{ w | default: 960 }}" height="{{ h | default: 960 }}" loading="lazy" decoding="async"></span>
+{%- if nd_found == false and nd_vl.size > 0 -%}{%- assign f = nd_vl[0] | split: '|' -%}{%- assign nd_price = f[2] | plus: 0 -%}{%- endif -%}
+<a class="nd-card{% if wide %} nd-card-wide{% endif %}" href="{{ nd_url }}" data-reveal style="--pos: {{ pos }}; --tint: {{ tint | default: '#eaf4fd' }}">
+  <span class="nd-card-media">
+    <img src="{{ img | asset_url }}" alt="{{ alt | escape }}" width="{{ w | default: 960 }}" height="{{ h | default: 960 }}" loading="lazy" decoding="async">
+    {%- if nd_low -%}<span class="nd-card-low"><i class="nd-tag nd-tag-warn">Últimas unidades</i></span>{%- endif -%}
+    {%- if settings.nd_envio_on or settings.nd_cuotas_on -%}
+    <span class="nd-card-chips" aria-hidden="true">
+      {%- if settings.nd_envio_on -%}<i class="nd-chip nd-chip-ship">{% render 'nd-icon', name: 'truck', size: 14 %}Envío gratis</i>{%- endif -%}
+      {%- if settings.nd_cuotas_on -%}<i class="nd-chip nd-chip-cuotas">{% render 'nd-icon', name: 'card', size: 14 %}{{ nd_n }} cuotas sin interés</i>{%- endif -%}
+    </span>
+    {%- endif -%}
+  </span>
   <span class="nd-card-body">
     <span class="nd-card-cat">{{ cat }}{% if product.tags contains 'mas-vendido' %}<i class="nd-tag nd-tag-sky">Más vendido</i>{% endif %}</span>
+    {%- if problem -%}<span class="nd-card-problem">{{ problem }}</span>{%- endif -%}
     <h3 class="nd-card-title">{{ name }}</h3>
     <span class="nd-card-line">{{ line }}</span>
-    {%- if product != blank and nd_single != blank -%}
+    {%- if nd_vl.size > 0 -%}
       <span class="nd-card-price">
-        <span class="nd-card-row">{%- if product.available -%}<b>{{ nd_single.price | money_without_trailing_zeros }}</b>{%- else -%}<b class="nd-soldout">Agotado</b>{%- endif -%}<span class="nd-card-go" aria-hidden="true">{% render 'nd-icon', name: 'arrow', size: 18 %}</span></span>
-        {%- if product.available and settings.nd_cuotas_on -%}<small>{{ nd_n }} cuotas de {% render 'nd-cuota', price: nd_single.price, n: nd_n %}</small>{%- endif -%}
+        <span class="nd-card-row">{%- if nd_any -%}<b>{{ nd_price | money_without_trailing_zeros }}</b>{%- else -%}<b class="nd-soldout">Agotado</b>{%- endif -%}<span class="nd-card-go" aria-hidden="true">{% render 'nd-icon', name: 'arrow', size: 18 %}</span></span>
+        {%- if nd_any and settings.nd_cuotas_on -%}<small>{{ nd_n }} cuotas de {% render 'nd-cuota', price: nd_price, n: nd_n %}</small>{%- endif -%}
       </span>
+    {%- else -%}
+      <span class="nd-card-price"><span class="nd-card-row"><b class="nd-soldout">Ver producto</b><span class="nd-card-go" aria-hidden="true">{% render 'nd-icon', name: 'arrow', size: 18 %}</span></span></span>
     {%- endif -%}
   </span>
   <span class="nd-sr">Ver {{ name }}</span>

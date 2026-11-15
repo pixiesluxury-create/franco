@@ -117,7 +117,7 @@ function buildGlobals(extra = {}) {
   return {
     settings,
     all_products,
-    collections: {},
+    collections: { all: { products: fx.collectionsAll !== undefined ? fx.collectionsAll : Object.values(fx.products) } },
     routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', cart_change_url: '/cart/change', cart_update_url: '/cart/update', cart_clear_url: '/cart/clear', search_url: '/search', account_url: '/account', account_login_url: '/account/login', collections_url: '/collections', all_products_collection_url: '/collections/all', predictive_search_url: '/search/suggest' },
     shop: fx.shop,
     theme: { role: role, name: 'Nidomía' },
@@ -243,7 +243,11 @@ http.createServer(async (req, res) => {
     else if (p.startsWith('/products/')) {
       const h = p.split('/')[2];
       const prod = Object.values(fx.products).find(x => x.handle === h);
-      if (!prod) { res.writeHead(404); return res.end('producto no encontrado'); }
+      if (!prod) {
+        const h404 = await renderTemplate('404', { page_type: '404', path: p, title: '404' });
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
+        return res.end(h404);
+      }
       html = await renderTemplate('product', { page_type: 'product', path: p, product: prod, title: prod.title });
     } else if (p === '/cart') html = await renderTemplate('cart', { page_type: 'cart', path: '/cart' });
     else { res.writeHead(404, { 'Content-Type': 'text/plain' }); return res.end('404 ' + p); }

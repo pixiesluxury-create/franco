@@ -1,0 +1,24 @@
+{%- comment -%}
+  Lista normalizada de variantes, para que fichas, tarjetas y ofertas funcionen igual con un producto real
+  y con la vista previa. Una variante por tramo, separadas por ";;". Campos separados por "|":
+  id | unidades | precio (centavos) | precio comparado | disponible (1/0) | nombre | sku | gestión de inventario | stock | política
+  · Producto real de Shopify: salen sus variantes tal cual (importes reales).
+  · Sin producto y SOLO en borrador/editor (preview_ok): importes de EJEMPLO para poder revisar el diseño.
+    Esos importes son los de respaldo que traía el tema original; en la tienda publicada nunca se usan.
+{%- endcomment -%}
+{%- if product != blank -%}
+  {%- for v in product.variants -%}
+    {%- capture u -%}{%- render 'nd-units', title: v.title -%}{%- endcapture -%}
+    {%- assign av = 0 -%}{%- if v.available -%}{%- assign av = 1 -%}{%- endif -%}
+    {{- v.id -}}|{{- u -}}|{{- v.price -}}|{{- v.compare_at_price | default: 0 -}}|{{- av -}}|{{- v.title -}}|{{- v.sku -}}|{{- v.inventory_management -}}|{{- v.inventory_quantity | default: 0 -}}|{{- v.inventory_policy -}}
+    {%- unless forloop.last -%};;{%- endunless -%}
+  {%- endfor -%}
+{%- elsif preview_ok -%}
+  {%- case key -%}
+    {%- when 'mandolina' -%}preview-mandolina-1|1|5499000|0|1|1 unidad||||;;preview-mandolina-2|2|9348300|0|1|2 unidades||||;;preview-mandolina-4|4|16497000|0|1|3+1 de regalo||||
+    {%- when 'mopa' -%}preview-mopa-1|1|5099000|0|1|1 unidad||||;;preview-mopa-2|2|9688100|0|1|2 unidades||||
+    {%- when 'tender' -%}preview-tender-1|1|5999000|0|1|1 unidad||||;;preview-tender-2|2|11398100|0|1|2 unidades||||
+    {%- when 'lapiz' -%}preview-lapiz-1|1|6999000|0|1|1 unidad||||;;preview-lapiz-2|2|13298100|0|1|2 unidades||||
+    {%- when 'arrancador' -%}preview-arrancador-1|1|14999000|0|1|1 unidad||||;;preview-arrancador-2|2|28498100|0|1|2 unidades||||
+  {%- endcase -%}
+{%- endif -%}
