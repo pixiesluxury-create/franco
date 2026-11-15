@@ -124,7 +124,7 @@
       box.style.setProperty('--split', p + '%');
       range.value = Math.round(p);
       range.setAttribute('aria-valuetext', Math.round(p) + '% de la vista de «' + la + '»');
-      $$('[data-nd-cmp]', box).forEach(function (b) { b.setAttribute('aria-pressed', String(Number(b.getAttribute('data-nd-cmp')) === Math.round(p))); });
+      $$('[data-nd-cmp]', box).forEach(function (b) { b.setAttribute('aria-pressed', String((Number(b.getAttribute('data-nd-cmp')) === 100) === (p >= 50))); });
     }
     function fromEvent(e) { var r = frame.getBoundingClientRect(); return ((e.clientX - r.left) / r.width) * 100; }
     function stopAnim() { if (anim) { cancelAnimationFrame(anim); anim = null; } }

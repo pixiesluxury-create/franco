@@ -108,40 +108,25 @@
       </header>
 
       <div class="nd-deck" data-nd-deck aria-roledescription="carrusel" aria-label="Demostraciones por producto">
-        <div class="nd-slide is-active" id="demo-0" data-nd-slide data-tint="#def1ff" role="group" aria-roledescription="diapositiva" aria-label="1 de 5: Mandolina SupremeCut">
-          {% render 'nd-compare', a: 'nd-images-supremecut-pepino-entero.webp', b: 'nd-images-supremecut-pepino-rodajas.webp', alt_a: 'Pepino entero junto a la mandolina con el recipiente vacío', alt_b: 'Pepino en rodajas dentro del recipiente de la mandolina', la: 'Antes', lb: 'Después', w: 1200, h: 800, label: 'Deslizá para comparar el pepino entero y las rodajas' %}
-          <div class="nd-slide-info">
-            <div><p class="nd-slide-cat">Cocina · Mandolina SupremeCut</p><h3>De un pepino entero a rodajas listas.</h3><p>Pasás la verdura y el corte cae directo al recipiente.</p></div>
-            {% render 'nd-slide-cta', product: mandolina, key: 'mandolina', preview_ok: preview_ok, name: 'Mandolina SupremeCut' %}
-          </div>
+        <div class="nd-slide is-active" id="demo-0" data-nd-slide data-tint="#def1ff" style="--tint: #def1ff; --tint-2: #b2d8f7" role="group" aria-roledescription="diapositiva" aria-label="1 de 5: Mandolina SupremeCut">
+          <div class="nd-slide-media">{% render 'nd-compare', a: 'nd-images-supremecut-pepino-entero.webp', b: 'nd-images-supremecut-pepino-rodajas.webp', alt_a: 'Pepino entero junto a la mandolina con el recipiente vacío', alt_b: 'Pepino en rodajas dentro del recipiente de la mandolina', la: 'Antes · entero', lb: 'Después · rodajas', w: 1200, h: 800, label: 'Deslizá para comparar el pepino entero y las rodajas', chips: true %}</div>
+          {% render 'nd-slide-info', num: '01', cat: 'Cocina', name: 'Mandolina SupremeCut', problem: '¿Picar es lo que más te demora?', title: 'De un pepino entero a rodajas listas.', lead: 'Pasás la verdura y el corte cae directo al recipiente.', bullets: 'Tres cortes con un solo utensilio||Todo cae al recipiente||Se desarma para lavar', product: mandolina, key: 'mandolina', preview_ok: preview_ok %}
         </div>
-        <div class="nd-slide" id="demo-1" data-nd-slide data-tint="#dcf4ef" role="group" aria-roledescription="diapositiva" aria-label="2 de 5: Mopa con escurridor" aria-hidden="true">
-          {% render 'nd-compare', start: 72, a: 'nd-nidomia-mopa-placa-hero.webp', b: 'nd-nidomia-mopa-placa-detail.webp', alt_a: 'Mopa plana con balde de dos ranuras y dos paños de microfibra', alt_b: 'Balde desde arriba: una ranura enjuaga y la otra escurre', la: 'El kit', lb: 'Las dos ranuras', w: 960, h: 960, label: 'Deslizá para comparar el kit de la mopa y las dos ranuras del balde', lazy: true %}
-          <div class="nd-slide-info">
-            <div><p class="nd-slide-cat">Limpieza · Mopa con escurridor</p><h3>Un lado enjuaga. El otro escurre.</h3><p>Pasás el paño de una ranura a la otra, sin retorcerlo.</p></div>
-            {% render 'nd-slide-cta', product: mopa, key: 'mopa', preview_ok: preview_ok, name: 'Mopa con escurridor' %}
-          </div>
+        <div class="nd-slide" id="demo-1" data-nd-slide data-tint="#dcf4ef" style="--tint: #dcf4ef; --tint-2: #a9e2d4" role="group" aria-roledescription="diapositiva" aria-label="2 de 5: Mopa con escurridor" aria-hidden="true">
+          <div class="nd-slide-media">{% render 'nd-compare', start: 72, a: 'nd-nidomia-mopa-placa-hero.webp', b: 'nd-nidomia-mopa-placa-detail.webp', alt_a: 'Mopa plana con balde de dos ranuras y dos paños de microfibra', alt_b: 'Balde desde arriba: una ranura enjuaga y la otra escurre', la: 'El kit', lb: 'Las dos ranuras', w: 960, h: 960, label: 'Deslizá para comparar el kit de la mopa y las dos ranuras del balde', lazy: true %}</div>
+          {% render 'nd-slide-info', num: '02', cat: 'Limpieza', name: 'Mopa con escurridor', problem: '¿Escurrís el trapo con las manos?', title: 'Un lado enjuaga. El otro escurre.', lead: 'Pasás el paño de una ranura a la otra, sin retorcerlo.', bullets: 'Manos fuera del balde||Hasta el zócalo||Un paño de recambio', product: mopa, key: 'mopa', preview_ok: preview_ok %}
         </div>
-        <div class="nd-slide" id="demo-2" data-nd-slide data-tint="#e3ecf8" role="group" aria-roledescription="diapositiva" aria-label="3 de 5: Tender retráctil" aria-hidden="true">
-          {% render 'nd-compare', start: 72, a: 'nd-nidomia-tender-placa-uso.webp', b: 'nd-nidomia-tender-placa-detail.webp', alt_a: 'Tender con la línea extendida a la medida', alt_b: 'Tender con la línea recogida y la pared libre', la: 'Línea extendida', lb: 'Línea recogida', w: 960, h: 960, label: 'Deslizá para comparar el tender con la línea extendida y recogida', lazy: true %}
-          <div class="nd-slide-info">
-            <div><p class="nd-slide-cat">Lavadero · Tender retráctil</p><h3>El balcón vuelve a quedar libre.</h3><p>Tendés cuando hay ropa y, al guardar la línea, recuperás el paso.</p></div>
-            {% render 'nd-slide-cta', product: tender, key: 'tender', preview_ok: preview_ok, name: 'Tender retráctil' %}
-          </div>
+        <div class="nd-slide" id="demo-2" data-nd-slide data-tint="#e3ecf8" style="--tint: #e3ecf8; --tint-2: #b9cdee" role="group" aria-roledescription="diapositiva" aria-label="3 de 5: Tender retráctil" aria-hidden="true">
+          <div class="nd-slide-media">{% render 'nd-compare', start: 72, a: 'nd-nidomia-tender-placa-uso.webp', b: 'nd-nidomia-tender-placa-detail.webp', alt_a: 'Tender con la línea extendida a la medida', alt_b: 'Tender con la línea recogida y la pared libre', la: 'Línea extendida', lb: 'Línea recogida', w: 960, h: 960, label: 'Deslizá para comparar el tender con la línea extendida y recogida', lazy: true %}</div>
+          {% render 'nd-slide-info', num: '03', cat: 'Lavadero', name: 'Tender retráctil', problem: '¿El tender te ocupa el balcón?', title: 'El balcón vuelve a quedar libre.', lead: 'Tendés cuando hay ropa y, al guardar la línea, recuperás el paso.', bullets: 'Hasta 4 metros de línea||Tensión ajustable||El piso queda libre', product: tender, key: 'tender', preview_ok: preview_ok %}
         </div>
-        <div class="nd-slide" id="demo-3" data-nd-slide data-tint="#ebe6fb" role="group" aria-roledescription="diapositiva" aria-label="4 de 5: Lápiz 3D más pizarra LED" aria-hidden="true">
-          {% render 'nd-compare', start: 72, a: 'nd-nidomia-taller-placa-uso.webp', b: 'nd-nidomia-taller-placa-detail.webp', alt_a: 'Lápiz 3D dibujando una estrella de filamento', alt_b: 'Pizarra LED con un dibujo iluminado y siete marcadores', la: 'Figura de filamento', lb: 'Dibujo con luz', w: 960, h: 960, label: 'Deslizá para comparar la figura de filamento y el dibujo con luz', lazy: true %}
-          <div class="nd-slide-info">
-            <div><p class="nd-slide-cat">Creatividad · Lápiz 3D + pizarra LED</p><h3>Un kit, dos formas de crear.</h3><p>Levantás una figura con el lápiz o hacés brillar un dibujo en la pizarra.</p></div>
-            {% render 'nd-slide-cta', product: lapiz, key: 'lapiz', preview_ok: preview_ok, name: 'Lápiz 3D + pizarra LED' %}
-          </div>
+        <div class="nd-slide" id="demo-3" data-nd-slide data-tint="#ebe6fb" style="--tint: #ebe6fb; --tint-2: #cdc1f4" role="group" aria-roledescription="diapositiva" aria-label="4 de 5: Lápiz 3D + pizarra LED" aria-hidden="true">
+          <div class="nd-slide-media">{% render 'nd-compare', start: 72, a: 'nd-nidomia-taller-placa-uso.webp', b: 'nd-nidomia-taller-placa-detail.webp', alt_a: 'Lápiz 3D dibujando una estrella de filamento', alt_b: 'Pizarra LED con un dibujo iluminado y siete marcadores', la: 'Figura de filamento', lb: 'Dibujo con luz', w: 960, h: 960, label: 'Deslizá para comparar la figura de filamento y el dibujo con luz', lazy: true %}</div>
+          {% render 'nd-slide-info', num: '04', cat: 'Creatividad', name: 'Lápiz 3D + pizarra LED', problem: '¿Otro dibujo que queda en el papel?', title: 'Un kit, dos formas de crear.', lead: 'Levantás una figura con el lápiz o hacés brillar un dibujo en la pizarra.', bullets: 'Creá en volumen||Dibujá con luz||Dos actividades en un kit', product: lapiz, key: 'lapiz', preview_ok: preview_ok %}
         </div>
-        <div class="nd-slide" id="demo-4" data-nd-slide data-tint="#ffeede" role="group" aria-roledescription="diapositiva" aria-label="5 de 5: Arrancador e inflador Oryx" aria-hidden="true">
-          {% render 'nd-compare', start: 72, a: 'nd-nidomia-auto-placa-hero.webp', b: 'nd-nidomia-auto-placa-uso.webp', alt_a: 'Oryx inflando una cubierta', alt_b: 'Oryx con las pinzas listas para asistir el arranque', la: 'Para la cubierta', lb: 'Para la batería', w: 960, h: 960, label: 'Deslizá para comparar el uso como inflador y como arrancador', lazy: true %}
-          <div class="nd-slide-info">
-            <div><p class="nd-slide-cat">Auto · Arrancador e inflador Oryx</p><h3>Una rueda baja o una batería sin carga.</h3><p>Los dos imprevistos se resuelven con un mismo equipo.</p></div>
-            {% render 'nd-slide-cta', product: arrancador, key: 'arrancador', preview_ok: preview_ok, name: 'Arrancador e inflador Oryx' %}
-          </div>
+        <div class="nd-slide" id="demo-4" data-nd-slide data-tint="#ffeede" style="--tint: #ffeede; --tint-2: #ffcfa6" role="group" aria-roledescription="diapositiva" aria-label="5 de 5: Arrancador e inflador Oryx" aria-hidden="true">
+          <div class="nd-slide-media">{% render 'nd-compare', start: 72, a: 'nd-nidomia-auto-placa-hero.webp', b: 'nd-nidomia-auto-placa-uso.webp', alt_a: 'Oryx inflando una cubierta', alt_b: 'Oryx con las pinzas listas para asistir el arranque', la: 'Para la cubierta', lb: 'Para la batería', w: 960, h: 960, label: 'Deslizá para comparar el uso como inflador y como arrancador', lazy: true %}</div>
+          {% render 'nd-slide-info', num: '05', cat: 'Auto', name: 'Arrancador e inflador Oryx', problem: '¿Rueda baja o batería sin carga?', title: 'Una rueda baja o una batería sin carga.', lead: 'Los dos imprevistos se resuelven con un mismo equipo.', bullets: 'Inflado con corte automático||Asistencia de arranque en 12 V||Luz a mano', product: arrancador, key: 'arrancador', preview_ok: preview_ok %}
         </div>
       </div>
 

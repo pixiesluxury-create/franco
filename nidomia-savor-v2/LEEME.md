@@ -1,4 +1,4 @@
-# Nidomía · tema v2.1 (borrador para revisar)
+# Nidomía · tema v2.2 (borrador para revisar)
 
 Copia del tema que ya tenían, con el home, las cinco fichas y el carrito rediseñados.
 El tema original no se tocó: esto es una copia aparte.
@@ -21,7 +21,15 @@ El tema original no se tocó: esto es una copia aparte.
 
 No pude subirlo yo: no tengo acceso a tu Shopify. Todo lo de abajo se probó con productos de prueba (ver «Qué no pude verificar»).
 
-## Novedades de esta versión (v2.1)
+## Novedades de la v2.2: la demostración «Una solución para cada día»
+
+Estaba demasiado básica (una placa pálida con letra chica y mucho aire). Ahora cada producto tiene su propia escena:
+- **Texto con jerarquía:** categoría en una etiqueta de color, el problema en cursiva («¿Picar es lo que más te demora?»), título grande (hasta 56 px), tres beneficios como chips con tilde y un número gigante de fondo (01 a 05).
+- **Caja de compra propia:** precio grande, píldoras de «3 cuotas sin interés» y «Envío gratis» (respetan los ajustes) y un botón **navy** a la ficha, para no competir con el azul de «Agregar al carrito».
+- **Imagen con profundidad:** forma de color del producto detrás de la foto y un **selector grande** («Figura de filamento · Dibujo con luz») debajo del comparador. Antes los rótulos se montaban sobre los títulos que ya traen las imágenes. Con fotos limpias (la mandolina) los rótulos siguen sobre la imagen.
+- **Movimiento con sentido:** al cambiar de producto, el fondo pasa al color de ese producto y los textos entran escalonados. Con «reducir movimiento» no hay entradas animadas.
+
+## Novedades de la v2.1
 
 ### 1. Las tarjetas ya no vuelven al home
 **Qué pasaba:** si Shopify no devolvía el producto (borrador, sin publicar, sin el canal «Tienda online» o con otra dirección), la tarjeta apuntaba al home. La versión anterior del tema abría una vista previa en ese caso; la v2 no.

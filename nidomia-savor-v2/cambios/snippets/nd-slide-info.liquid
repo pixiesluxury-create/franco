@@ -1,0 +1,41 @@
+{%- comment -%}
+  Texto y compra de cada demostración del home: categoría, problema cotidiano, título grande, tres beneficios,
+  precio de Shopify con cuotas y envío, y acceso a la ficha. Los importes salen de nd-variants.
+{%- endcomment -%}
+{%- assign nd_n = settings.nd_cuotas | default: 3 -%}
+{%- capture nd_vlist -%}{%- render 'nd-variants', product: product, key: key, preview_ok: preview_ok -%}{%- endcapture -%}
+{%- assign nd_vl = nd_vlist | split: ';;' -%}
+{%- capture nd_url -%}{%- render 'nd-url', product: product, key: key -%}{%- endcapture -%}
+{%- assign nd_price = 0 -%}{%- assign nd_found = false -%}{%- assign nd_any = false -%}
+{%- for row in nd_vl -%}
+  {%- assign f = row | split: '|' -%}
+  {%- if f[4] == '1' -%}{%- assign nd_any = true -%}{%- endif -%}
+  {%- if f[1] == '1' and nd_found == false -%}{%- assign nd_price = f[2] | plus: 0 -%}{%- assign nd_found = true -%}{%- endif -%}
+{%- endfor -%}
+{%- assign nd_items = bullets | split: '||' -%}
+<div class="nd-slide-info">
+  <span class="nd-slide-num" aria-hidden="true">{{ num }}</span>
+  <div class="nd-slide-copy">
+    <p class="nd-slide-cat"><i class="nd-chip-cat">{{ cat }}</i><span>{{ name }}</span></p>
+    <p class="nd-slide-problem">{{ problem }}</p>
+    <h3>{{ title }}</h3>
+    <p class="nd-slide-lead">{{ lead }}</p>
+    <ul class="nd-slide-bullets">
+      {%- for it in nd_items -%}<li><i>{% render 'nd-icon', name: 'check', size: 16, stroke: 3 %}</i>{{ it }}</li>{%- endfor -%}
+    </ul>
+  </div>
+  <div class="nd-slide-cta">
+    {%- if nd_any -%}
+    <div class="nd-slide-buy">
+      <p class="nd-slide-price"><b>{{ nd_price | money_without_trailing_zeros }}</b></p>
+      {%- if settings.nd_cuotas_on or settings.nd_envio_on -%}
+      <div class="nd-slide-pills">
+        {%- if settings.nd_cuotas_on -%}<span class="nd-pill nd-pill-cuotas"><span class="nd-pill-ico">{% render 'nd-icon', name: 'card', size: 17 %}</span><span><b>{{ nd_n }} cuotas de {% render 'nd-cuota', price: nd_price, n: nd_n %}</b> sin interés</span></span>{%- endif -%}
+        {%- if settings.nd_envio_on -%}<span class="nd-pill nd-pill-ship"><span class="nd-pill-ico nd-truck">{% render 'nd-icon', name: 'truck', size: 17 %}</span><span><b>{{ settings.nd_envio_texto | default: 'Envío gratis a todo el país' }}</b></span></span>{%- endif -%}
+      </div>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+    <a class="nd-btn nd-btn-dark nd-btn-lg nd-slide-go" href="{{ nd_url }}">Ver {{ name }} {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
+  </div>
+</div>

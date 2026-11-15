@@ -75,7 +75,7 @@ const norm = s => String(s).replace(/\s+/g, ' ').trim();
   const after = await sp();
   ok('demo: el antes/después se arrastra con el dedo', after > before + 20, `${before}% → ${after}%`);
   await shot('03-demo');
-  const goto = await page.$eval('#demo-0 .nd-slide-cta .nd-link', a => a.getAttribute('href'));
+  const goto = await page.$eval('#demo-0 .nd-slide-go', a => a.getAttribute('href'));
   ok('demo: debajo hay acceso a la ficha de la mandolina', /mandolina/.test(goto), goto);
 
   /* ---------- OFERTAS ---------- */
