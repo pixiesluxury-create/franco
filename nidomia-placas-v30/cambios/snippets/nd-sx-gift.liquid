@@ -1,0 +1,27 @@
+{%- comment -%}
+  «Para regalar»: texto propio de cada producto y botón que lleva a la compra. Entradas: key, has_save (ahorro de packs en centavos).
+{%- endcomment -%}
+{%- assign sx_t = '' -%}
+{%- case key -%}
+  {%- when 'mandolina' -%}
+    {%- assign sx_t = 'Un regalo que se usa <em>todos los días.</em>' -%}{%- assign sx_p = 'Para quien se muda, arma su primera cocina o cocina para toda la familia: cubos, rodajas y rallado en un solo utensilio.' -%}
+  {%- when 'mopa' -%}
+    {%- assign sx_t = 'Un regalo útil para <em>el primer departamento.</em>' -%}{%- assign sx_p = 'Para quien se muda o arma su casa: un balde que enjuaga y escurre, y dos paños de microfibra para alternar.' -%}
+  {%- when 'tender' -%}
+    {%- assign sx_t = 'Pensado para <em>los espacios chicos.</em>' -%}{%- assign sx_p = 'Para quien vive en un departamento o tiene poco lugar para secar la ropa: una línea de hasta 4 metros que se guarda en la pared. Medí antes dónde se va a instalar.' -%}
+  {%- when 'lapiz' -%}
+    {%- assign sx_t = 'Un regalo para quien <em>disfruta de crear.</em>' -%}{%- assign sx_p = 'Para un cumpleaños, las vacaciones o una tarde de lluvia: figuras que se arman en volumen y dibujos con luz que se borran y se repiten. El lápiz se usa siempre acompañado por un adulto.' -%}
+  {%- when 'arrancador' -%}
+    {%- assign sx_t = 'Un regalo para quien <em>maneja seguido.</em>' -%}{%- assign sx_p = 'Un equipo para tener en el baúl: infla, asiste el arranque en sistemas de 12 V compatibles y trae linterna. Antes de regalarlo, revisá el voltaje y el manual del OR-EVS6K.' -%}
+{%- endcase -%}
+{%- if sx_t != blank -%}
+<section class="nd-section nd-wrap nd-sx nd-sx-gift" data-sx aria-labelledby="t-sx-gift">
+  <div class="nd-sx-gift-box" data-reveal>
+    <span class="nd-sx-gift-ico">{% render 'nd-sx-icon', name: 'gift', size: 34 %}</span>
+    <p class="nd-eyebrow">Para regalar</p>
+    <h2 id="t-sx-gift">{{ sx_t }}</h2>
+    <p class="nd-lede">{{ sx_p }}{% if has_save > 0 %} En la elección del pack ves cuánto ahorrás si llevás más de una unidad.{% endif %}</p>
+    <a class="nd-btn nd-btn-dark nd-btn-lg" data-magnet href="#comprar">Ir a comprar {% render 'nd-icon', name: 'arrow', size: 20 %}</a>
+  </div>
+</section>
+{%- endif -%}

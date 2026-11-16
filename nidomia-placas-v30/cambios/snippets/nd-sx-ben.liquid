@@ -1,0 +1,56 @@
+{%- comment -%}
+  «Por qué te va a servir»: cuatro beneficios y tres datos. Todo sale de la ficha de cada producto (medidas, piezas, funciones).
+  Formato de los datos: ítems separados por ||, campos por ::. En los datos, un cuarto campo «c» anima el número.
+  Entrada: key.
+{%- endcomment -%}
+{%- assign sx_t = '' -%}
+{%- case key -%}
+  {%- when 'mandolina' -%}
+    {%- assign sx_t = 'Picar deja de ser <em>lo que más tarda.</em>' -%}
+    {%- assign sx_l = 'Menos tabla, menos pasos y todo en un solo recipiente.' -%}
+    {%- assign sx_i = 'grid::Tres cortes, un solo utensilio::Cubos para el salteado, rodajas para la ensalada y rallado para la tortilla: cambiás la cuchilla y listo.||bowl::Todo cae al recipiente::Bajás la tapa y lo que cortaste queda listo para volcar a la sartén o al bol, sin pasar por la tabla.||shield::Protector para sujetar::Sujetás la verdura con el protector mientras rebanás. Apoyá la mandolina sobre una mesada firme.||drop::Se desarma para lavar::Separás el recipiente y la cuchilla que usaste; el peine saca lo que queda entre los cuadrados de la rejilla.' -%}
+    {%- assign sx_s = '3::cortes::cubos, rodajas y rallado::c||1::recipiente::para todo lo que cortás::c||5::elementos::cuchillas, tapa, protector, recipiente y peine::c' -%}
+  {%- when 'mopa' -%}
+    {%- assign sx_t = 'Trapear sin <em>retorcer el trapo.</em>' -%}
+    {%- assign sx_l = 'Un balde que enjuaga y escurre, y un cabezal que llega hasta el zócalo.' -%}
+    {%- assign sx_i = 'drop::Manos fuera del balde::Con el movimiento del cabo pasás el paño de una ranura, que enjuaga, a la otra, que retira el exceso de agua. Sin tocarlo.||ruler::Hasta el zócalo::El cabezal plano y giratorio, de 33 × 12 cm, acompaña el borde del piso.||layers::Dos paños de microfibra::Alterná: mientras uno se seca, seguís con el otro. Son desmontables y los lavás aparte.||home::Un balde angosto::Ocupa poco lugar: aprox. 18 × 16 cm de piso y 36 cm de alto.' -%}
+    {%- assign sx_s = '2::ranuras::una enjuaga y otra escurre::c||2::paños::de microfibra, desmontables::c||1,20 m::de cabo::para trabajar de pie' -%}
+  {%- when 'tender' -%}
+    {%- assign sx_t = 'Tendés cuando <em>lo necesitás.</em>' -%}
+    {%- assign sx_l = 'Una línea que sale de la pared cuando hay ropa y se guarda al terminar.' -%}
+    {%- assign sx_i = 'ruler::Hasta 4 metros de línea::Aprovechá la distancia entre dos puntos de fijación enfrentados. Medí antes de elegir dónde ponerlo.||compare::Tensión ajustable::La traba y la perilla fijan la línea antes de colgar la primera prenda.||home::El piso queda libre::Va a la pared y se recoge al terminar: volvés a pasar por el balcón o el lavadero.||shield::Cable de acero inoxidable::La línea es de acero inoxidable y el cuerpo mide aprox. 11 × 8 × 4 cm.' -%}
+    {%- assign sx_s = '4 m::de línea::como máximo||2::puntos de fijación::el cuerpo y el enganche, enfrentados::c||Acero::inoxidable::el cable' -%}
+  {%- when 'lapiz' -%}
+    {%- assign sx_t = 'Creá en volumen <em>y dibujá con luz.</em>' -%}
+    {%- assign sx_l = 'Un kit con lápiz 3D y pizarra LED para alternar según las ganas.' -%}
+    {%- assign sx_i = 'layers::Creá en volumen::Seguí un contorno con el filamento y uní piezas cuando estén firmes.||sparkle::Dibujá con luz::Marcador sobre la placa con luz LED: borrás con el paño y empezás de nuevo.||pen::Siete marcadores y un paño::Lo que hace falta para dibujar en la pizarra viene en el kit.||shield::Para usar acompañado::El lápiz trabaja con una punta caliente: un adulto debe acompañar el uso y seguir las indicaciones del modelo.' -%}
+    {%- assign sx_s = '2::actividades::lápiz 3D y pizarra LED::c||7::marcadores::incluidos en el kit::c||20×30::cm de pizarra::placa acrílica con luz LED' -%}
+  {%- when 'arrancador' -%}
+    {%- assign sx_t = 'Inflás, asistís el arranque <em>y tenés luz.</em>' -%}
+    {%- assign sx_l = 'Un solo equipo para la rueda baja y la batería sin carga.' -%}
+    {%- assign sx_i = 'gauge::Inflado con corte automático::Elegí la presión que indica tu vehículo y seguí la lectura en pantalla: el equipo corta al llegar al valor elegido.||bolt::Asistencia de arranque en 12 V::Las pinzas asisten una batería descargada en vehículos compatibles. Leé el manual del OR-EVS6K antes de usarlo.||bulb::Linterna integrada::Te ayuda a ver la válvula o los accesorios con poca luz.||box::Recarga por USB-C::Todo viaja junto en el baúl y el equipo se recarga por USB-C.' -%}
+    {%- assign sx_s = '12 V::compatibles::para la asistencia de arranque||1::equipo::inflador, arranque y linterna::c||USB-C::recarga::del equipo' -%}
+{%- endcase -%}
+{%- if sx_t != blank -%}
+{%- assign sx_items = sx_i | split: '||' -%}
+{%- assign sx_stats = sx_s | split: '||' -%}
+<section class="nd-section nd-wrap nd-sx nd-sx-ben" data-sx aria-labelledby="t-sx-ben">
+  <header class="nd-section-head" data-reveal>
+    <p class="nd-eyebrow">Por qué te va a servir</p>
+    <h2 id="t-sx-ben">{{ sx_t }}</h2>
+    <p class="nd-lede">{{ sx_l }}</p>
+  </header>
+  <ul class="nd-sx-cards">
+    {%- for it in sx_items -%}
+      {%- assign f = it | split: '::' -%}
+      <li class="nd-sx-card" data-reveal style="--i: {{ forloop.index0 }}"><span class="nd-sx-ico-wrap">{% render 'nd-sx-icon', name: f[0], size: 26 %}</span><h3>{{ f[1] }}</h3><p>{{ f[2] }}</p></li>
+    {%- endfor -%}
+  </ul>
+  <ul class="nd-sx-stats" data-reveal>
+    {%- for st in sx_stats -%}
+      {%- assign f = st | split: '::' -%}
+      <li><b class="nd-sx-num">{%- if f[3] == 'c' -%}<span class="nd-sr">{{ f[0] }}</span><span aria-hidden="true" data-sx-count="{{ f[0] }}">{{ f[0] }}</span>{%- else -%}{{ f[0] }}{%- endif -%}</b><span>{{ f[1] }}</span><small>{{ f[2] }}</small></li>
+    {%- endfor -%}
+  </ul>
+</section>
+{%- endif -%}

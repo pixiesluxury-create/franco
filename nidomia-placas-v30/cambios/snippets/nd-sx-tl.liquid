@@ -1,0 +1,17 @@
+{%- comment -%}
+  «Tu compra, paso a paso»: línea de tiempo con lo que realmente configura la tienda (cuotas, envío, plazo, política de cambios).
+  No promete plazos ni garantías que no estén cargados. Entradas: envio_txt, nd_cuotas.
+{%- endcomment -%}
+<section class="nd-section nd-wrap nd-sx nd-sx-tl" data-sx aria-labelledby="t-sx-tl">
+  <header class="nd-section-head" data-reveal>
+    <p class="nd-eyebrow">Comprá con tranquilidad</p>
+    <h2 id="t-sx-tl">Tu compra, <em>paso a paso.</em></h2>
+    <p class="nd-lede">Esto es lo que pasa desde que elegís hasta que lo tenés en casa.</p>
+  </header>
+  <ol class="nd-tl">
+    <li style="--i: 0"><span class="nd-tl-ico">{% render 'nd-sx-icon', name: 'card', size: 24 %}</span><div><h3>Pagás</h3><p>Con tarjeta o Mercado Pago{% if settings.nd_cuotas_on %}, y {{ nd_cuotas }} cuotas sin interés con tarjeta de crédito{% endif %}. El pago se hace en el checkout seguro de Shopify.</p></div></li>
+    <li style="--i: 1"><span class="nd-tl-ico">{% render 'nd-sx-icon', name: 'box', size: 24 %}</span><div><h3>Lo preparamos</h3><p>{% if settings.nd_plazo_entrega != blank %}{{ settings.nd_plazo_entrega }}.{% else %}Preparamos tu pedido y, cuando sale, te llega el aviso por mail.{% endif %}</p></div></li>
+    <li style="--i: 2"><span class="nd-tl-ico">{% render 'nd-sx-icon', name: 'truck', size: 24 %}</span><div><h3>Te llega</h3><p>{% if settings.nd_envio_on %}{{ envio_txt }}.{% else %}Lo recibís en el domicilio que indicaste.{% endif %}</p></div></li>
+    <li style="--i: 3"><span class="nd-tl-ico">{% render 'nd-sx-icon', name: 'return', size: 24 %}</span><div><h3>Cambios y devoluciones</h3><p>Si algo no sale como esperabas, escribinos y lo vemos.{% if shop.refund_policy.url != blank %} Mirá la <a href="{{ shop.refund_policy.url }}">política de cambios y devoluciones</a>.{% endif %}</p></div></li>
+  </ol>
+</section>

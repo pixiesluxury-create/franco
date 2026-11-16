@@ -1,0 +1,34 @@
+{%- comment -%}
+  Banda emocional: frase en tres líneas, ondas que se expanden y una cinta de palabras en movimiento.
+  Entrada: key.
+{%- endcomment -%}
+{%- assign sx_k = '' -%}
+{%- case key -%}
+  {%- when 'mandolina' -%}
+    {%- assign sx_k = 'Para la cocina de todos los días' -%}{%- assign sx_a = 'Cuando hay que <b>picar</b> de todo,' -%}{%- assign sx_b = 'cae todo en un solo recipiente.' -%}{%- assign sx_c = 'Cubos, rodajas y rallado con una sola mandolina.' -%}{%- assign sx_w = 'Cubos::Rodajas::Rallado' -%}
+  {%- when 'mopa' -%}
+    {%- assign sx_k = 'Para el piso de todos los días' -%}{%- assign sx_a = 'Cuando toca <b>repasar</b> el piso,' -%}{%- assign sx_b = 'enjuagás y escurrís sin tocar el paño.' -%}{%- assign sx_c = 'Una ranura enjuaga y la otra escurre.' -%}{%- assign sx_w = 'Enjuagá::Escurrí::Seguí' -%}
+  {%- when 'tender' -%}
+    {%- assign sx_k = 'Para el balcón y el lavadero' -%}{%- assign sx_a = 'Cuando hay ropa para <b>tender,</b>' -%}{%- assign sx_b = 'sacás la línea y la recogés al terminar.' -%}{%- assign sx_c = 'Hasta 4 metros que no te ocupan el piso.' -%}{%- assign sx_w = 'Extendé::Tensá::Guardá' -%}
+  {%- when 'lapiz' -%}
+    {%- assign sx_k = 'Para las tardes de crear' -%}{%- assign sx_a = 'Hoy una figura en <b>volumen,</b>' -%}{%- assign sx_b = 'mañana un dibujo que brilla.' -%}{%- assign sx_c = 'Dos formas de crear en un solo kit.' -%}{%- assign sx_w = 'Creá::Dibujá::Borrá::Empezá de nuevo' -%}
+  {%- when 'arrancador' -%}
+    {%- assign sx_k = 'Para tener en el baúl' -%}{%- assign sx_a = 'Cuando la rueda está <b>baja</b> o la batería sin carga,' -%}{%- assign sx_b = 'tenés todo en el mismo equipo.' -%}{%- assign sx_c = 'Inflador con corte automático y asistencia de arranque en 12 V compatibles.' -%}{%- assign sx_w = 'Inflá::Arrancá::Iluminá' -%}
+{%- endcase -%}
+{%- if sx_k != blank -%}
+{%- assign sx_words = sx_w | split: '::' -%}
+<section class="nd-sx nd-sx-band" data-sx aria-label="{{ sx_k | escape }}">
+  <span class="nd-sx-rip" aria-hidden="true"></span><span class="nd-sx-rip" aria-hidden="true"></span><span class="nd-sx-rip" aria-hidden="true"></span>
+  <div class="nd-wrap">
+    <p class="nd-sx-kicker" data-reveal>{{ sx_k }}</p>
+    <p class="nd-sx-a" data-reveal>{{ sx_a }}</p>
+    <p class="nd-sx-b" data-reveal>{{ sx_b }}</p>
+    <p class="nd-sx-c" data-reveal>{{ sx_c }}</p>
+  </div>
+  <div class="nd-sx-marq" aria-hidden="true">
+    <div class="nd-sx-track">
+      {%- for n in (1..6) -%}{%- for w in sx_words -%}<span>{{ w }}</span><span><i>◆</i></span>{%- endfor -%}{%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}

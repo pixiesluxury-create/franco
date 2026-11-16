@@ -1,0 +1,6 @@
+{%- comment -%} Pago seguro · envío · cuotas bajo las opiniones. Entradas: envio_txt, nd_cuotas. {%- endcomment -%}
+<ul class="nd-trust-mini">
+  <li>{% render 'nd-icon', name: 'shield', size: 17 %}Pago seguro</li>
+    {%- if settings.nd_envio_on -%}<li>{% render 'nd-icon', name: 'truck', size: 17 %}{{ envio_txt }}</li>{%- endif -%}
+    {%- if settings.nd_cuotas_on -%}<li>{% render 'nd-icon', name: 'card', size: 17 %}{{ nd_cuotas }} cuotas sin interés con tarjeta de crédito</li>{%- endif -%}
+</ul>

@@ -1,0 +1,57 @@
+{%- comment -%}
+  «Frente a lo de siempre»: tabla comparativa con herramientas habituales. y = sí, n = no, m = depende del modelo.
+  Solo afirmaciones comprobables con la ficha; donde varía según el modelo se marca «depende». Entrada: key.
+  Filas: texto::nuestro::alternativa 1::alternativa 2, separadas por ||.
+{%- endcomment -%}
+{%- assign sx_t = '' -%}
+{%- case key -%}
+  {%- when 'mandolina' -%}
+    {%- assign sx_t = 'Una mandolina <em>frente a lo de siempre.</em>' -%}{%- assign sx_us = 'SupremeCut' -%}{%- assign sx_alts = 'Cuchillo y tabla::Rallador de caja' -%}
+    {%- assign sx_rows = 'Cubos, rodajas y rallado con un solo utensilio::y::n::n||La verdura cae directo a un recipiente::y::n::y||Protector para sujetar lo que rebanás::y::n::m||Cuchillas intercambiables según la receta::y::n::m||Sirve para carne, huesos o congelados::n::y::n' -%}
+  {%- when 'mopa' -%}
+    {%- assign sx_t = 'Una mopa que <em>escurre por vos.</em>' -%}{%- assign sx_us = 'Mopa plana' -%}{%- assign sx_alts = 'Mopa y balde común::Trapo de piso' -%}
+    {%- assign sx_rows = 'Enjuagás y escurrís sin tocar el paño::y::m::n||Paños desmontables para lavar aparte::y::m::n||Dos paños de microfibra para alternar::y::m::n||Trabajás de pie, con cabo de 1,20 m::y::y::n' -%}
+  {%- when 'tender' -%}
+    {%- assign sx_t = 'Un tender <em>que no ocupa el piso.</em>' -%}{%- assign sx_us = 'Tender retráctil' -%}{%- assign sx_alts = 'Tender de pie::Soga atada' -%}
+    {%- assign sx_rows = 'Se guarda en la pared y libera el piso::y::n::m||Tensión ajustable con traba y perilla::y::n::n||Cable de acero inoxidable de hasta 4 m::y::n::m||No hace falta fijar nada a la pared::n::y::n' -%}
+  {%- when 'lapiz' -%}
+    {%- assign sx_t = 'Un solo kit <em>en lugar de dos compras.</em>' -%}{%- assign sx_us = 'Kit 3D + LED' -%}{%- assign sx_alts = 'Papel y marcadores::Lápiz 3D solo' -%}
+    {%- assign sx_rows = 'Figuras en volumen con filamento::y::n::y||Dibujo con luz LED que se borra y se repite::y::n::n||Siete marcadores y paño incluidos::y::n::n||Dos actividades en un solo kit::y::n::n' -%}
+  {%- when 'arrancador' -%}
+    {%- assign sx_t = 'Un equipo <em>en lugar de varios.</em>' -%}{%- assign sx_us = 'Oryx' -%}{%- assign sx_alts = 'Inflador manual::Cables de arranque' -%}
+    {%- assign sx_rows = 'Infla y corta al llegar a la presión elegida::y::n::n||Asistencia de arranque en 12 V compatibles::y::n::y||Linterna integrada::y::n::n||Un solo equipo para inflar y asistir el arranque::y::n::n' -%}
+{%- endcase -%}
+{%- if sx_t != blank -%}
+{%- assign sx_alt = sx_alts | split: '::' -%}
+{%- assign sx_r = sx_rows | split: '||' -%}
+<section class="nd-section nd-wrap nd-sx nd-sx-cmp" data-sx aria-labelledby="t-sx-cmp">
+  <header class="nd-section-head" data-reveal>
+    <p class="nd-eyebrow">Por qué {{ short }}</p>
+    <h2 id="t-sx-cmp">{{ sx_t }}</h2>
+  </header>
+  <div class="nd-cmpx" data-reveal>
+    <table>
+      <caption class="nd-sr">Comparación de {{ short }} con alternativas habituales</caption>
+      <thead><tr><th scope="col"><span class="nd-sr">Característica</span></th><th scope="col" class="us"><span class="nd-cmpx-pill">{{ sx_us }}</span></th><th scope="col">{{ sx_alt[0] }}</th><th scope="col">{{ sx_alt[1] }}</th></tr></thead>
+      <tbody>
+        {%- for row in sx_r -%}
+          {%- assign f = row | split: '::' -%}
+          <tr style="--i: {{ forloop.index0 }}"><th scope="row">{{ f[0] }}</th>
+            {%- for k in (1..3) -%}
+              {%- assign v = f[k] -%}
+              <td{% if k == 1 %} class="us"{% endif %}>
+                {%- case v -%}
+                  {%- when 'y' -%}<span class="nd-sx-mark is-y"><span class="nd-sr">Sí</span><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="11"/><path pathLength="1" d="M7 12.5l3.2 3.2L17 8.8"/></svg></span>
+                  {%- when 'n' -%}<span class="nd-sx-mark is-n"><span class="nd-sr">No</span><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path pathLength="1" d="M7 7l10 10M17 7L7 17"/></svg></span>
+                  {%- else -%}<span class="nd-sx-mark is-m"><span class="nd-sr">Depende del modelo</span><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path pathLength="1" d="M7 12h10"/></svg></span>
+                {%- endcase -%}
+              </td>
+            {%- endfor -%}
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+  <p class="nd-cmpx-note">Comparación con herramientas habituales. «Depende» (–) indica que varía según el modelo. Los datos de {{ short }} son los de su ficha técnica.</p>
+</section>
+{%- endif -%}

@@ -1,0 +1,15 @@
+{%- comment -%}
+  Promoción real «Pagás N y llevás N+1»: se detecta solo si un pack de N+1 unidades cuesta exactamente lo mismo que N individuales.
+  Entrada: vlist (lista de variantes de nd-variants) y s_price (precio de 1 unidad, en centavos). Imprime «pagás|llevás» o «0|0».
+{%- endcomment -%}
+{%- assign nd_pay = 0 -%}{%- assign nd_get = 0 -%}
+{%- assign nd_rows = vlist | split: ';;' -%}
+{%- for row in nd_rows -%}
+  {%- assign f = row | split: '|' -%}
+  {%- assign pu = f[1] | plus: 0 -%}
+  {%- if pu > 1 and f[4] == '1' and s_price > 0 -%}
+    {%- assign pp = f[2] | plus: 0 -%}{%- assign pay_n = pu | minus: 1 -%}{%- assign t_free = s_price | times: pay_n -%}
+    {%- if pp == t_free and pu > nd_get -%}{%- assign nd_pay = pay_n -%}{%- assign nd_get = pu -%}{%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{{- nd_pay -}}|{{- nd_get -}}
