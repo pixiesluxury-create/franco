@@ -197,46 +197,12 @@
       <p class="nd-preview-note" role="note">{% render 'nd-icon', name: 'info', size: 18 %}<span><b>Vista previa del borrador.</b> Este producto aún no se resuelve en tu Shopify: importes de ejemplo, y la compra no llega al checkout.</span></p>
       {%- endif -%}
       {%- comment -%} 1 · Disponibilidad {%- endcomment -%}
-      <div class="nd-avail" data-state="{{ stock_state }}">
-        <p class="nd-avail-line">
-          <span class="nd-avail-dot" aria-hidden="true"></span>
-          {%- case stock_state -%}
-            {%- when 'out' -%}<b>Agotado por el momento</b>
-            {%- when 'low' -%}<b>Listo para despachar</b><span>· {% if s_iq == 1 %}queda 1{% else %}quedan {{ s_iq }}{% endif %}</span>
-            {%- else -%}{% if s_im != blank and s_iq <= 0 and s_ip == 'continue' %}<b>Disponible por encargo</b>{% else %}<b class="nd-avail-txt">En stock, listo para despachar</b>{% endif %}
-          {%- endcase -%}
-          {%- if product.tags contains 'mas-vendido' -%}<i class="nd-tag nd-tag-sky">Más vendido</i>{%- endif -%}
-        </p>
-
-      </div>
+      {%- render 'nd-pdp-avail', stock_state: stock_state, s_iq: s_iq, s_im: s_im, s_ip: s_ip, tags: product.tags -%}
 
       {%- comment -%} 2 · Nombre y valoración {%- endcomment -%}
       <div class="nd-name-row"><h1 class="nd-title">{{ title }}</h1>{% if settings.nd_envio_on %}<span class="nd-send-badge">{% render 'nd-icon', name: 'check', size: 15, stroke: 3 %}{{ envio_txt }}</span>{% endif %}</div>
-      <div class="nd-rating">
-        {%- if rt_src == 'none' -%}
-          <a href="#opiniones" class="nd-rating-link nd-rating-none"><span class="nd-empty-stars" aria-hidden="true">☆☆☆☆☆</span> Opiná sobre este producto</a>
-        {%- else -%}
-          <a href="#opiniones" class="nd-rating-link">
-            {% render 'nd-stars', score: rt_avg %}<b>{{ rt_avg | replace: '.', ',' }}/5<span class="nd-sr"> estrellas</span></b>
-            {%- if rt_src == 'ejemplo' -%}<span>· {{ rt_count }} ejemplos de opiniones</span>{%- else -%}<span>· {{ rt_count }} {% if rt_count == 1 %}reseña{% else %}reseñas{% endif %}{% if rt_ver > 0 and rt_ver == rt_count %} {% if rt_count == 1 %}verificada{% else %}verificadas{% endif %}{% endif %}</span>{%- endif -%}
-          </a>
-        {%- endif -%}
-      </div>
-      {%- assign deal_title = '' -%}
-      {%- if promo_get > 0 -%}{%- capture deal_title -%}Pagás {{ promo_pay }} y llevás {{ promo_get }}{%- endcapture -%}
-      {%- elsif best_save > 0 -%}{%- assign best_save_txt = best_save | money_without_trailing_zeros -%}{%- capture deal_title -%}Ahorrás hasta {{ best_save_txt }} llevando más{%- endcapture -%}
-      {%- elsif settings.nd_cuotas_on -%}{%- capture deal_title -%}{{ nd_cuotas }} cuotas sin interés{%- endcapture -%}{%- endif -%}
-      {%- if deal_title != blank -%}
-      <div class="nd-deal"><strong>{{ deal_title }}</strong>
-        <span>
-          {%- if settings.nd_cuotas_on -%}
-            {%- if promo_get > 0 or best_save > 0 -%}{{ nd_cuotas }} cuotas sin interés de <b data-o="deal-cuota">{{ init_cuota }}</b>{%- else -%}De <b data-o="deal-cuota">{{ init_cuota }}</b> por cuota{%- endif -%}
-            {%- if settings.nd_envio_on %} + {{ envio_txt | downcase }}{% endif -%}
-          {%- elsif settings.nd_envio_on -%}{{ envio_txt }}
-          {%- endif -%}
-        </span>
-      </div>
-      {%- endif -%}
+      {%- render 'nd-pdp-rating', rt_src: rt_src, rt_avg: rt_avg, rt_count: rt_count, rt_ver: rt_ver -%}
+      {%- render 'nd-pdp-deal', promo_pay: promo_pay, promo_get: promo_get, best_save: best_save, init_cuota: init_cuota, envio_txt: envio_txt, nd_cuotas: nd_cuotas -%}
       <p class="nd-lead">{{ lead }}</p>
 
       {%- comment -%} 4 · Tres beneficios {%- endcomment -%}
@@ -263,20 +229,7 @@
         <p class="nd-sr" role="status" aria-live="polite" data-o="live"></p>
       </div>
 
-      <div class="nd-stock-strip{% if stock_state == 'low' %} is-low{% endif %}">
-        {%- if stock_state == 'low' -%}
-          <span class="nd-hot">{% render 'nd-icon', name: 'clock', size: 14, stroke: 2.5 %}Últimas unidades</span>
-          {%- if vendido >= 0 -%}<span class="nd-hot-pct"><b>{{ vendido }}%</b> vendido</span>
-          {%- else -%}<span class="nd-hot-pct">{% if s_iq == 1 %}Queda <b>1</b> unidad{% else %}Quedan <b>{{ s_iq }}</b> unidades{% endif %}</span>{%- endif -%}
-        {%- elsif stock_tracked and s_iq > 0 and s_av == '1' -%}
-          <strong>Disponibles para despacho</strong><b>{{ s_iq }} {% if s_iq == 1 %}unidad{% else %}unidades{% endif %}</b>
-        {%- endif -%}
-        {%- if stock_state == 'low' and vendido >= 0 -%}
-          <div class="nd-meter" role="img" aria-label="{{ vendido }}% vendido"><i style="width: {{ vendido }}%"></i></div>
-        {%- else -%}
-          <div class="nd-stripes" aria-hidden="true"></div>
-        {%- endif -%}
-      </div>
+      {%- render 'nd-pdp-stock', stock_state: stock_state, vendido: vendido, s_iq: s_iq, s_av: s_av, stock_tracked: stock_tracked -%}
       <form method="post" action="{{ routes.cart_add_url }}" class="nd-buyform" data-nd-form id="nd-form-{{ key }}" novalidate>
         <input type="hidden" name="form_type" value="product">
         {% if quantity_mode %}<input type="hidden" name="id" value="{{ sel_id }}">{% else %}<input type="hidden" name="quantity" value="1">{% endif %}
@@ -307,11 +260,7 @@
         <div class="nd-rot-dots" data-nd-rot-dots></div>
       </div>
       {%- endif -%}
-      <ul class="nd-trust-mini">
-        <li>{% render 'nd-icon', name: 'shield', size: 17 %}Pago seguro</li>
-          {%- if settings.nd_envio_on -%}<li>{% render 'nd-icon', name: 'truck', size: 17 %}{{ envio_txt }}</li>{%- endif -%}
-          {%- if settings.nd_cuotas_on -%}<li>{% render 'nd-icon', name: 'card', size: 17 %}{{ nd_cuotas }} cuotas sin interés con tarjeta de crédito</li>{%- endif -%}
-      </ul>
+      {%- render 'nd-pdp-trust', envio_txt: envio_txt, nd_cuotas: nd_cuotas -%}
       <div class="nd-pay" aria-label="Medios de pago aceptados">{% if settings.nd_cuotas_on %}<p class="nd-finance"><b>{{ nd_cuotas }} cuotas sin interés</b><span data-o="installment">{{ init_cuota }}</span> por cuota con tarjeta de crédito</p>{% endif %}
         <img src="{{ 'nd-nidomia-pagos-visa.svg' | asset_url }}" alt="Visa" width="52" height="32" loading="lazy">
         <img src="{{ 'nd-nidomia-pagos-mastercard.svg' | asset_url }}" alt="Mastercard" width="52" height="32" loading="lazy">

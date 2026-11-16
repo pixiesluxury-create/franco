@@ -1,0 +1,16 @@
+{%- comment -%} Caja de promoción. Entradas: promo_pay, promo_get, best_save, init_cuota, envio_txt, nd_cuotas. {%- endcomment -%}
+{%- assign deal_title = '' -%}
+{%- if promo_get > 0 -%}{%- capture deal_title -%}Pagás {{ promo_pay }} y llevás {{ promo_get }}{%- endcapture -%}
+{%- elsif best_save > 0 -%}{%- assign best_save_txt = best_save | money_without_trailing_zeros -%}{%- capture deal_title -%}Ahorrás hasta {{ best_save_txt }} llevando más{%- endcapture -%}
+{%- elsif settings.nd_cuotas_on -%}{%- capture deal_title -%}{{ nd_cuotas }} cuotas sin interés{%- endcapture -%}{%- endif -%}
+{%- if deal_title != blank -%}
+<div class="nd-deal"><strong>{{ deal_title }}</strong>
+  <span>
+    {%- if settings.nd_cuotas_on -%}
+      {%- if promo_get > 0 or best_save > 0 -%}{{ nd_cuotas }} cuotas sin interés de <b data-o="deal-cuota">{{ init_cuota }}</b>{%- else -%}De <b data-o="deal-cuota">{{ init_cuota }}</b> por cuota{%- endif -%}
+      {%- if settings.nd_envio_on %} + {{ envio_txt | downcase }}{% endif -%}
+    {%- elsif settings.nd_envio_on -%}{{ envio_txt }}
+    {%- endif -%}
+  </span>
+</div>
+{%- endif -%}

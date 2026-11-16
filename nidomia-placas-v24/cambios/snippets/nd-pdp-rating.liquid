@@ -1,0 +1,11 @@
+{%- comment -%} Estrellas y total de reseñas. Entradas: rt_src, rt_avg, rt_count, rt_ver. {%- endcomment -%}
+<div class="nd-rating">
+  {%- if rt_src == 'none' -%}
+    <a href="#opiniones" class="nd-rating-link nd-rating-none"><span class="nd-empty-stars" aria-hidden="true">☆☆☆☆☆</span> Opiná sobre este producto</a>
+  {%- else -%}
+    <a href="#opiniones" class="nd-rating-link">
+      {% render 'nd-stars', score: rt_avg %}<b>{{ rt_avg | replace: '.', ',' }}/5<span class="nd-sr"> estrellas</span></b>
+      {%- if rt_src == 'ejemplo' -%}<span>· {{ rt_count }} ejemplos de opiniones</span>{%- else -%}<span>· {{ rt_count }} {% if rt_count == 1 %}reseña{% else %}reseñas{% endif %}{% if rt_ver > 0 and rt_ver == rt_count %} {% if rt_count == 1 %}verificada{% else %}verificadas{% endif %}{% endif %}</span>{%- endif -%}
+    </a>
+  {%- endif -%}
+</div>

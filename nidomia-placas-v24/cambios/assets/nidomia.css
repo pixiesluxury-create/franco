@@ -990,3 +990,4 @@ h2 em{background:linear-gradient(95deg,#1b45d1 0%,#6a4fe8 55%,#b343d1 100%);-web
   .nd-buy .nd-avail-dot::before,.nd-buy .nd-avail-dot::after,.nd-pdp .nd-name-row .nd-title,.nd-pdp .nd-send-badge,.nd-pdp .nd-send-badge::after,.nd-pdp .nd-deal,.nd-pdp .nd-deal::after,.nd-stock-strip .nd-meter i,.nd-stripes{animation:none!important}
   .nd-pdp .nd-send-badge::after,.nd-pdp .nd-deal::after{display:none}
 }
+.nd-cta-in .nd-top-btn,.nd-cta-in .nd-top-btn.is-on{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px)}

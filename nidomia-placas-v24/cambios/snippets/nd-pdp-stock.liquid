@@ -1,0 +1,15 @@
+{%- comment -%} Barra de disponibilidad (solo datos de Shopify). Entradas: stock_state, vendido, s_iq, s_av, stock_tracked. {%- endcomment -%}
+<div class="nd-stock-strip{% if stock_state == 'low' %} is-low{% endif %}">
+  {%- if stock_state == 'low' -%}
+    <span class="nd-hot">{% render 'nd-icon', name: 'clock', size: 14, stroke: 2.5 %}Últimas unidades</span>
+    {%- if vendido >= 0 -%}<span class="nd-hot-pct"><b>{{ vendido }}%</b> vendido</span>
+    {%- else -%}<span class="nd-hot-pct">{% if s_iq == 1 %}Queda <b>1</b> unidad{% else %}Quedan <b>{{ s_iq }}</b> unidades{% endif %}</span>{%- endif -%}
+  {%- elsif stock_tracked and s_iq > 0 and s_av == '1' -%}
+    <strong>Disponibles para despacho</strong><b>{{ s_iq }} {% if s_iq == 1 %}unidad{% else %}unidades{% endif %}</b>
+  {%- endif -%}
+  {%- if stock_state == 'low' and vendido >= 0 -%}
+    <div class="nd-meter" role="img" aria-label="{{ vendido }}% vendido"><i style="width: {{ vendido }}%"></i></div>
+  {%- else -%}
+    <div class="nd-stripes" aria-hidden="true"></div>
+  {%- endif -%}
+</div>

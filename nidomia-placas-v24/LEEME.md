@@ -1,7 +1,7 @@
-# Nidomía «Placas cuadradas» · v2.4 (borrador)
+# Nidomía «Placas cuadradas» · v2.5 (borrador)
 
 Es tu ZIP `Nidomia-Placas-Cuadradas` con un solo cambio: **cómo se vende el producto al inicio de la ficha**. Todo lo demás quedó igual.
-Solo cambian 6 archivos (están en `cambios/`): `snippets/nd-pdp.liquid`, `snippets/nd-reviews.liquid`, `snippets/nd-rev-card.liquid`, `assets/nidomia.css`, `assets/nidomia.js` y uno nuevo, `snippets/nd-promo.liquid`.
+Cambian 5 archivos de tu ZIP (`snippets/nd-pdp.liquid`, `snippets/nd-reviews.liquid`, `snippets/nd-rev-card.liquid`, `assets/nidomia.css`, `assets/nidomia.js`) y se suman 6 pequeños (`snippets/nd-promo.liquid` y `snippets/nd-pdp-avail`, `-rating`, `-deal`, `-stock`, `-trust`). Todos están en `cambios/`.
 
 ## Qué cambió (arriba de la ficha, usando la referencia que mandaste)
 
@@ -49,7 +49,9 @@ Si me pasás reseñas reales (texto, nombre y nota), te las dejo cargadas en el 
 ## Pruebas
 
 - Compra completa en celular (elegir producto → pack → carrito → checkout) en las cinco fichas: **36 de 39** comprobaciones, **igual que tu ZIP sin tocar**. Las 3 que no pasan ya fallaban antes y vienen de tu diseño (el orden de los bloques, el borde rosa de los packs en lugar de azul, y el precio oculto sobre los packs).
-- Verificador oficial de temas de Shopify: sin errores.
+- Accesibilidad automática (axe): **0 violaciones** en home, las cinco fichas, carrito, cajón del carrito y menú. Tu ZIP original tenía 1 en cada ficha.
+- Verificador oficial de temas de Shopify: sin errores y solo 2 avisos de precarga de fuentes. Tu ZIP original tenía además un aviso de complejidad en `nd-pdp.liquid`.
+- Al ordenar `nd-pdp.liquid` en archivos más chicos, el HTML de 15 páginas (5 fichas con productos, 5 en vista previa sin productos y 5 de tienda publicada) quedó **idéntico** antes y después.
 - Con «reducir movimiento»: sin animaciones, texto en verde sólido.
 - Las capturas de `vista-previa/` usan datos de prueba del arnés local (importes y stock de ejemplo, y 5 textos de prueba en las opiniones del 02 y el 05). No son de tu tienda.
 
@@ -57,9 +59,10 @@ Si me pasás reseñas reales (texto, nombre y nota), te las dejo cargadas en el 
 
 Tu Shopify real (precios, inventario, checkout), Safari y Android reales. Lo hice con Chromium emulando un iPhone 13 y con anchos de 320 a 1440 px.
 
-## Observaciones sobre cosas que ya estaban (no las toqué)
+## Arreglado en esta versión (eran cosas que ya estaban en tu ZIP)
 
-- El botón «Agregar al carrito» muestra el precio dentro, pero el lector de pantalla solo anuncia «Agregar al carrito» (una advertencia de accesibilidad de nivel medio).
-- En celular, el botón «volver arriba» puede tapar el precio dentro del botón de compra cuando ese botón está pegado al borde inferior.
-- La advertencia de complejidad de `nd-pdp.liquid` del verificador ya existía.
-Si querés, las arreglo.
+- **Botón de compra y lector de pantalla:** el nombre accesible ahora empieza con lo que se ve («Agregar al carrito $ 54.990, 1 mandolina»). Antes decía otra cosa.
+- **«Volver arriba» sobre el precio:** mientras el botón de compra está a la vista, «volver arriba» se esconde. Aparece más abajo en la ficha.
+- **Aviso de complejidad de `nd-pdp.liquid`:** resuelto al mover la lógica de arriba de la ficha a archivos aparte, sin cambiar lo que se ve.
+
+Sigue igual a como lo dejaste: las 3 comprobaciones que ya fallaban en tu diseño (orden de bloques, borde rosa de los packs, precio oculto sobre los packs) y la tira de miniaturas, que se desliza de costado a propósito. La página no tiene desborde horizontal en ningún ancho probado.

@@ -300,7 +300,7 @@
         txt('[data-nd-sticky-price]', d.price, bar); txt('[data-nd-sticky-pack]', d.name, bar);
         var sw = $('[data-nd-sticky-was]', bar); if (sw) { sw.hidden = !hasSave; sw.textContent = d.ref; }
       }
-      if (cta) cta.setAttribute('aria-label', 'Agregar al carrito: ' + d.name + ', ' + d.price);
+      if (cta) cta.setAttribute('aria-label', 'Agregar al carrito ' + d.price + ', ' + d.name);
       if (animate && box && !reduced.matches) { box.classList.remove('is-bump'); void box.offsetWidth; box.classList.add('is-bump'); }
     }
     function packBurst(n) {
@@ -718,6 +718,9 @@
     });
     window.addEventListener('scroll', upd, { passive: true }); window.addEventListener('resize', upd); upd();
     btn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduced.matches ? 'auto' : 'smooth' }); });
+    /* en la ficha, mientras el botón de compra está a la vista, «volver arriba» se esconde para no taparlo */
+    var buyBtn = $('[data-nd-cta]');
+    if (buyBtn && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { doc.body.classList.toggle('nd-cta-in', es[0].isIntersecting); }).observe(buyBtn);
   }
 
   /* ---------- arranque ---------- */

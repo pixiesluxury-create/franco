@@ -1,0 +1,13 @@
+{%- comment -%} Disponibilidad (arriba de la ficha). Entradas: stock_state, s_iq, s_im, s_ip, tags. {%- endcomment -%}
+<div class="nd-avail" data-state="{{ stock_state }}">
+  <p class="nd-avail-line">
+    <span class="nd-avail-dot" aria-hidden="true"></span>
+    {%- case stock_state -%}
+      {%- when 'out' -%}<b>Agotado por el momento</b>
+      {%- when 'low' -%}<b>Listo para despachar</b><span>· {% if s_iq == 1 %}queda 1{% else %}quedan {{ s_iq }}{% endif %}</span>
+      {%- else -%}{% if s_im != blank and s_iq <= 0 and s_ip == 'continue' %}<b>Disponible por encargo</b>{% else %}<b class="nd-avail-txt">En stock, listo para despachar</b>{% endif %}
+    {%- endcase -%}
+    {%- if tags contains 'mas-vendido' -%}<i class="nd-tag nd-tag-sky">Más vendido</i>{%- endif -%}
+  </p>
+
+</div>
